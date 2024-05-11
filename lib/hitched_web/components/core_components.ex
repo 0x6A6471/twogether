@@ -12,7 +12,7 @@ defmodule HitchedWeb.CoreComponents do
   See the [Tailwind CSS documentation](https://tailwindcss.com) to learn
   how to customize them or feel free to swap in another framework altogether.
 
-  Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
+  Icons are provided by [Anron](https://www.anron.pro). See `icon/1` for usage.
   """
   use Phoenix.Component
 
@@ -75,7 +75,7 @@ defmodule HitchedWeb.CoreComponents do
                   class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+                  <.icon name="close" />
                 </button>
               </div>
               <div id={"#{@id}-content"}>
@@ -100,7 +100,7 @@ defmodule HitchedWeb.CoreComponents do
   attr :id, :string, doc: "the optional id of flash container"
   attr :flash, :map, default: %{}, doc: "the map of flash messages to display"
   attr :title, :string, default: nil
-  attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
+  attr :kind, :atom, values: [:error, :info, :success], doc: "used for styling and flash lookup"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
 
   slot :inner_block, doc: "the optional inner block that renders the flash message"
@@ -115,20 +115,22 @@ defmodule HitchedWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-[9999] rounded-lg p-3 ring-1",
+        @kind == :error && "bg-rose-700 text-rose-200 shadow-md ring-rose-700 fill-rose-900",
+        @kind == :info && "bg-blue-700 text-blue-200 shadow-md ring-blue-700 fill-blue-900",
+        @kind == :success && "bg-emerald-700 text-emerald-200 ring-emerald-700 fill-emerald-900"
       ]}
       {@rest}
     >
       <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
+        <.icon :if={@kind == :error} name="alert-circle" class="h-4 w-4" />
+        <.icon :if={@kind == :info} name="info" />
+        <.icon :if={@kind == :success} name="bell-check" class="h-4 w-4" />
         <%= @title %>
       </p>
       <p class="mt-2 text-sm leading-5"><%= msg %></p>
       <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
+        <.icon name="close" class="opacity-40 group-hover:opacity-70" />
       </button>
     </div>
     """
@@ -147,8 +149,9 @@ defmodule HitchedWeb.CoreComponents do
   def flash_group(assigns) do
     ~H"""
     <div id={@id}>
-      <.flash kind={:info} title="Success!" flash={@flash} />
       <.flash kind={:error} title="Error!" flash={@flash} />
+      <.flash kind={:info} title="Info!" flash={@flash} />
+      <.flash kind={:success} title="Success!" flash={@flash} />
       <.flash
         id="client-error"
         kind={:error}
@@ -157,7 +160,10 @@ defmodule HitchedWeb.CoreComponents do
         phx-connected={hide("#client-error")}
         hidden
       >
-        Attempting to reconnect <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <div class="flex items-center gap-x-2">
+          <.icon name="refresh-ccw" class="animate-spin" />
+          <span>Attempting to reconnect</span>
+        </div>
       </.flash>
 
       <.flash
@@ -169,7 +175,7 @@ defmodule HitchedWeb.CoreComponents do
         hidden
       >
         Hang in there while we get back on track
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        <.icon name="refresh-ccw" class="ml-1 animate-spin" />
       </.flash>
     </div>
     """
@@ -410,7 +416,8 @@ defmodule HitchedWeb.CoreComponents do
   def error(assigns) do
     ~H"""
     <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-600 phx-no-feedback:hidden">
-      <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
+      <.icon name="alert-circle" class="mt-1 flex-none" />
+
       <%= render_slot(@inner_block) %>
     </p>
     """
@@ -563,7 +570,7 @@ defmodule HitchedWeb.CoreComponents do
         navigate={@navigate}
         class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
       >
-        <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
+        <.icon name="arrow-left" />
         <%= render_slot(@inner_block) %>
       </.link>
     </div>
@@ -571,29 +578,24 @@ defmodule HitchedWeb.CoreComponents do
   end
 
   @doc """
-  Renders a [Heroicon](https://heroicons.com).
+  Renders an icon from `priv/static/sprite.svg`.
 
-  Heroicons come in three styles – outline, solid, and mini.
-  By default, the outline style is used, but solid and mini may
-  be applied by using the `-solid` and `-mini` suffix.
-
-  You can customize the size and colors of the icons by setting
-  width, height, and background color classes.
-
-  Icons are extracted from your `assets/vendor/heroicons` directory and bundled
-  within your compiled app.css by the plugin in your `assets/tailwind.config.js`.
+  You can customize the size of the icons by setting size.
 
   ## Examples
 
-      <.icon name="hero-x-mark-solid" />
-      <.icon name="hero-arrow-path" class="ml-1 w-3 h-3 animate-spin" />
+      <.icon name="trash" />
+      <.icon name="trash" class="text-red-500" />
   """
   attr :name, :string, required: true
+  attr :size, :integer, default: 16
   attr :class, :string, default: nil
 
-  def icon(%{name: "hero-" <> _} = assigns) do
+  def icon(assigns) do
     ~H"""
-    <span class={[@name, @class]} />
+    <svg height={@size} width={@size} class={@class}>
+      <use href={"/sprite.svg##{@name}"} />
+    </svg>
     """
   end
 
