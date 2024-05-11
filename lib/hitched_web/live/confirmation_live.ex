@@ -1,4 +1,4 @@
-defmodule HitchedWeb.UserConfirmationLive do
+defmodule HitchedWeb.ConfirmationLive do
   use HitchedWeb, :live_view
 
   alias Hitched.Accounts

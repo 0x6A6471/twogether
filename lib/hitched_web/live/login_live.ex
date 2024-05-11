@@ -1,4 +1,4 @@
-defmodule HitchedWeb.UserLoginLive do
+defmodule HitchedWeb.LoginLive do
   use HitchedWeb, :live_view
 
   def render(assigns) do

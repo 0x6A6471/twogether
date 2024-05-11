@@ -1,4 +1,4 @@
-defmodule HitchedWeb.UserForgotPasswordLive do
+defmodule HitchedWeb.ConfirmationInstructionsLive do
   use HitchedWeb, :live_view
 
   alias Hitched.Accounts
@@ -7,19 +7,20 @@ defmodule HitchedWeb.UserForgotPasswordLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center">
-        Forgot your password?
-        <:subtitle>We'll send a password reset link to your inbox</:subtitle>
+        No confirmation instructions received?
+        <:subtitle>We'll send a new confirmation link to your inbox</:subtitle>
       </.header>
 
-      <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
+      <.simple_form for={@form} id="resend_confirmation_form" phx-submit="send_instructions">
         <.input field={@form[:email]} type="email" placeholder="Email" required />
         <:actions>
           <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
+            Resend confirmation instructions
           </.button>
         </:actions>
       </.simple_form>
-      <p class="text-center text-sm mt-4">
+
+      <p class="text-center mt-4">
         <.link href={~p"/register"}>Register</.link> | <.link href={~p"/login"}>Log in</.link>
       </p>
     </div>
@@ -30,16 +31,16 @@ defmodule HitchedWeb.UserForgotPasswordLive do
     {:ok, assign(socket, form: to_form(%{}, as: "user"))}
   end
 
-  def handle_event("send_email", %{"user" => %{"email" => email}}, socket) do
+  def handle_event("send_instructions", %{"user" => %{"email" => email}}, socket) do
     if user = Accounts.get_user_by_email(email) do
-      Accounts.deliver_user_reset_password_instructions(
+      Accounts.deliver_user_confirmation_instructions(
         user,
-        &url(~p"/reset_password/#{&1}")
+        &url(~p"/confirm/#{&1}")
       )
     end
 
     info =
-      "If your email is in our system, you will receive instructions to reset your password shortly."
+      "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
 
     {:noreply,
      socket

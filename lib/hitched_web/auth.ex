@@ -1,4 +1,4 @@
-defmodule HitchedWeb.UserAuth do
+defmodule HitchedWeb.Auth do
   use HitchedWeb, :verified_routes
 
   import Plug.Conn
@@ -135,13 +135,13 @@ defmodule HitchedWeb.UserAuth do
       defmodule HitchedWeb.PageLive do
         use HitchedWeb, :live_view
 
-        on_mount {HitchedWeb.UserAuth, :mount_current_user}
+        on_mount {HitchedWeb.Auth, :mount_current_user}
         ...
       end
 
   Or use the `live_session` of your router to invoke the on_mount callback:
 
-      live_session :authenticated, on_mount: [{HitchedWeb.UserAuth, :ensure_authenticated}] do
+      live_session :authenticated, on_mount: [{HitchedWeb.Auth, :ensure_authenticated}] do
         live "/profile", ProfileLive, :index
       end
   """

@@ -1,4 +1,4 @@
-defmodule HitchedWeb.UserSettingsLive do
+defmodule HitchedWeb.SettingsLive do
   use HitchedWeb, :live_view
 
   alias Hitched.Accounts

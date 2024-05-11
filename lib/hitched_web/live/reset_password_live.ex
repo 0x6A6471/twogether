@@ -1,4 +1,4 @@
-defmodule HitchedWeb.UserResetPasswordLive do
+defmodule HitchedWeb.ResetPasswordLive do
   use HitchedWeb, :live_view
 
   alias Hitched.Accounts
