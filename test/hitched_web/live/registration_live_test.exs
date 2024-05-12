@@ -8,8 +8,7 @@ defmodule HitchedWeb.RegistrationLiveTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/register")
 
-      assert html =~ "Register"
-      assert html =~ "Log in"
+      assert html =~ "Create an account"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -30,7 +29,7 @@ defmodule HitchedWeb.RegistrationLiveTest do
         |> element("#registration_form")
         |> render_change(user: %{"email" => "with spaces", "password" => "too short"})
 
-      assert result =~ "Register"
+      assert result =~ "Create an account"
       assert result =~ "must have the @ sign and no spaces"
       assert result =~ "should be at least 12 character"
     end
@@ -72,16 +71,18 @@ defmodule HitchedWeb.RegistrationLiveTest do
   end
 
   describe "registration navigation" do
-    test "redirects to login page when the Log in button is clicked", %{conn: conn} do
+    test "redirects to login page when the Login button is clicked", %{
+      conn: conn
+    } do
       {:ok, lv, _html} = live(conn, ~p"/register")
 
-      {:ok, _login_live, login_html} =
+      {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Log in")|)
+        |> element(~s|main a:fl-contains("Login")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/login")
 
-      assert login_html =~ "Log in"
+      assert conn.resp_body =~ "Login"
     end
   end
 end

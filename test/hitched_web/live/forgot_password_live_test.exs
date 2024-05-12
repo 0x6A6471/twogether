@@ -13,7 +13,7 @@ defmodule HitchedWeb.ForgotPasswordLiveTest do
 
       assert html =~ "Forgot your password?"
       assert has_element?(lv, ~s|a[href="#{~p"/register"}"]|, "Register")
-      assert has_element?(lv, ~s|a[href="#{~p"/login"}"]|, "Log in")
+      assert has_element?(lv, ~s|a[href="#{~p"/login"}"]|, "Login")
     end
 
     test "redirects if already logged in", %{conn: conn} do
