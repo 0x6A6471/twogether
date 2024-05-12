@@ -6,8 +6,14 @@ defmodule HitchedWeb.LoginLive do
     <div class="mx-auto max-w-sm text-center h-screen flex flex-col justify-center -mt-16">
       <p class="text-3xl text-center mb-8">🔗</p>
 
-      <.simple_form for={@form} id="login_form" action={~p"/login"} phx-update="ignore" class="mb-1">
-        <div class="rounded-2xl shadow-sm p-1 ring-1 ring-gray-200">
+      <.simple_form
+        for={@form}
+        id="login_form"
+        action={~p"/login"}
+        phx-update="ignore"
+        class="mb-1 rounded-2xl shadow-sm p-1 ring-1 ring-gray-200"
+      >
+        <div>
           <.input
             field={@form[:email]}
             type="email"
@@ -33,14 +39,14 @@ defmodule HitchedWeb.LoginLive do
             phx-disable-with="Logging in..."
             class="mt-1 flex w-full justify-center rounded-xl bg-hitched-600 hover:bg-hitched-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-hitched-700"
           >
-            Log in
+            Login
           </.button>
         </div>
       </.simple_form>
 
       <.link
         href={~p"/reset_password"}
-        class="text-center text-sm leading-6 text-hitched-500 hover:text-hitched-600"
+        class="text-center text-sm text-hitched-500 hover:text-hitched-600"
       >
         Forgot password?
       </.link>

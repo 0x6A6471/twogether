@@ -4,13 +4,12 @@ defmodule HitchedWeb.LoginLiveTest do
   import Phoenix.LiveViewTest
   import Hitched.AccountsFixtures
 
-  describe "Log in page" do
+  describe "Login page" do
     test "renders log in page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/login")
 
-      assert html =~ "Log in"
-      assert html =~ "Register"
-      assert html =~ "Forgot your password?"
+      assert html =~ "Login"
+      assert html =~ "Forgot password?"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -58,18 +57,6 @@ defmodule HitchedWeb.LoginLiveTest do
   end
 
   describe "login navigation" do
-    test "redirects to registration page when the Register button is clicked", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/login")
-
-      {:ok, _login_live, login_html} =
-        lv
-        |> element(~s|main a:fl-contains("Sign up")|)
-        |> render_click()
-        |> follow_redirect(conn, ~p"/register")
-
-      assert login_html =~ "Register"
-    end
-
     test "redirects to forgot password page when the Forgot Password button is clicked", %{
       conn: conn
     } do
@@ -77,7 +64,7 @@ defmodule HitchedWeb.LoginLiveTest do
 
       {:ok, conn} =
         lv
-        |> element(~s|main a:fl-contains("Forgot your password?")|)
+        |> element(~s|main a:fl-contains("Forgot password?")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/reset_password")
 
