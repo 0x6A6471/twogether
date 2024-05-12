@@ -5,22 +5,41 @@ defmodule HitchedWeb.ForgotPasswordLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
+    <div class="mx-auto max-w-sm text-center h-screen flex flex-col justify-center -mt-16">
+      <p class="text-3xl text-center mb-4">🔗</p>
       <.header class="text-center">
         Forgot your password?
         <:subtitle>We'll send a password reset link to your inbox</:subtitle>
       </.header>
 
-      <.simple_form for={@form} id="reset_password_form" phx-submit="send_email">
-        <.input field={@form[:email]} type="email" placeholder="Email" required />
-        <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
-            Send password reset instructions
-          </.button>
-        </:actions>
+      <.simple_form
+        for={@form}
+        id="reset_password_form"
+        phx-submit="send_email"
+        class="mb-1 rounded-2xl shadow-sm p-1 ring-1 ring-gray-200 mt-8"
+      >
+        <.input
+          field={@form[:email]}
+          type="email"
+          label="Email"
+          hide_label
+          placeholder="Email"
+          required
+          autofocus
+          class="relative block w-full rounded-xl border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-hitched-400 sm:text-sm sm:leading-6 bg-gray-100"
+        />
+
+        <.button
+          phx-disable-with="Sending..."
+          class="mt-1 flex w-full justify-center rounded-xl bg-hitched-600 hover:bg-hitched-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-hitched-700"
+        >
+          Send reset instructions
+        </.button>
       </.simple_form>
-      <p class="text-center text-sm mt-4">
-        <.link href={~p"/register"}>Register</.link> | <.link href={~p"/login"}>Log in</.link>
+
+      <p class="text-center text-sm mt-1 text-hitched-700">
+        <.link href={~p"/register"} class="text-hitched-500 hover:text-hitched-600">Register</.link>
+        | <.link href={~p"/login"} class="text-hitched-500 hover:text-hitched-600">Login</.link>
       </p>
     </div>
     """
