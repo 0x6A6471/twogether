@@ -1,5 +1,5 @@
 <h1 align="center">
-    hitched</br>
+    client</br>
     <span style="font-size: 1.25rem">
         powered by 
         ✨<a href="https://github.com/dmmulroy/create-melange-app">create-melange-app✨</a>
@@ -45,7 +45,7 @@ Many of these files will contain additional comments, explanations, examples,
 and help for learning and getting started with `ReasonML` and `Melange.`
 
 ```
-hitched
+client
 ├── src
 │   │   // This is a React Component and the entry point to your application
 │   ├── App.re
@@ -151,7 +151,7 @@ do the following steps:
 
 ```sh
 eval $(opam env) # This activates your local switch in your shell
-dune build hitched.opam # This will regenerate your `opam` file
+dune build client.opam # This will regenerate your `opam` file
 opam update # This will ensure `opam` can see the most recent versions of packages
 opam install . --deps-only --yes # This will install your new packages
 ```
