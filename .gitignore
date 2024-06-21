@@ -9,3 +9,5 @@ node_modules/
 **/dist
 **/build
 
+# tailwindcss generated files
+**/output.css
