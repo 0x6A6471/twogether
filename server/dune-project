@@ -1,0 +1,26 @@
+(lang dune 3.16)
+
+(name server)
+
+(generate_opam_files true)
+
+(source
+ (github username/reponame))
+
+(authors "Jake Quinter")
+
+(maintainers "Jake Quinter")
+
+(license LICENSE)
+
+(documentation https://github.com/jakequinter/hitched/server)
+
+(package
+ (name server)
+ (synopsis "Hitched server")
+ (description "Server-side code for Hitched, a wedding planning app.")
+ (depends ocaml dune)
+ (tags
+  (ocaml, melange)))
+
+; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
