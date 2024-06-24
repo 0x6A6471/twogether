@@ -3,8 +3,9 @@ let () =
   @@ Dream.logger
   @@ Dream.livereload
   @@ Dream.router
-       [ Dream.get "/" (fun _ -> Dream.html "Hello, world!")
-       ; Dream.get "/:word" (fun request ->
-           Dream.html (Dream.param request "word"))
+       [ Dream.get "/health" (fun _request ->
+           let json_string = {|{ "status": "ok" }|} in
+           let json = Yojson.Safe.from_string json_string in
+           json |> Yojson.Safe.to_string |> Dream.json)
        ]
 ;;
