@@ -13,6 +13,13 @@ depends: [
   "ocaml"
   "dune" {>= "3.16"}
   "dream"
+  "caqti"
+  "caqti-driver-postgresql"
+  "caqti-lwt"
+  "dotenv"
+  "ppx_rapper"
+  "ppx_rapper_lwt"
+  "ppx_yojson_conv"
   "odoc" {with-doc}
 ]
 build: [
