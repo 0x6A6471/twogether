@@ -1,6 +1,6 @@
 (executable
  (public_name server)
  (name main)
- (libraries server dream)
+ (libraries server dream caqti-driver-postgresql)
  (preprocess
   (pps ppx_yojson_conv)))

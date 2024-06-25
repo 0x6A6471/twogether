@@ -1,5 +1,5 @@
 ### TODO
-- [ ] Generate dream json
+- [x] Generate dream json
 - [ ] caqti psql integration
 - [ ] database schema
 - [ ] database migrations
