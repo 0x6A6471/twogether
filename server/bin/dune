@@ -1,6 +1,13 @@
 (executable
  (public_name server)
  (name main)
- (libraries server dream caqti-driver-postgresql)
+ (libraries
+  server
+  dotenv
+  dream
+  caqti
+  caqti-lwt
+  ppx_rapper_lwt
+  caqti-driver-postgresql)
  (preprocess
-  (pps ppx_yojson_conv)))
+  (pps ppx_yojson_conv ppx_rapper)))

@@ -19,7 +19,7 @@
  (name server)
  (synopsis "Hitched server")
  (description "Server-side code for Hitched, a wedding planning app.")
- (depends ocaml dune)
+ (depends ocaml dune dream)
  (tags
   (ocaml, melange)))
 
