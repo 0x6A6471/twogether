@@ -51,10 +51,10 @@ let () =
            let json = Yojson.Safe.from_string json_string in
            json |> Yojson.Safe.to_string |> Dream.json)
        ; Dream.get "/users" (fun _request ->
-           let* guests = get_user 1 pool in
-           match guests with
-           | Some user ->
-             let users_json = yojson_of_t user in
+           let* user = get_user 1 pool in
+           match user with
+           | Some u ->
+             let users_json = yojson_of_t u in
              Dream.json (Yojson.Safe.to_string users_json)
            | None -> assert false)
        ]
