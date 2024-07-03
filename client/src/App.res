@@ -3,6 +3,9 @@ let make = () => {
   let (count, setCount) = React.useState(() => 0)
 
   <div className="p-6">
+    <Radix.Label htmlFor="test" className="text-red-500">
+      {React.string("Label!!!!!!!!!")}
+    </Radix.Label>
     <h1 className="text-3xl font-semibold"> {"What is this about?"->React.string} </h1>
     <p>
       {React.string("This is a simple template for a Vite project using ReScript & Tailwind CSS.")}

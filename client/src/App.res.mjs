@@ -4,6 +4,7 @@ import * as React from "react";
 import * as Button from "./Button.res.mjs";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as JsxRuntime from "react/jsx-runtime";
+import * as ReactLabel from "@radix-ui/react-label";
 
 function App(props) {
   var match = React.useState(function () {
@@ -12,6 +13,11 @@ function App(props) {
   var setCount = match[1];
   return JsxRuntime.jsxs("div", {
               children: [
+                JsxRuntime.jsx(ReactLabel.Label, {
+                      htmlFor: "test",
+                      className: "text-red-500",
+                      children: "Label!!!!!!!!!"
+                    }),
                 JsxRuntime.jsx("h1", {
                       children: "What is this about?",
                       className: "text-3xl font-semibold"
