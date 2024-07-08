@@ -1,23 +1,10 @@
 @react.component
 let make = () => {
-  let useUser = Clerk.useUser()
+  let url = RescriptReactRouter.useUrl()
 
-  let name = switch Js.Nullable.toOption(useUser["user"]) {
-  | Some(user) =>
-    switch user.fullName {
-    | Some(name) => <h1> {React.string("Hello, " ++ name)} </h1>
-    | None => React.null
-    }
-  | None => React.null
+  switch url.path {
+  | list{"dashboard"} => <Dashboard />
+  | list{} => <HomePage />
+  | _ => <FourOhFour />
   }
-
-  <header>
-    {name}
-    <Clerk.SignedOut>
-      <Clerk.SignInButton> {React.string("Sign in")} </Clerk.SignInButton>
-    </Clerk.SignedOut>
-    <Clerk.SignedIn>
-      <Clerk.SignOutButton> {React.string("Sign out")} </Clerk.SignOutButton>
-    </Clerk.SignedIn>
-  </header>
 }
