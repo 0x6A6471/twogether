@@ -73,12 +73,13 @@ type telemetry =
   | False
   | Record(telemetryRecord)
 
-type user = {
-  id: string,
-  firstName: option<string>,
-  lastName: option<string>,
-  fullName: option<string>,
-  username: option<string>,
-  hasImage: bool,
-  imageUrl: string,
+module User = {
+  type t = {
+    firstName: option<string>,
+    lastName: option<string>,
+    fullName: option<string>,
+    username: string,
+    hasImage: bool,
+    imageUrl: string,
+  }
 }

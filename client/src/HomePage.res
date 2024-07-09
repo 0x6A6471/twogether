@@ -1,4 +1,11 @@
 @react.component
 let make = () => {
-  <h1> {"Landing Page"->React.string} </h1>
+  let useUser = Clerk.useUser()
+
+  let home = switch Js.Nullable.toOption(useUser["user"]) {
+  | Some(_user) => <Clerk.SignOutButton> {React.string("Sign out")} </Clerk.SignOutButton>
+  | None => <Clerk.SignInButton> {React.string("Sign in")} </Clerk.SignInButton>
+  }
+
+  home
 }

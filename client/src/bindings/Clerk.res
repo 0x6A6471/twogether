@@ -25,16 +25,6 @@ module ClerkProvider = {
   ) => React.element = "ClerkProvider"
 }
 
-module SignedOut = {
-  @module("@clerk/clerk-react") @react.component
-  external make: (~children: React.element) => React.element = "SignedOut"
-}
-
-module SignedIn = {
-  @module("@clerk/clerk-react") @react.component
-  external make: (~children: React.element) => React.element = "SignedIn"
-}
-
 module SignInButton = {
   type mode = [
     | #redirect
@@ -67,5 +57,5 @@ module SignOutButton = {
 external useUser: unit => {
   "isSignedIn": bool,
   "isLoaded": bool,
-  "user": Js.Nullable.t<ClerkTypes.user>,
+  "user": Js.Nullable.t<ClerkTypes.User.t>,
 } = "useUser"
