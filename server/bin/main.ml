@@ -1,6 +1,3 @@
-open Lwt.Syntax
-open Ppx_yojson_conv_lib.Yojson_conv.Primitives
-
 let get_required_env var =
   match Stdlib.Sys.getenv var with
   | "" -> Fmt.failwith "Empty $%s" var
@@ -21,41 +18,16 @@ let init_pool () =
 
 let pool = init_pool ()
 
-type t =
-  { id : int
-  ; email : string
-  }
-[@@deriving yojson]
-
-let get_user uid pool =
-  let query =
-    [%rapper
-      get_one
-        {sql| SELECT @int{id}, @string{email} FROM users WHERE id = %int{uid} |sql}
-        record_out]
-  in
-  let* result = Caqti_lwt.Pool.use (fun db -> query db ~uid) pool in
-  match result with
-  | Ok user -> Lwt.return (Some user)
-  | Error _ -> Lwt.return None
-;;
-
 let () =
   Dream.run
   @@ Dream.logger
   (* @@ Dream.livereload *)
   @@ Dream.sql_pool database_url
   @@ Dream.router
-       [ Dream.get "/health" (fun _request ->
-           let json_string = {|{ "status": "ok" }|} in
-           let json = Yojson.Safe.from_string json_string in
-           json |> Yojson.Safe.to_string |> Dream.json)
-       ; Dream.get "/users" (fun _request ->
-           let* user = get_user 1 pool in
-           match user with
-           | Some u ->
-             let user_json = yojson_of_t u in
-             Dream.json (Yojson.Safe.to_string user_json)
-           | None -> assert false)
-       ]
+       ([ Dream.get "/health" (fun _request ->
+            let json_string = {|{ "status": "ok" }|} in
+            let json = Yojson.Safe.from_string json_string in
+            json |> Yojson.Safe.to_string |> Dream.json)
+        ]
+        @ Routes.Auth.routes pool)
 ;;
