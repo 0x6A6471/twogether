@@ -1,8 +1,11 @@
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
-export default {
-  build: {
-    outDir: "./dist",
-  },
-  plugins: [nodeResolve()],
-};
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    react({
+      include: ["**/*.res.mjs"],
+    }),
+  ],
+});

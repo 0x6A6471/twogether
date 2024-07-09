@@ -1,23 +1,29 @@
 {
   "name": "client",
-  "version": "0.0.1",
-  "description": "Enter a description of your app here",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "dune build",
-    "dev": "dune build && concurrently 'npm:vite-dev' 'npm:dune-watch'",
-    "dune-watch": "dune build -w",
-    "serve": "dune build && vite preview",
-    "vite-dev": "vite _build/default"
+    "res:build": "rescript",
+    "res:clean": "rescript clean",
+    "res:dev": "rescript -w",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@clerk/clerk-react": "^5.2.5",
+    "@rescript/core": "1.5.0",
+    "@rescript/react": "^0.12.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rescript": "11.1.2"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "concurrently": "^8.2.2",
-    "tailwindcss": "^3.4.4",
-    "vite": "^4.5.0",
-    "vite-plugin-melange": "^2.2.0"
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.28",
+    "tailwindcss": "^3.3.3",
+    "vite": "^5.0.6"
   }
 }

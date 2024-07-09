@@ -8,7 +8,5 @@ node_modules/
 .DS_Store
 **/dist
 **/build
-.env
 
-# tailwindcss generated files
-**/output.css
+.env
