@@ -29,5 +29,5 @@ let () =
             let json = Yojson.Safe.from_string json_string in
             json |> Yojson.Safe.to_string |> Dream.json)
         ]
-        @ Routes.Auth.routes pool)
+        @ Auth.routes pool)
 ;;

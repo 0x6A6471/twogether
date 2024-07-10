@@ -1,4 +1,12 @@
 (executable
  (public_name server)
  (name main)
- (libraries server routes dotenv dream fmt caqti-lwt caqti-driver-postgresql))
+ (libraries
+  server
+  routes
+  auth
+  dotenv
+  dream
+  fmt
+  caqti-lwt
+  caqti-driver-postgresql))

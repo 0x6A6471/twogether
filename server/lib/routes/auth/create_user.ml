@@ -25,22 +25,20 @@ let create_user ~name ~email ~password pool =
   | Error err -> Lwt.return (Error (Caqti_error.show err))
 ;;
 
-let routes pool =
-  [ Dream.post "auth/user" (fun request ->
-      let* body = Dream.body request in
-      Dream.log "Request body: %s" body;
-      let body = t_of_yojson (Yojson.Safe.from_string body) in
-      let* user =
-        create_user
-          ~name:body.name
-          ~email:body.email
-          ~password:body.password
-          pool
-      in
-      match user with
-      | Ok () -> Dream.json {|{ "status": "ok" }|}
-      | Error err ->
-        Dream.json
-          (Printf.sprintf {|{ "status": "error", "message": "%s" }|} err))
-  ]
+let handler pool request =
+  let* body = Dream.body request in
+  Dream.log "Request body: %s" body;
+  let body = t_of_yojson (Yojson.Safe.from_string body) in
+  let hashed_password = Bcrypt.hash body.password in
+  let* user =
+    create_user
+      ~name:body.name
+      ~email:body.email
+      ~password:(Bcrypt.string_of_hash hashed_password)
+      pool
+  in
+  match user with
+  | Ok () -> Dream.json {|{ "status": "ok" }|}
+  | Error err ->
+    Dream.json (Printf.sprintf {|{ "status": "error", "message": "%s" }|} err)
 ;;
