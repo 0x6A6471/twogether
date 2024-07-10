@@ -3,11 +3,10 @@
  (name main)
  (libraries
   server
+  routes
+  auth
   dotenv
   dream
-  caqti
+  fmt
   caqti-lwt
-  ppx_rapper_lwt
-  caqti-driver-postgresql)
- (preprocess
-  (pps ppx_yojson_conv ppx_rapper)))
+  caqti-driver-postgresql))
