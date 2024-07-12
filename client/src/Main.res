@@ -5,7 +5,9 @@ switch ReactDOM.querySelector("#root") {
   ReactDOM.Client.createRoot(domElement)->ReactDOM.Client.Root.render(
     <React.StrictMode>
       <Clerk.ClerkProvider publishableKey={Env.clerkPublishableKey}>
-        <App />
+        <AuthContext.Provider>
+          <App />
+        </AuthContext.Provider>
       </Clerk.ClerkProvider>
     </React.StrictMode>,
   )

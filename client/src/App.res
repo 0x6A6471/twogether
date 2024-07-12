@@ -21,6 +21,7 @@ let make = () => {
       {switch url.path {
       | list{"dashboard"} => authenticated(_ => <Dashboard />, useUser["user"])
       | list{"login"} => <LoginPage />
+      | list{"signup"} => <SignupPage />
       | list{} => <HomePage />
       | _ => <FourOhFour />
       }}
