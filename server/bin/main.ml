@@ -47,9 +47,9 @@ let cors_middleware inner_handler req =
 let () =
   Dream.run
   @@ Dream.logger
-  (* @@ Dream.livereload *)
-  @@ cors_middleware
   @@ Dream.sql_pool database_url
+  @@ Dream.sql_sessions ~lifetime:3600.0
+  @@ cors_middleware
   @@ Dream.router
        ([ Dream.get "/health" (fun _request ->
             let json_string = {|{ "status": "ok" }|} in

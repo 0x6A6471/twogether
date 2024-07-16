@@ -1,9 +1,14 @@
 @react.component
 let make = () => {
-  let useUser = Clerk.useUser()
+  let {user} = AuthContext.useAuth()
 
-  let authButton = switch Js.Nullable.toOption(useUser["user"]) {
-  | Some(_user) => <Clerk.SignOutButton> {React.string("Sign out")} </Clerk.SignOutButton>
+  let authButton = switch user {
+  | Some(_user) =>
+    <a
+      href="/dashboard"
+      className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      {React.string("Dashboard")}
+    </a>
   | None =>
     <a
       href="/login"

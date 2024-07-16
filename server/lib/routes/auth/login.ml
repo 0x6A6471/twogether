@@ -51,6 +51,8 @@ let handler pool request =
     let verify_password = Bcrypt.verify body.password hashed_password in
     (match verify_password with
      | true ->
+       Dream.log "putting session with user_id: %s" user.id;
+       let* _ = Dream.put_session "user_id" user.id request in
        let user_json = Response.yojson_of_t user in
        Dream.json (Yojson.Safe.to_string user_json)
      | false ->
