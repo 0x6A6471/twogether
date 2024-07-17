@@ -1,15 +1,20 @@
 @react.component
 let make = () => {
-  let useUser = Clerk.useUser()
+  let {user} = AuthContext.useAuth()
 
-  let authButton = switch Js.Nullable.toOption(useUser["user"]) {
-  | Some(_user) => <Clerk.SignOutButton> {React.string("Sign out")} </Clerk.SignOutButton>
-  | None =>
+  let authButton = switch user {
+  | Some(_user) =>
     <a
-      href="/login"
+      href="/dashboard"
+      className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      {React.string("Dashboard")}
+    </a>
+  | None =>
+    <button
+      onClick={_ => RescriptReactRouter.push("/login")}
       className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
       {React.string("Log in")}
-    </a>
+    </button>
   }
 
   <div className="min-h-screen p-2">

@@ -39,5 +39,8 @@ let handler pool request =
   in
   match user with
   | Ok () -> Dream.json {|{ "status": "ok" }|}
-  | Error err -> Dream.json (Printf.sprintf {|{ "error": "%s" }|} err)
+  | Error err ->
+    Dream.json
+      ~status:`Internal_Server_Error
+      (Printf.sprintf {|{ "error": "%s" }|} err)
 ;;

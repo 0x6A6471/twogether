@@ -1,3 +1,5 @@
+open Lwt.Syntax
+
 let get_required_env var =
   match Stdlib.Sys.getenv var with
   | "" -> Fmt.failwith "Empty $%s" var
@@ -18,11 +20,36 @@ let init_pool () =
 
 let pool = init_pool ()
 
+let cors_middleware inner_handler req =
+  let new_headers =
+    [ "Allow", "OPTIONS, GET, HEAD, POST"
+    ; "Access-Control-Allow-Origin", "http://localhost:5173"
+    ; "Access-Control-Allow-Methods", "OPTIONS, GET, POST, DELETE, PUT"
+    ; "Access-Control-Allow-Headers", "Content-Type, Accept"
+    ; "Access-Control-Allow-Credentials", "true"
+    ]
+  in
+  match Dream.method_ req with
+  | `OPTIONS -> Dream.respond ~headers:new_headers ""
+  | _ ->
+    let* response = inner_handler req in
+    let response_with_headers =
+      List.fold_left
+        (fun resp (key, value) ->
+          Dream.add_header resp key value;
+          resp)
+        response
+        new_headers
+    in
+    Lwt.return response_with_headers
+;;
+
 let () =
   Dream.run
   @@ Dream.logger
-  (* @@ Dream.livereload *)
   @@ Dream.sql_pool database_url
+  @@ Dream.sql_sessions ~lifetime:3600.0
+  @@ cors_middleware
   @@ Dream.router
        ([ Dream.get "/health" (fun _request ->
             let json_string = {|{ "status": "ok" }|} in
