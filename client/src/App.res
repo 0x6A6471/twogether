@@ -3,7 +3,7 @@ let authenticated: (
   option<AuthContext.user>,
 ) => React.element = (getPage, user) =>
   switch user {
-  | Some(s) => getPage(s)
+  | Some(s) => <Nav> {getPage(s)} </Nav>
   | None =>
     RescriptReactRouter.push("/")
     React.null
@@ -21,9 +21,10 @@ let make = () => {
     <>
       {switch url.path {
       | list{"dashboard"} => authenticated(_ => <Dashboard />, user)
-      | list{"login"} => <LoginPage />
-      | list{"signup"} => <SignupPage />
-      | list{} => <HomePage />
+      | list{"dashboard", "guests"} => authenticated(_ => <Guests />, user)
+      | list{"login"} => <Login />
+      | list{"signup"} => <Signup />
+      | list{} => <Home />
       | _ => <FourOhFour />
       }}
     </>
