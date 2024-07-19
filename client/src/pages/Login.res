@@ -12,6 +12,7 @@ let make = () => {
     e->ReactEvent.Form.preventDefault
     login(formData)
     ->Promise.then(data => {
+      // TODO: show error?
       Console.log(data)
       Promise.resolve()
     })
