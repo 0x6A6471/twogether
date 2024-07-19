@@ -21,14 +21,14 @@ let make = () => {
         className="min-w-[271px] bg-white z-50 rounded-md p-[5px] shadow will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
         sideOffset={5}>
         <Radix.DropdownMenu.Item
-          className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none hover:bg-gray-50">
+          className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none text-gray-600 hover:text-gray-950 hover:bg-gray-50">
           <Icon name="log-out" />
           <span> {React.string("Log out")} </span>
         </Radix.DropdownMenu.Item>
         <Radix.DropdownMenu.Item
-          className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none hover:bg-gray-50">
-          <Icon name="log-out" />
-          <span> {React.string("another item")} </span>
+          className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none text-gray-600 hover:text-gray-950 hover:bg-gray-50">
+          <Icon name="question" />
+          <span> {React.string("Support")} </span>
         </Radix.DropdownMenu.Item>
       </Radix.DropdownMenu.Content>
     </Radix.DropdownMenu.Portal>
