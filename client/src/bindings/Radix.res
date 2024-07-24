@@ -9,7 +9,7 @@ module DropdownMenu = {
     external make: (
       ~defaultOpen: bool=?,
       @as("open") ~open_: bool=?,
-      ~onOpenChange: bool => unit=?,
+      ~onOpenChange: (bool => bool) => unit=?,
       ~dir: dir=?,
       ~className: string=?,
       ~children: React.element,

@@ -1,17 +1,18 @@
 type variant = [
+  | #line
   | #filled
 ]
 
 @react.component
 let make = (
   ~name: string,
-  ~variant: option<variant>=?,
   ~className: option<string>=?,
+  ~variant: variant=#line,
   ~size: string="16",
 ) => {
   let name = switch variant {
-  | Some(#filled) => name ++ "-filled"
-  | None => name
+  | #filled => name ++ "-filled"
+  | #line => name
   }
 
   <svg

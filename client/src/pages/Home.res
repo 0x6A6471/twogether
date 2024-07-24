@@ -1,6 +1,5 @@
 @react.component
 let make = () => {
-  let (isOpen, setIsOpen) = React.useState(_ => false)
   let {user} = AuthContext.useAuth()
 
   let authButton = switch user {
@@ -23,6 +22,5 @@ let make = () => {
       <div className="text-2xl font-bold"> {React.string("logo")} </div>
       authButton
     </header>
-    <button onClick={_ => setIsOpen(_ => true)}> {React.string("Open dialog")} </button>
   </div>
 }
