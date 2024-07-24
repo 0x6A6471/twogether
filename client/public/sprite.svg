@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
+    <symbol id="chevron-up-filled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path fill="currentColor" d="M10.869 9.131 7.73 12.27c-.856.856-1.285 1.285-1.314 1.653a1 1 0 0 0 .348.838c.28.24.886.24 2.098.24h6.274c1.212 0 1.818 0 2.098-.24a1 1 0 0 0 .348-.838c-.03-.368-.458-.797-1.314-1.653L13.13 9.13c-.396-.396-.594-.594-.822-.668a1 1 0 0 0-.618 0c-.228.074-.426.272-.822.668Z"/>
+    </symbol>
+
     <symbol id="gear" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4c-.697 0-1.387-.262-1.814-.813l-.452-.583a2 2 0 0 0-2.58-.507l-1.307.754a2 2 0 0 0-.851 2.489l.279.683c.264.645.147 1.37-.203 1.974v0C4.723 8.6 4.15 9.07 3.46 9.165l-.73.1A2 2 0 0 0 1 11.244v1.51a2 2 0 0 0 1.73 1.98l.73.1c.69.095 1.263.565 1.612 1.168v0c.35.604.467 1.329.203 1.974l-.28.683a2 2 0 0 0 .852 2.49l1.306.754a2 2 0 0 0 2.581-.508l.452-.583C10.613 20.262 11.303 20 12 20v0c.697 0 1.387.262 1.814.813l.452.583a2 2 0 0 0 2.58.507l1.307-.754a2 2 0 0 0 .852-2.489l-.28-.683c-.264-.645-.147-1.37.203-1.974v0c.349-.603.922-1.073 1.612-1.168l.73-.1a2 2 0 0 0 1.73-1.98v-1.51a2 2 0 0 0-1.73-1.98l-.73-.1c-.69-.095-1.263-.565-1.612-1.168v0c-.35-.604-.467-1.329-.203-1.974l.28-.683a2 2 0 0 0-.852-2.49l-1.306-.753a2 2 0 0 0-2.581.507l-.452.583C13.387 3.738 12.697 4 12 4v0Z"/>
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -8,6 +12,10 @@
 
     <symbol id="grid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 2v20m1 0h4c2.8 0 4.2 0 5.27-.545a5 5 0 0 0 2.185-2.185C22 18.2 22 16.8 22 14v-4c0-2.8 0-4.2-.545-5.27a5 5 0 0 0-2.185-2.185C18.2 2 16.8 2 14 2h-4c-2.8 0-4.2 0-5.27.545A5 5 0 0 0 2.545 4.73C2 5.8 2 7.2 2 10v4c0 2.8 0 4.2.545 5.27a5 5 0 0 0 2.185 2.185C5.8 22 7.2 22 10 22Z"/>
+    </symbol>
+
+    <symbol id="home" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 16h6M7.002 3.998l-2 1.6C3.9 6.48 3.35 6.921 2.952 7.468a5 5 0 0 0-.772 1.607C2 9.727 2 10.433 2 11.845V14c0 2.8 0 4.2.545 5.27a5 5 0 0 0 2.185 2.185C5.8 22 7.2 22 10 22h4c2.8 0 4.2 0 5.27-.545a5 5 0 0 0 2.185-2.185C22 18.2 22 16.8 22 14v-2.155c0-1.412 0-2.118-.18-2.77a5.001 5.001 0 0 0-.772-1.606c-.397-.548-.948-.989-2.05-1.871l-2-1.6c-1.784-1.427-2.676-2.14-3.665-2.414a5 5 0 0 0-2.666 0c-.99.274-1.881.987-3.665 2.414Z"/>
     </symbol>
 
     <symbol id="home-filled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -31,6 +39,10 @@
 
     <symbol id="user-filled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
       <path fill="currentColor" d="M7.25 6a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0ZM8.95 13.25a5.7 5.7 0 0 0-5.7 5.7 3.8 3.8 0 0 0 3.8 3.8h9.9a3.8 3.8 0 0 0 3.8-3.8 5.7 5.7 0 0 0-5.7-5.7h-6.1Z"/>
+    </symbol>
+
+    <symbol id="users" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10a4 4 0 0 0 0-8m2 20h2.8a3.2 3.2 0 0 0 3.2-3.2v0a4.8 4.8 0 0 0-4.8-4.8H17m-5-8a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4.2 22h7.6a3.2 3.2 0 0 0 3.2-3.2v0a4.8 4.8 0 0 0-4.8-4.8H5.8A4.8 4.8 0 0 0 1 18.8v0A3.2 3.2 0 0 0 4.2 22Z"/>
     </symbol>
 
     <symbol id="users-filled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">

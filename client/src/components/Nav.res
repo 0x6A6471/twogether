@@ -5,8 +5,8 @@ type t = {
 }
 
 let navigation = [
-  {name: "Home", href: "/dashboard", icon: "home-filled"},
-  {name: "Guests", href: "/dashboard/guests", icon: "users-filled"},
+  {name: "Home", href: "/dashboard", icon: "home"},
+  {name: "Guests", href: "/dashboard/guests", icon: "users"},
 ]
 
 @react.component
@@ -56,7 +56,7 @@ let make = (~children: React.element) => {
                       <li key={item.name}>
                         <Link
                           href={item.href}
-                          className={`${" group flex gap-x-3 rounded-md p-2 text-sm font-medium leading-6 items-center"} ${path ===
+                          className={`${" group flex gap-x-3 rounded-xl p-2 text-sm font-medium leading-6 items-center"} ${path ===
                               item.href
                               ? "bg-gray-50 text-gray-900"
                               : "hover:bg-gray-50 hover:text-gray-900"}`}>
@@ -67,9 +67,7 @@ let make = (~children: React.element) => {
                     })->React.array}
                   </ul>
                 </li>
-                <li className="mt-auto">
-                  <UserDropdown />
-                </li>
+                <UserDropdown />
               </ul>
             </nav>
           </div>
@@ -97,26 +95,18 @@ let make = (~children: React.element) => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={`${"group flex gap-x-3 rounded-md p-2 text-sm font-medium leading-6 items-center"} ${path ===
+                      className={`${"group flex gap-x-3 rounded-xl p-2 text-sm font-medium leading-6 items-center"} ${path ===
                           item.href
                           ? "bg-gray-50 text-gray-900"
                           : "hover:bg-gray-50 hover:text-gray-900"}`}>
-                      <Icon name={item.icon} />
+                      <Icon name={item.icon} variant={path === item.href ? #filled : #line} />
                       {React.string(item.name)}
                     </Link>
                   </li>
                 })->React.array}
               </ul>
             </li>
-            <li className="mt-auto">
-              // <a
-              //   href="#"
-              //   className="group -mx-2 gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600 flex items-center">
-              //   <Icon name="gear" />
-              //   {React.string("Settings")}
-              // </a>
-              <UserDropdown />
-            </li>
+            <UserDropdown />
           </ul>
         </nav>
       </div>
