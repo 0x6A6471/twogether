@@ -6,17 +6,41 @@ let initialState: AuthContext.formData = {
 @react.component
 let make = () => {
   let (formData, setFormData) = React.useState(_ => initialState)
+  let (isLoading, setIsLoading) = React.useState(_ => false)
+  let (error, setError) = React.useState(_ => None)
   let {login} = AuthContext.useAuth()
+
+  React.useEffect(() => {
+    setError(_ => None)
+    None
+  }, [formData])
 
   let onSubmit = (e: ReactEvent.Form.t) => {
     e->ReactEvent.Form.preventDefault
+    setIsLoading(_ => true)
     login(formData)
     ->Promise.then(data => {
-      // TODO: show error?
-      Console.log(data)
+      switch Js.Json.decodeObject(data) {
+      | Some(obj) =>
+        switch Js.Dict.get(obj, "error") {
+        | Some(error) =>
+          switch Js.Json.decodeString(error) {
+          | Some(err) => setError(_ => Some(err))
+          | None => setError(_ => Some("An error occurred, but details are unavailable."))
+          }
+        | None => setError(_ => None)
+        }
+      | None => setError(_ => Some("Invalid response format"))
+      }
+      setIsLoading(_ => false)
       Promise.resolve()
     })
     ->ignore
+  }
+
+  let error = switch error {
+  | Some(error) => <p className="text-red-600 text-sm"> {React.string(error)} </p>
+  | None => React.null
   }
 
   <div className="pt-20">
@@ -59,8 +83,11 @@ let make = () => {
             }}
           />
         </div>
+        {error}
       </div>
-      <button type_="submit"> {React.string("Log in")} </button>
+      <button type_="submit" disabled={isLoading}>
+        {isLoading ? React.string("Loading...") : React.string("Log in")}
+      </button>
     </form>
   </div>
 }

@@ -12,17 +12,19 @@ type formData = {
 }
 
 type contextValue = {
-  isLoaded: bool,
+  isLoading: bool,
   user: option<user>,
   setUser: (option<user> => option<user>) => unit,
   login: formData => promise<Js.Json.t>,
+  logout: unit => promise<unit>,
 }
 
 let context = React.createContext({
-  isLoaded: false,
+  isLoading: false,
   user: None,
   setUser: _ => (),
   login: _ => Promise.resolve(Js.Json.null),
+  logout: _ => Promise.resolve(),
 })
 
 module AuthProvider = {
@@ -32,10 +34,10 @@ module Provider = {
   @react.component
   let make = (~children) => {
     let (user, setUser) = React.useState(() => None)
-    let (isLoaded, setIsLoaded) = React.useState(() => false)
+    let (isLoading, setIsLoading) = React.useState(() => true)
 
     let login = async data => {
-      setIsLoaded(_ => false)
+      setIsLoading(_ => true)
       let response = await fetch(
         "http://localhost:8080/api/auth/login",
         {
@@ -60,14 +62,31 @@ module Provider = {
             email: email->Js.Json.decodeString->Belt.Option.getExn,
           }
           setUser(_ => Some(newUser))
-          setIsLoaded(_ => true)
+          setIsLoading(_ => false)
           RescriptReactRouter.push("/dashboard")
         | _ => () // Handle error case
         }
       | None => () // Handle error case
       }
 
+      setIsLoading(_ => false)
+
       data
+    }
+
+    let logout = async () => {
+      setIsLoading(_ => true)
+      let _ = await fetch(
+        "http://localhost:8080/api/auth/logout",
+        {
+          method: #POST,
+          credentials: #"include",
+        },
+      )
+
+      setUser(_ => None)
+      setIsLoading(_ => false)
+      RescriptReactRouter.push("/")
     }
 
     let validate = async () => {
@@ -101,7 +120,7 @@ module Provider = {
       } catch {
       | _ => setUser(_ => None)
       }
-      setIsLoaded(_ => true)
+      setIsLoading(_ => false)
     }
 
     React.useEffect0(() => {
@@ -112,8 +131,9 @@ module Provider = {
     let value = {
       user,
       setUser,
-      isLoaded,
+      isLoading,
       login,
+      logout,
     }
 
     <AuthProvider value> {children} </AuthProvider>

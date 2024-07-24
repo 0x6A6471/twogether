@@ -1,10 +1,15 @@
 @react.component
 let make = () => {
   let (isOpen, setIsOpen) = React.useState(_ => false)
-  let {user} = AuthContext.useAuth()
+  let {logout, user} = AuthContext.useAuth()
+
   let name = switch user {
   | Some(user) => user.name
   | None => "Guest"
+  }
+
+  let handleLogout = () => {
+    logout()->ignore
   }
 
   <Radix.DropdownMenu.Root open_={isOpen} onOpenChange={setIsOpen}>
@@ -30,6 +35,7 @@ let make = () => {
         className="min-w-[271px] bg-white z-50 rounded-lg p-[5px] shadow-md will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
         sideOffset={5}>
         <Radix.DropdownMenu.Item
+          onSelect={_ => handleLogout()}
           className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none text-gray-600 hover:text-gray-950 hover:bg-gray-50">
           <Icon name="log-out" />
           <span> {React.string("Log out")} </span>
