@@ -45,7 +45,7 @@ let handler pool request =
   match user with
   | Error err ->
     Dream.log "%s" err;
-    Dream.json ~status:`Unauthorized {|{ "error": "invalid_credentials" }|}
+    Dream.json ~status:`Unauthorized {|{ "error": "invalid credentials" }|}
   | Ok user ->
     let hashed_password = Bcrypt.hash_of_string user.password in
     let verify_password = Bcrypt.verify body.password hashed_password in
@@ -56,5 +56,5 @@ let handler pool request =
        let user_json = Response.yojson_of_t user in
        Dream.json (Yojson.Safe.to_string user_json)
      | false ->
-       Dream.json ~status:`Unauthorized {|{ "error": "invalid_credentials" }|})
+       Dream.json ~status:`Unauthorized {|{ "error": "invalid credentials" }|})
 ;;
