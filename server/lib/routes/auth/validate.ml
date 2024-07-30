@@ -28,9 +28,9 @@ let handler pool request =
   match session with
   | Some user_id ->
     Dream.log "%s" user_id;
-    let* user_opt = Request.find_user_by_id user_id pool in
+    let* user = Request.find_user_by_id user_id pool in
     begin
-      match user_opt with
+      match user with
       | Some user ->
         let user_json = Request.yojson_of_t user in
         Dream.json (Yojson.Safe.to_string user_json)
