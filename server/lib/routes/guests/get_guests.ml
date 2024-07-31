@@ -7,7 +7,7 @@ type t =
   ; last_name : string
   ; email : string
   ; address_line_1 : string
-  ; address_line_2 : string option
+  ; address_line_2 : string
   ; city : string
   ; state : string
   ; zip : string
@@ -22,7 +22,7 @@ let get_user_guests ~user_id pool =
       get_many
         {sql|
           SELECT @string{id}, @string{first_name}, @string{last_name}, @string{email},
-          @string{address_line_1}, @string?{address_line_2}, @string{city}, @string{state},
+          @string{address_line_1}, @string{address_line_2}, @string{city}, @string{state},
           @string{zip}, @string{country}, @string{rsvp_status}
           FROM guests WHERE user_id = %string{user_id}
         |sql}

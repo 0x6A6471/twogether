@@ -1,20 +1,23 @@
-let fetchGuests = (_): Js.Promise.t<array<Types.Guest.t>> => {
-  Query.fetch("http://localhost:8080/api/guests")->Promise.then(Query.json)
-}
-
 @react.component
 let make = () => {
-  let {data, isError, isLoading} = ReactQuery.useQuery({
+  let {data, error, isError, isLoading} = ReactQuery.useQuery({
     queryKey: ["guests"],
-    queryFn: _ => fetchGuests(),
+    queryFn: _ => Models.Guest.fetchGuests(),
     refetchOnWindowFocus: ReactQuery.refetchOnWindowFocus(#bool(false)),
   })
 
   <div>
     {switch (data, isError, isLoading) {
     | (_, _, true) => `Loading...`->React.string
-    | (_, true, _) => `Error fetching data...`->React.string
-    | (Some(guests), false, false) => <GuestsTable guests />
+    | (_, true, _) =>
+      Console.error(error)
+      React.string(`Error fetching data`)
+
+    | (Some(guests), false, false) =>
+      switch guests {
+      | Ok(guests) => <GuestsTable guests />
+      | Error(_err) => <p> {React.string("error")} </p>
+      }
     | (None, false, false) =>
       <ul role="list" className="-mx-2 space-y-1">
         <p> {React.string("No guests found...")} </p>
