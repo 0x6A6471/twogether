@@ -43,7 +43,7 @@ module Provider = {
         {
           method: #POST,
           credentials: #"include",
-          body: data->Js.Json.stringifyAny->Belt.Option.getExn->Body.string,
+          body: data->Js.Json.stringifyAny->RescriptCore.Option.getExn->Body.string,
           headers: Headers.fromObject({
             "Content-type": "application/json",
           }),
@@ -57,9 +57,9 @@ module Provider = {
         switch (Js.Dict.get(obj, "id"), Js.Dict.get(obj, "name"), Js.Dict.get(obj, "email")) {
         | (Some(id), Some(name), Some(email)) =>
           let newUser: user = {
-            id: id->Js.Json.decodeString->Belt.Option.getExn,
-            name: name->Js.Json.decodeString->Belt.Option.getExn,
-            email: email->Js.Json.decodeString->Belt.Option.getExn,
+            id: id->Js.Json.decodeString->RescriptCore.Option.getExn,
+            name: name->Js.Json.decodeString->RescriptCore.Option.getExn,
+            email: email->Js.Json.decodeString->RescriptCore.Option.getExn,
           }
           setUser(_ => Some(newUser))
           setIsLoading(_ => false)
@@ -108,9 +108,9 @@ module Provider = {
           switch (Js.Dict.get(obj, "id"), Js.Dict.get(obj, "name"), Js.Dict.get(obj, "email")) {
           | (Some(id), Some(name), Some(email)) =>
             let newUser: user = {
-              id: id->Js.Json.decodeString->Belt.Option.getExn,
-              name: name->Js.Json.decodeString->Belt.Option.getExn,
-              email: email->Js.Json.decodeString->Belt.Option.getExn,
+              id: id->Js.Json.decodeString->RescriptCore.Option.getExn,
+              name: name->Js.Json.decodeString->RescriptCore.Option.getExn,
+              email: email->Js.Json.decodeString->RescriptCore.Option.getExn,
             }
             setUser(_ => Some(newUser))
           | _ => () // Handle error case

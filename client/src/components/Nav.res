@@ -14,7 +14,7 @@ let make = (~children: React.element) => {
   let (sidebarOpen, setSidebarOpen) = React.useState(() => false)
 
   let url = RescriptReactRouter.useUrl()
-  let path = "/" ++ url.path->Belt.List.toArray->Js.Array2.joinWith("/")
+  let path = "/" ++ url.path->RescriptCore.List.toArray->Js.Array2.joinWith("/")
 
   <div>
     <HeadlessUi.Dialog
@@ -118,7 +118,7 @@ let make = (~children: React.element) => {
         <span className="sr-only"> {React.string("Open sidebar")} </span>
         <Icon name="grid" />
       </button>
-      <main className="ml-2 p-4 min-h-screen"> children </main>
+      <main className="lg:ml-2 p-4 min-h-screen"> children </main>
     </div>
   </div>
 }
