@@ -1,0 +1,3 @@
+module Guest = {
+  include Guest
+}

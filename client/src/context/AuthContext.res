@@ -39,11 +39,11 @@ module Provider = {
     let login = async data => {
       setIsLoading(_ => true)
       let response = await fetch(
-        "http://localhost:8080/api/auth/login",
+        `${Env.viteDatbaseApiUrl}/api/auth/login`,
         {
           method: #POST,
           credentials: #"include",
-          body: data->Js.Json.stringifyAny->Belt.Option.getExn->Body.string,
+          body: data->Js.Json.stringifyAny->RescriptCore.Option.getExn->Body.string,
           headers: Headers.fromObject({
             "Content-type": "application/json",
           }),
@@ -57,9 +57,9 @@ module Provider = {
         switch (Js.Dict.get(obj, "id"), Js.Dict.get(obj, "name"), Js.Dict.get(obj, "email")) {
         | (Some(id), Some(name), Some(email)) =>
           let newUser: user = {
-            id: id->Js.Json.decodeString->Belt.Option.getExn,
-            name: name->Js.Json.decodeString->Belt.Option.getExn,
-            email: email->Js.Json.decodeString->Belt.Option.getExn,
+            id: id->Js.Json.decodeString->RescriptCore.Option.getExn,
+            name: name->Js.Json.decodeString->RescriptCore.Option.getExn,
+            email: email->Js.Json.decodeString->RescriptCore.Option.getExn,
           }
           setUser(_ => Some(newUser))
           setIsLoading(_ => false)
@@ -77,7 +77,7 @@ module Provider = {
     let logout = async () => {
       setIsLoading(_ => true)
       let _ = await fetch(
-        "http://localhost:8080/api/auth/logout",
+        `${Env.viteDatbaseApiUrl}/api/auth/logout`,
         {
           method: #POST,
           credentials: #"include",
@@ -92,7 +92,7 @@ module Provider = {
     let validate = async () => {
       try {
         let response = await fetch(
-          "http://localhost:8080/api/auth/validate",
+          `${Env.viteDatbaseApiUrl}/api/auth/validate`,
           {
             credentials: #"include",
             headers: Headers.fromObject({
@@ -108,9 +108,9 @@ module Provider = {
           switch (Js.Dict.get(obj, "id"), Js.Dict.get(obj, "name"), Js.Dict.get(obj, "email")) {
           | (Some(id), Some(name), Some(email)) =>
             let newUser: user = {
-              id: id->Js.Json.decodeString->Belt.Option.getExn,
-              name: name->Js.Json.decodeString->Belt.Option.getExn,
-              email: email->Js.Json.decodeString->Belt.Option.getExn,
+              id: id->Js.Json.decodeString->RescriptCore.Option.getExn,
+              name: name->Js.Json.decodeString->RescriptCore.Option.getExn,
+              email: email->Js.Json.decodeString->RescriptCore.Option.getExn,
             }
             setUser(_ => Some(newUser))
           | _ => () // Handle error case

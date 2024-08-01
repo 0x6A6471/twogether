@@ -10,6 +10,7 @@ let get_required_env var =
 (* Load required environment variables *)
 let () = Dotenv.export () |> ignore
 let database_url = get_required_env "DATABASE_URL"
+let client_url = get_required_env "CLIENT_URL"
 
 let init_pool () =
   let uri = Uri.of_string database_url in
@@ -23,7 +24,7 @@ let pool = init_pool ()
 let cors_middleware inner_handler req =
   let new_headers =
     [ "Allow", "OPTIONS, GET, HEAD, POST"
-    ; "Access-Control-Allow-Origin", "http://localhost:5173"
+    ; "Access-Control-Allow-Origin", client_url
     ; "Access-Control-Allow-Methods", "OPTIONS, GET, POST, DELETE, PUT"
     ; "Access-Control-Allow-Headers", "Content-Type, Accept"
     ; "Access-Control-Allow-Credentials", "true"

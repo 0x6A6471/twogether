@@ -1,0 +1,3 @@
+module Badge = {
+  include Badge
+}
