@@ -13,33 +13,17 @@ let make = (~guests: array<Models.Guest.t>) => {
       | None => g.address_line_1
       }
 
-      // TODO: if we can figure out json parsing
-      // let status = switch g.rsvp_status {
-      // | NotInvited => "Not Invited"
-      // | Invited => "Invited"
-      // | Accepted => "Accepted"
-      // | Declined => "Declined"
-      // }
-      // let color = switch g.rsvp_status {
-      //   | NotInvited => #gray
-      //   | Invited => #yellow
-      //   | Accepted => #green
-      //   | Declined => #red
-      // }
-
       let status = switch g.rsvp_status {
-      | "not_invited" => "Not Invited"
-      | "invited" => "Invited"
-      | "accepted" => "Accepted"
-      | "declined" => "Declined"
-      | _ => "Unknown"
+      | #not_invited => "Not Invited"
+      | #invited => "Invited"
+      | #accepted => "Accepted"
+      | #declined => "Declined"
       }
       let color = switch g.rsvp_status {
-      | "not_invited" => #gray
-      | "invited" => #yellow
-      | "accepted" => #green
-      | "Declined" => #red
-      | _ => #gray
+      | #not_invited => #gray
+      | #invited => #yellow
+      | #accepted => #green
+      | #declined => #red
       }
 
       <li key=g.id>

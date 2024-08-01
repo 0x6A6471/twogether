@@ -1,10 +1,6 @@
 open Fetch
 
-type rsvpStatus =
-  | @as("not_invited") NotInvited
-  | @as("invited") Invited
-  | @as("accepted") Accepted
-  | @as("declined") Declined
+type rsvpStatus = [#not_invited | #invited | #accepted | #declined]
 
 type t = {
   id: string,
@@ -17,9 +13,28 @@ type t = {
   state: string,
   zip: string,
   country: string,
-  rsvp_status: string,
+  rsvp_status: rsvpStatus,
 }
 module Codecs = {
+  let rsvpStatusCodec: Jzon.codec<rsvpStatus> = Jzon.custom(
+    // Encode the rsvpStatus variant to JSON
+    status =>
+      switch status {
+      | #not_invited => Js.Json.string("not_invited")
+      | #invited => Js.Json.string("invited")
+      | #accepted => Js.Json.string("accepted")
+      | #declined => Js.Json.string("declined")
+      },
+    // Decode JSON to the rsvpStatus variant
+    json =>
+      switch Js.Json.decodeString(json) {
+      | Some("not_invited") => Ok(#not_invited)
+      | Some("invited") => Ok(#invited)
+      | Some("accepted") => Ok(#accepted)
+      | Some("declined") => Ok(#declined)
+      | _ => Error(#UnexpectedJsonValue([Field("rsvp_status")], "UnexpectedJsonValue"))
+      },
+  )
   let guest = Jzon.object11(
     // Function to encode original object to linear tuple
     ({
@@ -85,7 +100,7 @@ module Codecs = {
     Jzon.field("state", Jzon.string),
     Jzon.field("zip", Jzon.string),
     Jzon.field("country", Jzon.string),
-    Jzon.field("rsvp_status", Jzon.string),
+    Jzon.field("rsvp_status", rsvpStatusCodec),
   )
 }
 

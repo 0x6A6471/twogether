@@ -9,7 +9,7 @@ let authenticated: (
     switch user {
     | Some(s) => <Nav> {getPage(s)} </Nav>
     | None =>
-      RescriptReactRouter.push("/")
+      RescriptReactRouter.push("/login")
       React.null
     }
   }
