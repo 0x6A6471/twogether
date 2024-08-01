@@ -17,7 +17,6 @@ type t = {
 }
 module Codecs = {
   let rsvpStatusCodec: Jzon.codec<rsvpStatus> = Jzon.custom(
-    // Encode the rsvpStatus variant to JSON
     status =>
       switch status {
       | #not_invited => Js.Json.string("not_invited")
@@ -25,7 +24,6 @@ module Codecs = {
       | #accepted => Js.Json.string("accepted")
       | #declined => Js.Json.string("declined")
       },
-    // Decode JSON to the rsvpStatus variant
     json =>
       switch Js.Json.decodeString(json) {
       | Some("not_invited") => Ok(#not_invited)
@@ -35,6 +33,7 @@ module Codecs = {
       | _ => Error(#UnexpectedJsonValue([Field("rsvp_status")], "UnexpectedJsonValue"))
       },
   )
+
   let guest = Jzon.object11(
     // Function to encode original object to linear tuple
     ({
@@ -124,7 +123,7 @@ let fetchGuests = _ => {
     }
 
   Fetch.fetch(
-    "http://localhost:8080/api/guests",
+    `${Env.viteDatabaseApiUrl}/api/guests`,
     {
       credentials: #"include",
     },

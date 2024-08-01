@@ -1,2 +1,2 @@
 @val @scope(("import", "meta", "env"))
-external clerkPublishableKey: string = "VITE_CLERK_PUBLISHABLE_KEY"
+external viteDatabaseApiUrl: string = "VITE_DATABASE_API_URL"
