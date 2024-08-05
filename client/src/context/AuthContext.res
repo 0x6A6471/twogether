@@ -39,7 +39,7 @@ module Provider = {
     let login = async data => {
       setIsLoading(_ => true)
       let response = await fetch(
-        `${Env.viteDatbaseApiUrl}/api/auth/login`,
+        `${Env.viteDatabaseApiUrl}/api/auth/login`,
         {
           method: #POST,
           credentials: #"include",
@@ -77,7 +77,7 @@ module Provider = {
     let logout = async () => {
       setIsLoading(_ => true)
       let _ = await fetch(
-        `${Env.viteDatbaseApiUrl}/api/auth/logout`,
+        `${Env.viteDatabaseApiUrl}/api/auth/logout`,
         {
           method: #POST,
           credentials: #"include",
@@ -92,7 +92,7 @@ module Provider = {
     let validate = async () => {
       try {
         let response = await fetch(
-          `${Env.viteDatbaseApiUrl}/api/auth/validate`,
+          `${Env.viteDatabaseApiUrl}/api/auth/validate`,
           {
             credentials: #"include",
             headers: Headers.fromObject({

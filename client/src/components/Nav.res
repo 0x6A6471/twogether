@@ -118,7 +118,7 @@ let make = (~children: React.element) => {
         <span className="sr-only"> {React.string("Open sidebar")} </span>
         <Icon name="grid" />
       </button>
-      <main className="lg:ml-2 p-4 min-h-screen"> children </main>
+      <main className="lg:ml-2 p-2 min-h-screen"> children </main>
     </div>
   </div>
 }
