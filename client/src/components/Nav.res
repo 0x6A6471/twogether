@@ -39,8 +39,7 @@ let make = (~children: React.element) => {
             </div>
           </HeadlessUi.TransitionChild>
           //Sidebar component, swap this element with another sidebar if you like
-          <div
-            className="flex grow flex-col gap-y-5 overflow-y-auto bg-white p-4 rounded-2xl shadow-lg">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white p-4 rounded-2xl">
             <div className="flex h-16 shrink-0 items-center">
               <img
                 alt="Your Company"
@@ -79,7 +78,7 @@ let make = (~children: React.element) => {
       className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:top-2 lg:left-2 lg:bottom-2">
       // Sidebar component, swap this element with another sidebar if you like
       <div
-        className="flex grow flex-col overflow-y-auto border-r border-gray-100 rounded-2xl p-4 bg-white shadow-lg">
+        className="flex grow flex-col overflow-y-auto border-r border-gray-100 rounded-2xl p-4 bg-white">
         <div className="flex h-16 shrink-0 items-center">
           <img
             alt="Your Company"
