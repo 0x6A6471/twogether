@@ -10,7 +10,7 @@ let make = (~label: string, ~color=#gray) => {
   let color = switch color {
   | #gray => "bg-gray-50 text-gray-700 ring-gray-700/10"
   | #green => "bg-green-50 text-green-700 ring-green-700/10"
-  | #red => "bg-red-50 text-red-700 ring-red-700/10"
+  | #red => "bg-rose-50 text-rose-700 ring-rose-700/10"
   | #yellow => "bg-yellow-50 text-yellow-700 ring-yellow-700/10"
   }
 

@@ -47,16 +47,21 @@ let make = (~guests: array<Models.Guest.t>) => {
                 <p className="truncate"> {React.string(Utils.formatDateString(g.inserted_at))} </p>
               </div>
             </div>
-            <div className="flex flex-none items-center gap-x-2">
+            <div className="flex flex-none items-center gap-x-1">
               <a
                 href="#"
-                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-medium shadow-sm ring-1 ring-inset ring-gray-100 hover:bg-gray-50 sm:block">
-                {React.string("Send Email")}
+                className="hidden rounded-md bg-white p-1.5 text-sm hover:bg-gray-50 hover:text-gray-700 sm:block">
+                <Ui.Icon name="email" />
               </a>
               <a
                 href="#"
-                className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-medium shadow-sm ring-1 ring-inset ring-gray-100 hover:bg-gray-50 sm:block">
-                {React.string("View")}
+                className="hidden rounded-md bg-white p-1.5 text-sm hover:bg-gray-50 hover:text-gray-700 sm:block">
+                <Ui.Icon name="edit" />
+              </a>
+              <a
+                href="#"
+                className="hidden rounded-md bg-white p-1.5 text-sm hover:bg-rose-50 hover:text-rose-700 sm:block">
+                <Ui.Icon name="trash" />
               </a>
             </div>
           </li>

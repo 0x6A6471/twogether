@@ -34,7 +34,7 @@ let make = (~children: React.element) => {
                 onClick={_ => setSidebarOpen(_ => false)}
                 className="-m-2.5 p-1.5 bg-white hover:bg-gray-100 rounded-full text-black">
                 <span className="sr-only"> {React.string("Close sidebar")} </span>
-                <Icon name="x" size="24" />
+                <Ui.Icon name="x" size="24" />
               </button>
             </div>
           </HeadlessUi.TransitionChild>
@@ -59,7 +59,7 @@ let make = (~children: React.element) => {
                               item.href
                               ? "bg-gray-50 text-gray-900"
                               : "hover:bg-gray-50 hover:text-gray-900"}`}>
-                          <Icon name={item.icon} />
+                          <Ui.Icon name={item.icon} />
                           {React.string(item.name)}
                         </Link>
                       </li>
@@ -98,7 +98,7 @@ let make = (~children: React.element) => {
                           item.href
                           ? "bg-gray-50 text-gray-900"
                           : "hover:bg-gray-50 hover:text-gray-900"}`}>
-                      <Icon name={item.icon} variant={path === item.href ? #filled : #line} />
+                      <Ui.Icon name={item.icon} variant={path === item.href ? #filled : #line} />
                       {React.string(item.name)}
                     </Link>
                   </li>
@@ -115,7 +115,7 @@ let make = (~children: React.element) => {
         onClick={_ => setSidebarOpen(_ => true)}
         className="ml-3 mt-1 p-1 text-gray-500 lg:hidden hover:bg-gray-100 rounded">
         <span className="sr-only"> {React.string("Open sidebar")} </span>
-        <Icon name="grid" />
+        <Ui.Icon name="grid" />
       </button>
       <main className="lg:ml-2 p-2 min-h-screen"> children </main>
     </div>

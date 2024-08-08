@@ -64,8 +64,10 @@ module Provider = {
           setUser(_ => Some(newUser))
           setIsLoading(_ => false)
           RescriptReactRouter.push("/dashboard")
+        // TODO
         | _ => () // Handle error case
         }
+      // TODO
       | None => () // Handle error case
       }
 
@@ -113,8 +115,10 @@ module Provider = {
               email: email->Js.Json.decodeString->RescriptCore.Option.getExn,
             }
             setUser(_ => Some(newUser))
+          // TODO
           | _ => () // Handle error case
           }
+        // TODO
         | None => () // Handle error case
         }
       } catch {

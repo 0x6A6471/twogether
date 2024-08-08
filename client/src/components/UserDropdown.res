@@ -18,10 +18,10 @@ let make = () => {
         <button
           className="p-2 rounded-xl w-full flex justify-between items-center shadow outline-none text-sm border border-gray-50">
           <div className="inline-flex space-x-3 items-center">
-            <Icon name="user" variant={#filled} />
+            <Ui.Icon name="user" variant={#filled} />
             <span> {React.string(name)} </span>
           </div>
-          <Icon
+          <Ui.Icon
             name="chevron-up"
             variant={#filled}
             size="20"
@@ -37,12 +37,12 @@ let make = () => {
         <Radix.DropdownMenu.Item
           onSelect={_ => handleLogout()}
           className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none text-gray-600 hover:text-gray-950 hover:bg-gray-50">
-          <Icon name="log-out" />
+          <Ui.Icon name="log-out" />
           <span> {React.string("Log out")} </span>
         </Radix.DropdownMenu.Item>
         <Radix.DropdownMenu.Item
           className="group text-sm leading-none rounded flex items-center p-2 space-x-3 select-none outline-none text-gray-600 hover:text-gray-950 hover:bg-gray-50">
-          <Icon name="question" />
+          <Ui.Icon name="question" />
           <span> {React.string("Support")} </span>
         </Radix.DropdownMenu.Item>
       </Radix.DropdownMenu.Content>
