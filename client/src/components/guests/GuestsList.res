@@ -11,7 +11,7 @@ let make = (~guests: array<Models.Guest.t>) => {
       <h1 className="text-xl font-semibold text-gray-950"> {React.string("Guest List")} </h1>
     </div>
     <div className="flex-1 overflow-y-auto">
-      <ul role="list" className="divide-y divide-gray-100 m-4 border border-gray-100 rounded-xl">
+      <ul role="list" className="divide-y divide-gray-100 m-4 border border-gray-100 rounded-2xl">
         {Array.map(guests, g => {
           let address = switch g.address_line_2 {
           | Some(line2) => g.address_line_1 ++ ", " ++ line2
@@ -68,6 +68,6 @@ let make = (~guests: array<Models.Guest.t>) => {
         })->React.array}
       </ul>
     </div>
-    <div className="p-4 border-t"> {React.string("extras")} </div>
+    <div className="p-4 border-t border-gray-100"> {React.string("extras")} </div>
   </div>
 }
