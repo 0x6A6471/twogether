@@ -34,37 +34,6 @@ module Portal = {
 }
 
 module Content = {
-  type interactOutsideEvent = [
-    | #PointerDownOutside(ReactEvent.Pointer.t)
-    | #FocusOutside(ReactEvent.Focus.t)
-  ]
-
-  type side = [
-    | #top
-    | #right
-    | #bottom
-    | #left
-  ]
-
-  type align = [
-    | #start
-    | #center
-    | #end
-  ]
-
-  type collisionBoundary =
-    | SingleElement(option<Dom.element>)
-    | ElementArray(array<option<Dom.element>>)
-
-  type collissionPadding =
-    | Number(float)
-    | PartialRecord(Js.Dict.t<float>)
-
-  type sticky = [
-    | #partial
-    | #always
-  ]
-
   @module("@radix-ui/react-dropdown-menu") @react.component
   external make: (
     ~asChild: bool=?,
@@ -73,17 +42,17 @@ module Content = {
     ~onEscapeKeyDown: ReactEvent.Keyboard.t => unit=?,
     ~onPointerDownOutside: ReactEvent.Pointer.t => unit=?,
     ~onFocusOutside: ReactEvent.Focus.t => unit=?,
-    ~onInteractOutside: interactOutsideEvent => unit=?,
+    ~onInteractOutside: RadixTypes.interactOutsideEvent => unit=?,
     ~forceMount: bool=?,
-    ~side: side=?,
+    ~side: RadixTypes.side=?,
     ~sideOffset: int=?,
-    ~align: align=?,
+    ~align: RadixTypes.align=?,
     ~alignOffset: int=?,
     ~avoidCollisions: bool=?,
-    ~collissionBoundary: collisionBoundary=?,
-    ~collissionPadding: collissionPadding=?,
+    ~collissionBoundary: RadixTypes.collisionBoundary=?,
+    ~collissionPadding: RadixTypes.collissionPadding=?,
     ~arrowPadding: int=?,
-    ~sticky: sticky=?,
+    ~sticky: RadixTypes.sticky=?,
     ~hideWhenDetached: bool=?,
     ~className: string=?,
     ~children: React.element,
@@ -92,7 +61,12 @@ module Content = {
 
 module Arrow = {
   @module("@radix-ui/react-dropdown-menu") @react.component
-  external make: (~asChild: bool=?, ~width: int=?, ~height: int=?) => React.element = "Arrow"
+  external make: (
+    ~asChild: bool=?,
+    ~width: int=?,
+    ~height: int=?,
+    ~className: string=?,
+  ) => React.element = "Arrow"
 }
 
 module Item = {

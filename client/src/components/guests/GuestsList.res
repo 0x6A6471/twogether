@@ -1,9 +1,15 @@
+@val
+external navigator: {"clipboard": {"writeText": string => Promise.t<unit>}} = "navigator"
+
 type rsvpStatus =
   | @as("not_invited") NotInvited
   | @as("invited") Invited
   | @as("accepted") Accepted
   | @as("declined") Declined
 
+let copyToClipboard = (text: string) => {
+  navigator["clipboard"]["writeText"](text)->ignore
+}
 @react.component
 let make = (~guests: array<Models.Guest.t>) => {
   <div className="flex flex-col bg-white rounded-2xl" style={{height: "calc(100vh - 1rem)"}}>
@@ -48,21 +54,20 @@ let make = (~guests: array<Models.Guest.t>) => {
               </div>
             </div>
             <div className="flex flex-none items-center gap-x-1">
-              <a
-                href="#"
-                className="hidden rounded-md bg-white p-1.5 text-sm hover:bg-gray-50 hover:text-gray-700 sm:block">
-                <Ui.Icon name="email" />
-              </a>
-              <a
-                href="#"
-                className="hidden rounded-md bg-white p-1.5 text-sm hover:bg-gray-50 hover:text-gray-700 sm:block">
-                <Ui.Icon name="edit" />
-              </a>
-              <a
-                href="#"
-                className="hidden rounded-md bg-white p-1.5 text-sm hover:bg-rose-50 hover:text-rose-700 sm:block">
-                <Ui.Icon name="trash" />
-              </a>
+              <Ui.ButtonTooltip
+                label="Copy Email" icon="email" onClick={_ => copyToClipboard(g.email)}
+              />
+              <Ui.ButtonTooltip
+                label={`Edit ${g.first_name} ${g.last_name}`}
+                icon="edit"
+                onClick={_ => Console.log("editing")}
+              />
+              <Ui.ButtonTooltip
+                label={`Delete ${g.first_name} ${g.last_name}`}
+                icon="trash"
+                color=#red
+                onClick={_ => Console.log("deleting")}
+              />
             </div>
           </li>
         })->React.array}
