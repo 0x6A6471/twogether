@@ -1,15 +1,10 @@
-type variant = [
+type t = [
   | #line
   | #filled
 ]
 
 @react.component
-let make = (
-  ~name: string,
-  ~className: option<string>=?,
-  ~variant: variant=#line,
-  ~size: string="16",
-) => {
+let make = (~name: string, ~className: option<string>=?, ~variant: t=#line, ~size: string="16") => {
   let name = switch variant {
   | #filled => name ++ "-filled"
   | #line => name

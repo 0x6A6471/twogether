@@ -1,4 +1,4 @@
-type color = [
+type t = [
   | #gray
   | #green
   | #red

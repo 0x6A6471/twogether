@@ -30,6 +30,7 @@ let context = React.createContext({
 module AuthProvider = {
   let make = React.Context.provider(context)
 }
+
 module Provider = {
   @react.component
   let make = (~children) => {
