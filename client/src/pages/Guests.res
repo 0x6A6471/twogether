@@ -15,7 +15,7 @@ let make = () => {
 
     | (Some(guests), false, false) =>
       switch guests {
-      | Ok(guests) => <GuestsTable guests />
+      | Ok(guests) => <GuestsList guests />
       | Error(_err) => <p> {React.string("error")} </p>
       }
     | (None, false, false) =>

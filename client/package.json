@@ -16,6 +16,7 @@
     "@glennsl/rescript-fetch": "glennsl/rescript-fetch",
     "@headlessui/react": "^2.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-tooltip": "^1.1.2",
     "@rescript/core": "1.5.0",
     "@rescript/react": "^0.12.1",
     "@rescriptbr/react-query": "^1.1.1",

@@ -9,12 +9,15 @@ let make = () => {
   let (isLoading, setIsLoading) = React.useState(_ => false)
   let (error, setError) = React.useState(_ => None)
   let {login} = AuthContext.useAuth()
+  Console.log(error)
 
   React.useEffect(() => {
     setError(_ => None)
     None
   }, [formData])
 
+  // TODO: switch on the status of the request?
+  // async/await?
   let onSubmit = (e: ReactEvent.Form.t) => {
     e->ReactEvent.Form.preventDefault
     setIsLoading(_ => true)
@@ -25,15 +28,25 @@ let make = () => {
         switch Js.Dict.get(obj, "error") {
         | Some(error) =>
           switch Js.Json.decodeString(error) {
-          | Some(err) => setError(_ => Some(err))
-          | None => setError(_ => Some("An error occurred, but details are unavailable."))
+          | Some(msg) =>
+            setError(_ => Some(msg))
+            setIsLoading(_ => false)
+            Promise.resolve()
+          | None =>
+            setError(_ => Some("An error occurred, but details are unavailable."))
+            setIsLoading(_ => false)
+            Promise.resolve()
           }
-        | None => setError(_ => None)
+        | None =>
+          setError(_ => None)
+          setIsLoading(_ => false)
+          Promise.resolve()
         }
-      | None => setError(_ => Some("Invalid response format"))
+      | None =>
+        setError(_ => Some("Invalid response format"))
+        setIsLoading(_ => false)
+        Promise.resolve()
       }
-      setIsLoading(_ => false)
-      Promise.resolve()
     })
     ->ignore
   }

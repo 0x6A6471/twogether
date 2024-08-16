@@ -14,8 +14,23 @@ type t = {
   zip: string,
   country: string,
   rsvp_status: rsvpStatus,
+  inserted_at: string,
 }
+
 module Codecs = {
+  let addressLine2Codec: Jzon.codec<option<string>> = Jzon.custom(
+    line2 =>
+      switch line2 {
+      | Some(line2) => Js.Json.string(line2)
+      | None => Js.Json.null
+      },
+    json =>
+      switch Js.Json.decodeString(json) {
+      | Some(line2) if line2 !== "" => Ok(Some(line2))
+      | _ => Ok(None)
+      },
+  )
+
   let rsvpStatusCodec: Jzon.codec<rsvpStatus> = Jzon.custom(
     status =>
       switch status {
@@ -34,7 +49,7 @@ module Codecs = {
       },
   )
 
-  let guest = Jzon.object11(
+  let guest = Jzon.object12(
     // Function to encode original object to linear tuple
     ({
       id,
@@ -48,6 +63,7 @@ module Codecs = {
       zip,
       country,
       rsvp_status,
+      inserted_at,
     }) => (
       id,
       first_name,
@@ -60,6 +76,7 @@ module Codecs = {
       zip,
       country,
       rsvp_status,
+      inserted_at,
     ),
     // Function to decode linear tuple back to object
     ((
@@ -74,6 +91,7 @@ module Codecs = {
       zip,
       country,
       rsvp_status,
+      inserted_at,
     )) =>
       {
         id,
@@ -87,6 +105,7 @@ module Codecs = {
         zip,
         country,
         rsvp_status,
+        inserted_at,
       }->Ok,
     // Field names and codecs for the tuple elements
     Jzon.field("id", Jzon.string),
@@ -94,12 +113,13 @@ module Codecs = {
     Jzon.field("last_name", Jzon.string),
     Jzon.field("email", Jzon.string),
     Jzon.field("address_line_1", Jzon.string),
-    Jzon.field("address_line_2", Jzon.nullable(Jzon.string)),
+    Jzon.field("address_line_2", addressLine2Codec),
     Jzon.field("city", Jzon.string),
     Jzon.field("state", Jzon.string),
     Jzon.field("zip", Jzon.string),
     Jzon.field("country", Jzon.string),
     Jzon.field("rsvp_status", rsvpStatusCodec),
+    Jzon.field("inserted_at", Jzon.string),
   )
 }
 

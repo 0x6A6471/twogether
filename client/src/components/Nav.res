@@ -34,13 +34,12 @@ let make = (~children: React.element) => {
                 onClick={_ => setSidebarOpen(_ => false)}
                 className="-m-2.5 p-1.5 bg-white hover:bg-gray-100 rounded-full text-black">
                 <span className="sr-only"> {React.string("Close sidebar")} </span>
-                <Icon name="x" size="24" />
+                <Ui.Icon name="x" size="24" />
               </button>
             </div>
           </HeadlessUi.TransitionChild>
           //Sidebar component, swap this element with another sidebar if you like
-          <div
-            className="flex grow flex-col gap-y-5 overflow-y-auto bg-white p-4 rounded-2xl shadow-lg">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white p-4 rounded-2xl">
             <div className="flex h-16 shrink-0 items-center">
               <img
                 alt="Your Company"
@@ -60,7 +59,7 @@ let make = (~children: React.element) => {
                               item.href
                               ? "bg-gray-50 text-gray-900"
                               : "hover:bg-gray-50 hover:text-gray-900"}`}>
-                          <Icon name={item.icon} />
+                          <Ui.Icon name={item.icon} />
                           {React.string(item.name)}
                         </Link>
                       </li>
@@ -79,7 +78,7 @@ let make = (~children: React.element) => {
       className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:top-2 lg:left-2 lg:bottom-2">
       // Sidebar component, swap this element with another sidebar if you like
       <div
-        className="flex grow flex-col overflow-y-auto border-r border-gray-100 rounded-2xl p-4 bg-white shadow-lg">
+        className="flex grow flex-col overflow-y-auto border-r border-gray-100 rounded-2xl p-4 bg-white">
         <div className="flex h-16 shrink-0 items-center">
           <img
             alt="Your Company"
@@ -99,7 +98,7 @@ let make = (~children: React.element) => {
                           item.href
                           ? "bg-gray-50 text-gray-900"
                           : "hover:bg-gray-50 hover:text-gray-900"}`}>
-                      <Icon name={item.icon} variant={path === item.href ? #filled : #line} />
+                      <Ui.Icon name={item.icon} variant={path === item.href ? #filled : #line} />
                       {React.string(item.name)}
                     </Link>
                   </li>
@@ -116,9 +115,9 @@ let make = (~children: React.element) => {
         onClick={_ => setSidebarOpen(_ => true)}
         className="ml-3 mt-1 p-1 text-gray-500 lg:hidden hover:bg-gray-100 rounded">
         <span className="sr-only"> {React.string("Open sidebar")} </span>
-        <Icon name="grid" />
+        <Ui.Icon name="grid" />
       </button>
-      <main className="lg:ml-2 p-4 min-h-screen"> children </main>
+      <main className="lg:ml-2 p-2 min-h-screen"> children </main>
     </div>
   </div>
 }

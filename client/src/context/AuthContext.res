@@ -39,7 +39,7 @@ module Provider = {
     let login = async data => {
       setIsLoading(_ => true)
       let response = await fetch(
-        `${Env.viteDatbaseApiUrl}/api/auth/login`,
+        `${Env.viteDatabaseApiUrl}/api/auth/login`,
         {
           method: #POST,
           credentials: #"include",
@@ -64,8 +64,10 @@ module Provider = {
           setUser(_ => Some(newUser))
           setIsLoading(_ => false)
           RescriptReactRouter.push("/dashboard")
+        // TODO
         | _ => () // Handle error case
         }
+      // TODO
       | None => () // Handle error case
       }
 
@@ -77,7 +79,7 @@ module Provider = {
     let logout = async () => {
       setIsLoading(_ => true)
       let _ = await fetch(
-        `${Env.viteDatbaseApiUrl}/api/auth/logout`,
+        `${Env.viteDatabaseApiUrl}/api/auth/logout`,
         {
           method: #POST,
           credentials: #"include",
@@ -92,7 +94,7 @@ module Provider = {
     let validate = async () => {
       try {
         let response = await fetch(
-          `${Env.viteDatbaseApiUrl}/api/auth/validate`,
+          `${Env.viteDatabaseApiUrl}/api/auth/validate`,
           {
             credentials: #"include",
             headers: Headers.fromObject({
@@ -113,8 +115,10 @@ module Provider = {
               email: email->Js.Json.decodeString->RescriptCore.Option.getExn,
             }
             setUser(_ => Some(newUser))
+          // TODO
           | _ => () // Handle error case
           }
+        // TODO
         | None => () // Handle error case
         }
       } catch {
