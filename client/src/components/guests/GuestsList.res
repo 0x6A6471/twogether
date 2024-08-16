@@ -1,12 +1,6 @@
 @val
 external navigator: {"clipboard": {"writeText": string => Promise.t<unit>}} = "navigator"
 
-type rsvpStatus =
-  | @as("not_invited") NotInvited
-  | @as("invited") Invited
-  | @as("accepted") Accepted
-  | @as("declined") Declined
-
 let copyToClipboard = (text: string) => {
   navigator["clipboard"]["writeText"](text)->ignore
 }
