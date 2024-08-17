@@ -27,7 +27,6 @@ let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some user_id ->
-    Dream.log "%s" user_id;
     let* user = Request.find_user_by_id user_id pool in
     begin
       match user with

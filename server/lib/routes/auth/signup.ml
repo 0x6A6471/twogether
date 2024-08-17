@@ -27,7 +27,6 @@ let create_user ~name ~email ~password pool =
 
 let handler pool request =
   let* body = Dream.body request in
-  Dream.log "Request body: %s" body;
   let body = t_of_yojson (Yojson.Safe.from_string body) in
   let hashed_password = Bcrypt.hash body.password in
   let* user =

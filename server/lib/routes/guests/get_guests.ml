@@ -42,10 +42,5 @@ let handler pool request =
     let* guests = get_user_guests ~user_id pool in
     let guests_json = `List (List.map yojson_of_t guests) in
     Dream.json (Yojson.Safe.to_string guests_json)
-  | None ->
-    let* guests =
-      get_user_guests ~user_id:"7a1471c1-4a60-4b70-bf36-4f498f6dce5c" pool
-    in
-    let guests_json = `List (List.map yojson_of_t guests) in
-    Dream.json (Yojson.Safe.to_string guests_json)
+  | None -> Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
 ;;

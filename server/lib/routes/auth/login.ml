@@ -39,7 +39,6 @@ end
 
 let handler pool request =
   let* body = Dream.body request in
-  Dream.log "%s" body;
   let body = Request.t_of_yojson (Yojson.Safe.from_string body) in
   let* user = Response.find_user ~email:body.email pool in
   match user with
@@ -48,7 +47,6 @@ let handler pool request =
     let verify_password = Bcrypt.verify body.password hashed_password in
     (match verify_password with
      | true ->
-       Dream.log "putting session with user_id: %s" user.id;
        let* _ = Dream.put_session "user_id" user.id request in
        let user_json = Response.yojson_of_t user in
        Dream.json (Yojson.Safe.to_string user_json)

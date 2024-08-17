@@ -1,4 +1,6 @@
 ### TODO
 
-- [] resi files
-- [] add guest
+- [ ] guests
+  - [ ] create
+  - [ ] update
+  - [ ] delete
