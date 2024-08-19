@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
+body {
   min-height: 100vh;
   background-color: #e7e7e6;
   color: #5e5d5c;

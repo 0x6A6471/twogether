@@ -7,8 +7,9 @@ let copyToClipboard = (text: string) => {
 @react.component
 let make = (~guests: array<Models.Guest.t>) => {
   <div className="flex flex-col bg-white rounded-2xl" style={{height: "calc(100vh - 1rem)"}}>
-    <div className="p-4 border-b border-gray-100">
+    <div className="flex justify-between items-center p-4 border-b border-gray-100">
       <h1 className="text-xl font-semibold text-gray-950"> {React.string("Guest List")} </h1>
+      <GuestDialog />
     </div>
     <div className="flex-1 overflow-y-auto">
       <ul role="list" className="divide-y divide-gray-100 m-4 border border-gray-100 rounded-2xl">
