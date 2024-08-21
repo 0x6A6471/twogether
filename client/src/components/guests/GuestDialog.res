@@ -1,3 +1,5 @@
+open Fetch
+
 type t = {
   firstName: string,
   lastName: string,
@@ -8,6 +10,7 @@ type t = {
   state: string,
   zip: string,
   country: string,
+  rsvpStatus: string,
 }
 
 let initialState = {
@@ -20,15 +23,34 @@ let initialState = {
   state: "",
   zip: "",
   country: "",
+  rsvpStatus: "not_invited",
 }
 
 @react.component
 let make = () => {
   let (formData, setFormData) = React.useState(_ => initialState)
 
-  let onSubmit = (e: ReactEvent.Form.t) => {
+  // Define the async function separately
+  let submitForm = async (formData: t) => {
+    let response = await fetch(
+      `${Env.viteDatabaseApiUrl}/api/guests`,
+      {
+        method: #POST,
+        credentials: #"include",
+        body: formData->Js.Json.stringifyAny->RescriptCore.Option.getExn->Body.string,
+        headers: Headers.fromObject({
+          "Content-type": "application/json",
+        }),
+      },
+    )
+
+    let data = await response->Response.json
+    Js.log2("data: ", data)
+  }
+
+  let onSubmit = (e: JsxEvent.Form.t) => {
     e->ReactEvent.Form.preventDefault
-    Js.log(formData)
+    submitForm(formData)->ignore
   }
 
   <Dialog.Root>
@@ -199,12 +221,13 @@ let make = () => {
                 id="country"
                 name="country"
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                value=formData.country
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let country = target["value"]
                   setFormData(_prev => {...formData, country})
                 }}>
-                <option selected={true} disabled=true> {React.string("Select one")} </option>
+                <option value="" disabled=true> {React.string("Select one")} </option>
                 <option> {React.string("United States")} </option>
                 <option> {React.string("Canada")} </option>
                 <option> {React.string("Mexico")} </option>

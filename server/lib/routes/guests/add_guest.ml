@@ -2,16 +2,16 @@ open Lwt.Syntax
 open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 
 type t =
-  { first_name : string
-  ; last_name : string
+  { first_name : string [@key "firstName"]
+  ; last_name : string [@key "lastName"]
   ; email : string
-  ; address_line_1 : string
-  ; address_line_2 : string
+  ; address_line_1 : string [@key "addressLine1"]
+  ; address_line_2 : string [@key "addressLine2"]
   ; city : string
   ; state : string
   ; zip : string
   ; country : string
-  ; rsvp_status : string
+  ; rsvp_status : string [@key "rsvpStatus"]
   }
 [@@deriving yojson]
 
@@ -62,7 +62,9 @@ let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some user_id ->
+    Dream.log "%s" user_id;
     let* body = Dream.body request in
+    Dream.log "%s" body;
     let guest = t_of_yojson (Yojson.Safe.from_string body) in
     let* _ =
       add_guest
