@@ -1,8 +1,3 @@
-type interactOutsideEvent = [
-  | #PointerDownOutside(ReactEvent.Pointer.t)
-  | #FocusOutside(ReactEvent.Focus.t)
-]
-
 type side = [
   | #top
   | #right
@@ -28,3 +23,13 @@ type sticky = [
   | #partial
   | #always
 ]
+
+type onInteractOutsideEvent = [
+  | #PointerDownOutside(ReactEvent.Pointer.t => unit)
+  | #FocusOutside(ReactEvent.Focus.t => unit)
+]
+type onOpenAutoFocus = ReactEvent.Focus.t => unit
+type onCloseAutoFocus = ReactEvent.Focus.t => unit
+type onEscapeKeyDown = ReactEvent.Keyboard.t => unit
+type onPointerDownOutside = ReactEvent.Pointer.t => unit
+type onFocusOutside = ReactEvent.Focus.t => unit

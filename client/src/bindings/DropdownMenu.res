@@ -38,11 +38,11 @@ module Content = {
   external make: (
     ~asChild: bool=?,
     ~loop: bool=?,
-    ~onCloseAutoFocus: ReactEvent.synthetic<'a> => unit=?,
-    ~onEscapeKeyDown: ReactEvent.Keyboard.t => unit=?,
-    ~onPointerDownOutside: ReactEvent.Pointer.t => unit=?,
-    ~onFocusOutside: ReactEvent.Focus.t => unit=?,
-    ~onInteractOutside: RadixTypes.interactOutsideEvent => unit=?,
+    ~onCloseAutoFocus: RadixTypes.onCloseAutoFocus=?,
+    ~onEscapeKeyDown: RadixTypes.onEscapeKeyDown=?,
+    ~onPointerDownOutside: RadixTypes.onPointerDownOutside=?,
+    ~onFocusOutside: RadixTypes.onFocusOutside=?,
+    ~onInteractOutside: RadixTypes.onInteractOutsideEvent=?,
     ~forceMount: bool=?,
     ~side: RadixTypes.side=?,
     ~sideOffset: int=?,
@@ -167,11 +167,6 @@ module SubTrigger = {
 
 module SubContent = {
   @module("@radix-ui/react-dropdown-menu") @react.component
-  type interactOutsideEvent = [
-    | #PointerDownOutside(ReactEvent.Pointer.t)
-    | #FocusOutside(ReactEvent.Focus.t)
-  ]
-
   type side = [
     | #top
     | #right
@@ -205,7 +200,7 @@ module SubContent = {
     ~onEscapeKeyDown: ReactEvent.Keyboard.t => unit=?,
     ~onPointerDownOutside: ReactEvent.Pointer.t => unit=?,
     ~onFocusOutside: ReactEvent.Focus.t => unit=?,
-    ~onInteractOutside: interactOutsideEvent => unit=?,
+    ~onInteractOutside: RadixTypes.onInteractOutsideEvent=?,
     ~forceMount: bool=?,
     ~side: side=?,
     ~sideOffset: int=?,

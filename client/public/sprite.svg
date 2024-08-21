@@ -53,6 +53,10 @@
       <path fill="currentColor" d="M7.25 6a4.75 4.75 0 1 1 9.5 0 4.75 4.75 0 0 1-9.5 0ZM8.95 13.25a5.7 5.7 0 0 0-5.7 5.7 3.8 3.8 0 0 0 3.8 3.8h9.9a3.8 3.8 0 0 0 3.8-3.8 5.7 5.7 0 0 0-5.7-5.7h-6.1Z"/>
     </symbol>
 
+    <symbol id="user-plus-filled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path fill="currentColor" fill-rule="evenodd" d="M9 1.25a4.75 4.75 0 1 0 0 9.5 4.75 4.75 0 0 0 0-9.5ZM.25 18.95a5.7 5.7 0 0 1 5.7-5.7h6.1a5.7 5.7 0 0 1 5.7 5.7 3.8 3.8 0 0 1-3.8 3.8h-9.9a3.8 3.8 0 0 1-3.8-3.8ZM20.75 7a.75.75 0 0 0-1.5 0v2.25H17a.75.75 0 0 0 0 1.5h2.25V13a.75.75 0 0 0 1.5 0v-2.25H23a.75.75 0 0 0 0-1.5h-2.25V7Z" clip-rule="evenodd"/>
+    </symbol>
+
     <symbol id="users" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10a4 4 0 0 0 0-8m2 20h2.8a3.2 3.2 0 0 0 3.2-3.2v0a4.8 4.8 0 0 0-4.8-4.8H17m-5-8a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4.2 22h7.6a3.2 3.2 0 0 0 3.2-3.2v0a4.8 4.8 0 0 0-4.8-4.8H5.8A4.8 4.8 0 0 0 1 18.8v0A3.2 3.2 0 0 0 4.2 22Z"/>
     </symbol>

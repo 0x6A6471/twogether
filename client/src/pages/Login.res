@@ -9,7 +9,6 @@ let make = () => {
   let (isLoading, setIsLoading) = React.useState(_ => false)
   let (error, setError) = React.useState(_ => None)
   let {login} = AuthContext.useAuth()
-  Console.log(error)
 
   React.useEffect(() => {
     setError(_ => None)
