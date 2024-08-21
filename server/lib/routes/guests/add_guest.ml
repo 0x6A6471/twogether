@@ -6,7 +6,7 @@ type t =
   ; last_name : string [@key "lastName"]
   ; email : string
   ; address_line_1 : string [@key "addressLine1"]
-  ; address_line_2 : string [@key "addressLine2"]
+  ; address_line_2 : string option [@key "addressLine2"]
   ; city : string
   ; state : string
   ; zip : string
@@ -33,7 +33,7 @@ let add_guest
     [%rapper
       execute
         {sql|INSERT INTO guests (user_id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, country, rsvp_status)
-      VALUES (%string{user_id}, %string{first_name}, %string{last_name}, %string{email}, %string{address_line_1}, %string{address_line_2}, %string{city}, %string{state}, %string{zip}, %string{country}, %string{rsvp_status})|sql}]
+      VALUES (%string{user_id}, %string{first_name}, %string{last_name}, %string{email}, %string{address_line_1}, %string?{address_line_2}, %string{city}, %string{state}, %string{zip}, %string{country}, %string{rsvp_status})|sql}]
   in
   let* result =
     Caqti_lwt.Pool.use

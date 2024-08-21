@@ -30,7 +30,6 @@ let initialState = {
 let make = () => {
   let (formData, setFormData) = React.useState(_ => initialState)
 
-  // Define the async function separately
   let submitForm = async (formData: t) => {
     let response = await fetch(
       `${Env.viteDatabaseApiUrl}/api/guests`,
@@ -44,8 +43,7 @@ let make = () => {
       },
     )
 
-    let data = await response->Response.json
-    Js.log2("data: ", data)
+    await response->Response.json
   }
 
   let onSubmit = (e: JsxEvent.Form.t) => {
