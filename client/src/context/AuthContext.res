@@ -57,7 +57,7 @@ module Provider = {
       | Some(obj) =>
         switch (Js.Dict.get(obj, "id"), Js.Dict.get(obj, "name"), Js.Dict.get(obj, "email")) {
         | (Some(id), Some(name), Some(email)) =>
-          let newUser: user = {
+          let newUser = {
             id: id->Js.Json.decodeString->RescriptCore.Option.getExn,
             name: name->Js.Json.decodeString->RescriptCore.Option.getExn,
             email: email->Js.Json.decodeString->RescriptCore.Option.getExn,

@@ -62,9 +62,7 @@ let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some user_id ->
-    Dream.log "%s" user_id;
     let* body = Dream.body request in
-    Dream.log "%s" body;
     let guest = t_of_yojson (Yojson.Safe.from_string body) in
     let* _ =
       add_guest
@@ -81,6 +79,8 @@ let handler pool request =
         ~rsvp_status:guest.rsvp_status
         pool
     in
-    Dream.json {|{ "status": "ok" }|}
+    (* TODO: no id here, so maybe need to query this with get_user_by_id *)
+    let guest_json = yojson_of_t guest in
+    Dream.json (Yojson.Safe.to_string guest_json)
   | None -> Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
 ;;
