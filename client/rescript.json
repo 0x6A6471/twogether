@@ -17,8 +17,8 @@
     "@rescript/core",
     "@rescript/react",
     "@glennsl/rescript-fetch",
-    "@rescriptbr/react-query",
-    "rescript-jzon"
+    "rescript-jzon",
+    "@dck/rescript-react-query"
   ],
   "bsc-flags": ["-open RescriptCore"],
   "jsx": {

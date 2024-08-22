@@ -54,7 +54,7 @@ let add_guest
       pool
   in
   match result with
-  | Ok guest -> Lwt.return (Ok guest)
+  | Ok _ -> Lwt.return (Ok ())
   | Error err -> Lwt.return (Error (`Database err))
 ;;
 
@@ -79,8 +79,6 @@ let handler pool request =
         ~rsvp_status:guest.rsvp_status
         pool
     in
-    (* TODO: no id here, so maybe need to query this with get_user_by_id *)
-    let guest_json = yojson_of_t guest in
-    Dream.json (Yojson.Safe.to_string guest_json)
+    Dream.json {|{ "status": "ok" }|}
   | None -> Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
 ;;
