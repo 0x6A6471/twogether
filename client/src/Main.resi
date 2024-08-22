@@ -1,1 +1,1 @@
-let client: ReactQuery_Client.queryClientValue
+let client: ReactQuery.QueryClient.t

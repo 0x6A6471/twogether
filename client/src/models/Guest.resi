@@ -21,6 +21,7 @@ module Codecs: {
   let guest: Jzon.codec<t>
 }
 
-let decodeGuest: Js.Json.t => result<array<t>, Jzon.DecodingError.t>
+let decodeGuest: Js.Json.t => result<t, Jzon.DecodingError.t>
+let decodeGuests: Js.Json.t => result<array<t>, Jzon.DecodingError.t>
 
 let fetchGuests: 'a => RescriptCore.Promise.t<result<array<t>, 'b>>

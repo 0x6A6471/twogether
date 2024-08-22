@@ -28,6 +28,7 @@ let initialState = {
 
 @react.component
 let make = () => {
+  let queryClient = ReactQuery.useQueryClient()
   let (formData, setFormData) = React.useState(_ => initialState)
 
   let submitForm = async (formData: t) => {
@@ -46,9 +47,15 @@ let make = () => {
     await response->Response.json
   }
 
+  let {mutate} = ReactQuery.useMutation({
+    mutationFn: submitForm,
+    onSuccess: (_, _, _) =>
+      queryClient->ReactQuery.QueryClient.invalidateQueries({queryKey: ["guests"]}),
+  })
+
   let onSubmit = (e: JsxEvent.Form.t) => {
     e->ReactEvent.Form.preventDefault
-    submitForm(formData)->ignore
+    mutate(formData)->ignore
   }
 
   <Dialog.Root>

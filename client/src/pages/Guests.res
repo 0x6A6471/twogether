@@ -1,27 +1,23 @@
-@react.component
-let make = () => {
-  let {data, error, isError, isLoading} = ReactQuery.useQuery({
+let usePost = () => {
+  ReactQuery.useQuery({
     queryKey: ["guests"],
     queryFn: _ => Models.Guest.fetchGuests(),
-    refetchOnWindowFocus: ReactQuery.refetchOnWindowFocus(#bool(false)),
   })
+}
+
+@react.component
+let make = () => {
+  let {data, isFetching} = usePost()
 
   <div>
-    {switch (data, isError, isLoading) {
-    | (_, _, true) => `Loading...`->React.string
-    | (_, true, _) =>
-      Console.error(error)
-      React.string(`Error fetching data`)
-
-    | (Some(guests), false, false) =>
+    {switch (data, isFetching) {
+    | (_, true) => `Loading...`->React.string
+    | (Ok(guests), false) =>
       switch guests {
-      | Ok(guests) => <GuestsList guests />
-      | Error(_err) => <p> {React.string("error")} </p>
+      | [] => <p> {React.string("No guests found")} </p>
+      | _ => <GuestsList guests />
       }
-    | (None, false, false) =>
-      <ul role="list" className="-mx-2 space-y-1">
-        <p> {React.string("No guests found...")} </p>
-      </ul>
+    | (Error(err), false) => <pre> {React.string(err)} </pre>
     }}
   </div>
 }

@@ -124,12 +124,16 @@ module Codecs = {
 }
 
 let decodeGuest = (json: Js.Json.t) => {
+  json->Jzon.decodeWith(Codecs.guest)
+}
+
+let decodeGuests = (json: Js.Json.t) => {
   json->Jzon.decodeWith(Jzon.array(Codecs.guest))
 }
 
 let fetchGuests = _ => {
   let toResult = json =>
-    switch decodeGuest(json) {
+    switch decodeGuests(json) {
     | Ok(guests) => Ok(guests)
     | Error(err) =>
       switch err {

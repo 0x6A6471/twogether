@@ -54,7 +54,7 @@ let add_guest
       pool
   in
   match result with
-  | Ok guest -> Lwt.return (Ok guest)
+  | Ok _ -> Lwt.return (Ok ())
   | Error err -> Lwt.return (Error (`Database err))
 ;;
 
@@ -62,9 +62,7 @@ let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some user_id ->
-    Dream.log "%s" user_id;
     let* body = Dream.body request in
-    Dream.log "%s" body;
     let guest = t_of_yojson (Yojson.Safe.from_string body) in
     let* _ =
       add_guest
