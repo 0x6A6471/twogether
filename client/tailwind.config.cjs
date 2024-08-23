@@ -18,6 +18,9 @@ module.exports = {
           900: "#262626",
         },
       },
+      animation: {
+        spin: "spin 1.5s linear infinite",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

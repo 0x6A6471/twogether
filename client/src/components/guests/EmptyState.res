@@ -7,6 +7,6 @@ let make = () =>
         <p> {React.string("You do not have any guests yet.")} </p>
         <p> {React.string("Click the button below to add a new guest.")} </p>
       </div>
-      <Guests.GuestDialog triggerText="Add Guest" triggerClassName="w-full justify-center" />
+      <GuestDialog triggerText="Add Guest" triggerClassName="w-full justify-center" />
     </div>
   </div>

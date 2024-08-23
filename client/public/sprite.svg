@@ -37,6 +37,10 @@
       </defs>
     </symbol>
 
+    <symbol id="loader" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m17 7 2.364-2.364M4.636 19.364 7 17M7 7 4.636 4.636m14.728 14.728L17 17m1.657-5H22M2 12h3.343M12 5.343V2m0 20v-3.343"/>
+    </symbol>
+
     <symbol id="log-out" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 2H8.4c-2.24 0-3.36 0-4.216.436a4 4 0 0 0-1.748 1.748C2 5.04 2 6.16 2 8.4v7.2c0 2.24 0 3.36.436 4.216a4 4 0 0 0 1.748 1.748C5.04 22 6.16 22 8.4 22H10m0-10h12m0 0-4-4m4 4-4 4"/>
     </symbol>
