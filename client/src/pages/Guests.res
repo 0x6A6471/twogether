@@ -14,8 +14,7 @@ let make = () => {
     | (_, true) => `Loading...`->React.string
     | (Ok(guests), false) =>
       switch guests {
-      | [] => <p> {React.string("No guests found")} </p>
-      | _ => <GuestsList guests />
+      | _ => <Guests.GuestsList guests />
       }
     | (Error(err), false) => <pre> {React.string(err)} </pre>
     }}

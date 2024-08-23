@@ -27,7 +27,7 @@ let initialState = {
 }
 
 @react.component
-let make = () => {
+let make = (~triggerText: string, ~triggerClassName: option<string>=?) => {
   let queryClient = ReactQuery.useQueryClient()
   let (formData, setFormData) = React.useState(_ => initialState)
 
@@ -58,13 +58,18 @@ let make = () => {
     mutate(formData)->ignore
   }
 
+  let triggerBaseClasses = "inline-flex space-x-2 items-center rounded-xl bg-gray-950 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900"
+
   <Dialog.Root>
     <Dialog.Trigger asChild=true>
       <button
         type_="button"
-        className="inline-flex space-x-2 items-center rounded-xl bg-gray-950 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900">
+        className={switch triggerClassName {
+        | Some(cn) => cn ++ " " ++ triggerBaseClasses
+        | None => triggerBaseClasses
+        }}>
         <Ui.Icon name="user-plus" variant=#filled />
-        <span> {React.string("New")} </span>
+        <span> {React.string(triggerText)} </span>
       </button>
     </Dialog.Trigger>
     <Dialog.Portal>
@@ -75,7 +80,7 @@ let make = () => {
           {React.string("Add Guest")}
         </Dialog.Title>
         <Dialog.Description className="mt-4 mb-8 text-center">
-          {React.string("Make changes to your profile here. Click save when you're done.")}
+          {React.string("Enter the guest's information below.")}
         </Dialog.Description>
         <form onSubmit>
           <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6">
@@ -89,6 +94,8 @@ let make = () => {
                   id="first-name"
                   type_="text"
                   name="first-name"
+                  autoFocus=true
+                  required=true
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                   onChange={(ev: JsxEvent.Form.t) => {
                     let target = JsxEvent.Form.target(ev)
@@ -108,7 +115,8 @@ let make = () => {
                   id="last-name"
                   type_="text"
                   name="last-name"
-                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  required=true
+                  className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                   onChange={(ev: JsxEvent.Form.t) => {
                     let target = JsxEvent.Form.target(ev)
                     let lastName = target["value"]
@@ -125,7 +133,8 @@ let make = () => {
                 id="email"
                 type_="email"
                 name="email"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required=true
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let email = target["value"]
@@ -143,7 +152,8 @@ let make = () => {
                 id="street-address"
                 type_="text"
                 name="street-address"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required=true
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let addressLine1 = target["value"]
@@ -161,7 +171,7 @@ let make = () => {
                 id="street-address-2"
                 type_="text"
                 name="street-address-2"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let addressLine2 = target["value"]
@@ -177,7 +187,8 @@ let make = () => {
                 id="city"
                 type_="text"
                 name="city"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required=true
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let city = target["value"]
@@ -193,7 +204,8 @@ let make = () => {
                 id="state"
                 type_="text"
                 name="state"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required=true
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let state = target["value"]
@@ -209,7 +221,10 @@ let make = () => {
                 id="zip"
                 type_="text"
                 name="zip"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required=true
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
+                minLength=5
+                maxLength=5
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let zip = target["value"]
@@ -225,7 +240,8 @@ let make = () => {
               <select
                 id="country"
                 name="country"
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                required=true
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 value=formData.country
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
@@ -240,13 +256,11 @@ let make = () => {
             </div>
           </div>
           <div className="mt-8 flex justify-end">
-            // <Dialog.Close asChild=true>
             <button
               type_="submit"
               className="rounded-xl bg-gray-950 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-900">
               <span> {React.string("Save")} </span>
             </button>
-            // </Dialog.Close>
           </div>
         </form>
         <Dialog.Close asChild=true>
