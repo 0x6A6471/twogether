@@ -2,6 +2,7 @@ type rsvpStatus = [#not_invited | #invited | #accepted | #declined]
 
 type t = {
   id: string,
+  user_id: string,
   first_name: string,
   last_name: string,
   email: string,
@@ -25,3 +26,4 @@ let decodeGuest: Js.Json.t => result<t, Jzon.DecodingError.t>
 let decodeGuests: Js.Json.t => result<array<t>, Jzon.DecodingError.t>
 
 let fetchGuests: 'a => RescriptCore.Promise.t<result<array<t>, 'b>>
+let deleteGuest: t => RescriptCore.Promise.t<Js.Json.t>
