@@ -4,6 +4,7 @@ type rsvpStatus = [#not_invited | #invited | #accepted | #declined]
 
 type t = {
   id: string,
+  user_id: string,
   first_name: string,
   last_name: string,
   email: string,
@@ -49,10 +50,11 @@ module Codecs = {
       },
   )
 
-  let guest = Jzon.object12(
+  let guest = Jzon.object13(
     // Function to encode original object to linear tuple
     ({
       id,
+      user_id,
       first_name,
       last_name,
       email,
@@ -66,6 +68,7 @@ module Codecs = {
       inserted_at,
     }) => (
       id,
+      user_id,
       first_name,
       last_name,
       email,
@@ -81,6 +84,7 @@ module Codecs = {
     // Function to decode linear tuple back to object
     ((
       id,
+      user_id,
       first_name,
       last_name,
       email,
@@ -95,6 +99,7 @@ module Codecs = {
     )) =>
       {
         id,
+        user_id,
         first_name,
         last_name,
         email,
@@ -109,6 +114,7 @@ module Codecs = {
       }->Ok,
     // Field names and codecs for the tuple elements
     Jzon.field("id", Jzon.string),
+    Jzon.field("user_id", Jzon.string),
     Jzon.field("first_name", Jzon.string),
     Jzon.field("last_name", Jzon.string),
     Jzon.field("email", Jzon.string),
@@ -154,4 +160,18 @@ let fetchGuests = _ => {
   )
   ->Promise.then(Response.json)
   ->Promise.thenResolve(toResult)
+}
+
+let deleteGuest = (guest: t) => {
+  Fetch.fetch(
+    `${Env.viteDatabaseApiUrl}/api/guests/${guest.id}`,
+    {
+      method: #DELETE,
+      body: Fetch.Body.string(guest.user_id),
+      headers: Fetch.Headers.fromObject({
+        "Content-Type": "application/json",
+      }),
+      credentials: #"include",
+    },
+  )->Promise.then(Response.json)
 }

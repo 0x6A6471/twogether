@@ -12,7 +12,15 @@ let make = () => {
   <div className="flex flex-col bg-white rounded-2xl" style={{height: "calc(100vh - 1rem)"}}>
     <div className="flex justify-between items-center p-4 border-b border-gray-100">
       <h1 className="text-xl font-semibold text-gray-950"> {React.string("Guest List")} </h1>
-      <GuestDialog triggerText="New" />
+      {switch (data, isFetching) {
+      | (_, true) => React.null
+      | (Ok(guests), false) =>
+        switch guests->Array.length {
+        | 0 => React.null
+        | _ => <GuestDialog triggerText="New" />
+        }
+      | _ => React.null
+      }}
     </div>
     <div className="flex-1 overflow-y-auto m-4">
       {switch (data, isFetching) {
