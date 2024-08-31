@@ -6,22 +6,6 @@ let copyToClipboard = (text: string) => {
 }
 @react.component
 let make = (~guests: array<Models.Guest.t>) => {
-  let queryClient = ReactQuery.useQueryClient()
-
-  let {mutate} = ReactQuery.useMutation({
-    mutationFn: Models.Guest.deleteGuest,
-    onSuccess: (data, _, _) => {
-      switch Js.Json.decodeObject(data) {
-      | Some(obj) =>
-        switch Js.Dict.get(obj, "error") {
-        | Some(_error) => RescriptReactRouter.push("/login")
-        | None => queryClient->ReactQuery.QueryClient.invalidateQueries({queryKey: ["guests"]})
-        }
-      | None => ()
-      }
-    },
-  })
-
   switch guests {
   | [] => <EmptyState />
   | _ =>
@@ -70,12 +54,7 @@ let make = (~guests: array<Models.Guest.t>) => {
               icon="edit"
               onClick={_ => Console.log("editing")}
             />
-            <Ui.ButtonTooltip
-              label={`Delete ${g.first_name} ${g.last_name}`}
-              icon="trash"
-              color=#red
-              onClick={_ => mutate(g)}
-            />
+            <DeleteGuestDialog guest=g />
           </div>
         </li>
       })->React.array}
