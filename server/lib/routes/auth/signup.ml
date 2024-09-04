@@ -5,6 +5,7 @@ type t =
   { name : string
   ; email : string
   ; password : string
+  ; password2 : string
   }
 [@@deriving yojson]
 
@@ -28,18 +29,21 @@ let create_user ~name ~email ~password pool =
 let handler pool request =
   let* body = Dream.body request in
   let body = t_of_yojson (Yojson.Safe.from_string body) in
-  let hashed_password = Bcrypt.hash body.password in
-  let* user =
-    create_user
-      ~name:body.name
-      ~email:body.email
-      ~password:(Bcrypt.string_of_hash hashed_password)
-      pool
-  in
-  match user with
-  | Ok () -> Dream.json {|{ "status": "ok" }|}
-  | Error err ->
-    Dream.json
-      ~status:`Internal_Server_Error
-      (Printf.sprintf {|{ "error": "%s" }|} err)
+  if body.password <> body.password2
+  then Dream.json ~status:`Bad_Request {|{ "error": "Passwords do not match" }|}
+  else (
+    let hashed_password = Bcrypt.hash body.password in
+    let* user =
+      create_user
+        ~name:body.name
+        ~email:body.email
+        ~password:(Bcrypt.string_of_hash hashed_password)
+        pool
+    in
+    match user with
+    | Ok () -> Dream.json {|{ "status": "ok" }|}
+    | Error err ->
+      Dream.json
+        ~status:`Internal_Server_Error
+        (Printf.sprintf {|{ "error": "%s" }|} err))
 ;;

@@ -1,11 +1,4 @@
-type t = {
-  name: string,
-  email: string,
-  password: string,
-  password2: string,
-}
-
-let initialState: t = {
+let initialState: Models.User.t = {
   name: "",
   email: "",
   password: "",
@@ -15,10 +8,34 @@ let initialState: t = {
 @react.component
 let make = () => {
   let (formData, setFormData) = React.useState(_ => initialState)
+  let (error, setError) = React.useState(_ => None)
+
+  let {mutate} = ReactQuery.useMutation({
+    mutationFn: Models.User.createUser,
+    onSuccess: (data, _, _) => {
+      switch Js.Json.decodeObject(data) {
+      | Some(obj) =>
+        switch Js.Dict.get(obj, "error") {
+        | Some(error) =>
+          switch Js.Json.decodeString(error) {
+          | Some(msg) => setError(_ => Some(msg))
+          | None => setError(_ => Some("An error occurred"))
+          }
+        | None => RescriptReactRouter.push("/login")
+        }
+      | None => ()
+      }
+    },
+  })
 
   let onSubmit = (e: ReactEvent.Form.t) => {
     e->ReactEvent.Form.preventDefault
-    Js.log(formData)
+    mutate(formData)
+  }
+
+  let error = switch error {
+  | Some(error) => <p className="text-red-600 text-sm"> {React.string(error)} </p>
+  | None => React.null
   }
 
   <div className="pt-20">
@@ -99,6 +116,7 @@ let make = () => {
             }}
           />
         </div>
+        {error}
       </div>
       <button type_="submit"> {React.string("Submit")} </button>
     </form>
