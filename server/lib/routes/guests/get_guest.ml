@@ -13,7 +13,7 @@ type t =
   ; zip : string
   ; country : string
   ; rsvp_status : string
-  ; inserted_at : string
+  ; created_at : string
   }
 [@@deriving yojson]
 
@@ -24,7 +24,7 @@ let get_guest ~id pool =
         {sql|
           SELECT @string{id}, @string{first_name}, @string{last_name}, @string{email},
           @string{address_line_1}, @string{address_line_2}, @string{city}, @string{state},
-          @string{zip}, @string{country}, @string{rsvp_status}, @string{inserted_at}
+          @string{zip}, @string{country}, @string{rsvp_status}, @string{created_at}
           FROM guests WHERE id = %string{id}
         |sql}
         record_out]
