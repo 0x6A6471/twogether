@@ -42,7 +42,7 @@ let make = (~guests: array<Models.Guest.t>) => {
               <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
                 <circle r="1" cx="1" cy="1" />
               </svg>
-              <p className="truncate"> {React.string(Utils.formatDateString(g.inserted_at))} </p>
+              <p className="truncate"> {React.string(Utils.formatDateString(g.created_at))} </p>
             </div>
           </div>
           <div className="flex flex-none items-center gap-x-1">

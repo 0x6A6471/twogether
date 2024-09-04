@@ -13,7 +13,7 @@ type t = {
   zip: string,
   country: string,
   rsvp_status: rsvpStatus,
-  inserted_at: string,
+  created_at: string,
 }
 
 module Codecs: {

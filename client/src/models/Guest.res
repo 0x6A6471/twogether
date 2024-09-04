@@ -15,7 +15,7 @@ type t = {
   zip: string,
   country: string,
   rsvp_status: rsvpStatus,
-  inserted_at: string,
+  created_at: string,
 }
 
 module Codecs = {
@@ -65,7 +65,7 @@ module Codecs = {
       zip,
       country,
       rsvp_status,
-      inserted_at,
+      created_at,
     }) => (
       id,
       user_id,
@@ -79,7 +79,7 @@ module Codecs = {
       zip,
       country,
       rsvp_status,
-      inserted_at,
+      created_at,
     ),
     // Function to decode linear tuple back to object
     ((
@@ -95,7 +95,7 @@ module Codecs = {
       zip,
       country,
       rsvp_status,
-      inserted_at,
+      created_at,
     )) =>
       {
         id,
@@ -110,7 +110,7 @@ module Codecs = {
         zip,
         country,
         rsvp_status,
-        inserted_at,
+        created_at,
       }->Ok,
     // Field names and codecs for the tuple elements
     Jzon.field("id", Jzon.string),
@@ -125,7 +125,7 @@ module Codecs = {
     Jzon.field("zip", Jzon.string),
     Jzon.field("country", Jzon.string),
     Jzon.field("rsvp_status", rsvpStatusCodec),
-    Jzon.field("inserted_at", Jzon.string),
+    Jzon.field("created_at", Jzon.string),
   )
 }
 
