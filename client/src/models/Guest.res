@@ -129,6 +129,11 @@ module Codecs = {
   )
 }
 
+let encodeGuest = (guest: t) => {
+  let json = Codecs.guest->Jzon.encode(guest)
+  Js.Json.stringify(json)
+}
+
 let decodeGuest = (json: Js.Json.t) => {
   json->Jzon.decodeWith(Codecs.guest)
 }
@@ -160,6 +165,20 @@ let fetchGuests = _ => {
   )
   ->Promise.then(Response.json)
   ->Promise.thenResolve(toResult)
+}
+
+let editGuest = (guest: t) => {
+  Fetch.fetch(
+    `${Env.viteDatabaseApiUrl}/api/guests/${guest.id}`,
+    {
+      method: #PUT,
+      body: Fetch.Body.string(encodeGuest(guest)),
+      headers: Fetch.Headers.fromObject({
+        "Content-Type": "application/json",
+      }),
+      credentials: #"include",
+    },
+  )->Promise.then(Response.json)
 }
 
 let deleteGuest = (guest: t) => {

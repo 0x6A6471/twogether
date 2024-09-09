@@ -3,17 +3,18 @@ open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 
 type t =
   { id : string
-  ; user_id : string [@key "userId"]
-  ; first_name : string [@key "firstName"]
-  ; last_name : string [@key "lastName"]
+  ; user_id : string (*[@key "userId"]*)
+  ; first_name : string (*[@key "firstName"]*)
+  ; last_name : string (*[@key "lastName"]*)
   ; email : string
-  ; address_line_1 : string [@key "addressLine1"]
-  ; address_line_2 : string option [@key "addressLine2"]
+  ; address_line_1 : string (*[@key "addressLine1"]*)
+  ; address_line_2 : string option (*[@key "addressLine2"]*)
   ; city : string
   ; state : string
   ; zip : string
   ; country : string
-  ; rsvp_status : string [@key "rsvpStatus"]
+  ; rsvp_status : string (*[@key "rsvpStatus"]*)
+  ; created_at : string option (*[@key "rsvpStatus"]*)
   }
 [@@deriving yojson]
 
@@ -35,7 +36,11 @@ let edit_guest
     [%rapper
       execute
         {sql|UPDATE guests 
-        SET first_name = %string{first_name}, last_name = %string{last_name}, email = %string{email}, address_line_1 = %string{address_line_1}, address_line_2 = %string?{address_line_2}, city = %string{city}, state = %string{state}, zip = %string{zip}, country = %string{country}, rsvp_status = %string{rsvp_status}
+        SET first_name = %string{first_name}, last_name = %string{last_name}, 
+        email = %string{email}, address_line_1 = %string{address_line_1}, 
+        address_line_2 = %string?{address_line_2}, city = %string{city}, 
+        state = %string{state}, zip = %string{zip}, country = %string{country}, 
+        rsvp_status = %string{rsvp_status}, updated_at = NOW()
         WHERE id = %string{id}
       |sql}]
   in
@@ -67,6 +72,7 @@ let handler pool request =
   match session with
   | Some user_id ->
     let* body = Dream.body request in
+    Dream.log "Received body: %s" body;
     let guest = t_of_yojson (Yojson.Safe.from_string body) in
     if user_id <> guest.user_id
     then Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}

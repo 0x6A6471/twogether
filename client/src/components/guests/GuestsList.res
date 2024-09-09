@@ -49,11 +49,7 @@ let make = (~guests: array<Models.Guest.t>) => {
             <Ui.ButtonTooltip
               label="Copy Email" icon="email" onClick={_ => copyToClipboard(g.email)}
             />
-            <Ui.ButtonTooltip
-              label={`Edit ${g.first_name} ${g.last_name}`}
-              icon="edit"
-              onClick={_ => Console.log("editing")}
-            />
+            <EditGuestDialog guest=g />
             <DeleteGuestDialog guest=g />
           </div>
         </li>
