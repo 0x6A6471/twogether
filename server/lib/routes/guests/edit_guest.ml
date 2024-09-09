@@ -1,6 +1,20 @@
 open Lwt.Syntax
 open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 
+(*
+   i wonder if we can make a models/guest.ml with all these
+  properties and then maybe we can use that to generate the
+  json and the sql queries 
+
+  if we can't just use a single model i wonder if we could make something like this:
+  type t =
+    { id : t.id
+    ; user_id : t.user_id
+    ; first_name : t.first_name
+    // only defining the properties that you need
+    }
+*)
+
 type t =
   { id : string
   ; user_id : string (*[@key "userId"]*)
@@ -14,7 +28,7 @@ type t =
   ; zip : string
   ; country : string
   ; rsvp_status : string (*[@key "rsvpStatus"]*)
-  ; created_at : string option (*[@key "rsvpStatus"]*)
+  ; created_at : string option (*[@key "createdAt"]*)
   }
 [@@deriving yojson]
 
