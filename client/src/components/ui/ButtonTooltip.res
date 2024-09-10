@@ -1,17 +1,24 @@
 type t = [#gray | #red]
 
 @react.component
-let make = (~label: string, ~icon: string, ~color: t=#gray, ~onClick: unit => unit) => {
+let make = (~label: string, ~icon: string, ~color: t=#gray, ~onClick: option<unit => unit>=?) => {
   let hoverStyles = switch color {
   | #gray => "hover: bg-gray-50 hover:text-gray-700"
   | #red => "hover:bg-rose-50 hover:text-rose-700"
+  }
+
+  let handleClick = _ => {
+    switch onClick {
+    | Some(fn) => fn()
+    | None => ()
+    }
   }
 
   <Radix.Tooltip.Provider>
     <Radix.Tooltip.Root delayDuration={200}>
       <Radix.Tooltip.Trigger asChild={true}>
         <button
-          onClick={_ => onClick()}
+          onClick={handleClick}
           className={`${hoverStyles} hidden rounded-md bg-white p-1.5 text-sm hover:bg-gray-50 hover:text-gray-700 sm:block`}>
           <Icon name=icon />
         </button>
