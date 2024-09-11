@@ -16,21 +16,21 @@ type t =
   }
 [@@deriving yojson]
 
-let of_tuple
-  ( id
-  , user_id
-  , first_name
-  , last_name
-  , email
-  , address_line_1
-  , address_line_2
-  , city
-  , state
-  , zip
-  , country
-  , rsvp_status
-  , created_at
-  , updated_at )
+let make
+  ~id
+  ~user_id
+  ~first_name
+  ~last_name
+  ~email
+  ~address_line_1
+  ~address_line_2
+  ~city
+  ~state
+  ~zip
+  ~country
+  ~rsvp_status
+  ~created_at
+  ~updated_at
   =
   { id
   ; user_id

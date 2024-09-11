@@ -13,6 +13,7 @@ let get_user_guests ~session_id pool =
           FROM guests WHERE user_id = %string{session_id}
         |sql}
         function_out]
+      Models.Guest.make
   in
   let* result = Caqti_lwt.Pool.use (fun db -> query db ~session_id) pool in
   match result with
@@ -20,17 +21,12 @@ let get_user_guests ~session_id pool =
   | Error _err -> Lwt.return []
 ;;
 
-(* ('a list, 'b) result *)
-(* ('a list, [> Caqti_error.call_or_retrieve ]) result *)
-
-let handler _pool request =
+let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some session_id ->
-    Dream.log "SESSION_ID = %s" session_id;
-    (* let* guests = get_user_guests ~session_id pool in *)
-    (* let guests_json = `List (List.map yojson_of_t guests) in *)
-    (* Dream.json (Yojson.Safe.to_string guests_json) *)
-    assert false
+    let* guests = get_user_guests ~session_id pool in
+    let guests_json = `List (List.map Models.Guest.to_yojson guests) in
+    Dream.json (Yojson.Safe.to_string guests_json)
   | None -> Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
 ;;
