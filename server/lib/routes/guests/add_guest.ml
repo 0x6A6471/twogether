@@ -1,19 +1,6 @@
 open Lwt.Syntax
-open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 
-type t =
-  { first_name : string [@key "firstName"]
-  ; last_name : string [@key "lastName"]
-  ; email : string
-  ; address_line_1 : string [@key "addressLine1"]
-  ; address_line_2 : string option [@key "addressLine2"]
-  ; city : string
-  ; state : string
-  ; zip : string
-  ; country : string
-  ; rsvp_status : string [@key "rsvpStatus"]
-  }
-[@@deriving yojson]
+type t = Models.Guest.t
 
 let add_guest
   ~user_id
@@ -63,22 +50,30 @@ let handler pool request =
   match session with
   | Some user_id ->
     let* body = Dream.body request in
-    let guest = t_of_yojson (Yojson.Safe.from_string body) in
-    let* _ =
-      add_guest
-        ~user_id
-        ~first_name:guest.first_name
-        ~last_name:guest.last_name
-        ~email:guest.email
-        ~address_line_1:guest.address_line_1
-        ~address_line_2:guest.address_line_2
-        ~city:guest.city
-        ~state:guest.state
-        ~zip:guest.zip
-        ~country:guest.country
-        ~rsvp_status:guest.rsvp_status
-        pool
-    in
-    Dream.json {|{ "status": "ok" }|}
+    let guest = Models.Guest.of_yojson (Yojson.Safe.from_string body) in
+    begin
+      match guest with
+      | Ok guest ->
+        let* _ =
+          add_guest
+            ~user_id
+            ~first_name:guest.first_name
+            ~last_name:guest.last_name
+            ~email:guest.email
+            ~address_line_1:guest.address_line_1
+            ~address_line_2:guest.address_line_2
+            ~city:guest.city
+            ~state:guest.state
+            ~zip:guest.zip
+            ~country:guest.country
+            ~rsvp_status:guest.rsvp_status
+            pool
+        in
+        Dream.json {|{ "status": "ok" }|}
+      | Error msg ->
+        Dream.json
+          ~status:`Bad_Request
+          (Printf.sprintf {|{ "error": "Invalid JSON: %s" }|} msg)
+    end
   | None -> Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
 ;;

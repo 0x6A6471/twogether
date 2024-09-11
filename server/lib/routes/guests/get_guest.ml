@@ -1,21 +1,6 @@
 open Lwt.Syntax
-open Ppx_yojson_conv_lib.Yojson_conv.Primitives
 
-type t =
-  { id : string
-  ; first_name : string
-  ; last_name : string
-  ; email : string
-  ; address_line_1 : string
-  ; address_line_2 : string
-  ; city : string
-  ; state : string
-  ; zip : string
-  ; country : string
-  ; rsvp_status : string
-  ; created_at : string
-  }
-[@@deriving yojson]
+type t = Models.Guest.t
 
 let get_guest ~id pool =
   let query =
@@ -44,7 +29,8 @@ let handler pool request =
   let* opt_guest = get_guest ~id pool in
   match opt_guest with
   | Some guest ->
-    let guest_json = yojson_of_t guest in
-    Dream.json (Yojson.Safe.to_string guest_json)
+    (* let guest_json = yojson_of_t guest in *)
+    (* Dream.json (Yojson.Safe.to_string  *)
+    assert false
   | None -> Dream.json ~status:`Not_Found {|{"error": "Guest not found"}|}
 ;;

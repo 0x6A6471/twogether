@@ -1,7 +1,4 @@
 open Lwt.Syntax
-open Ppx_yojson_conv_lib.Yojson_conv.Primitives
-
-type t = { user_id : string } [@@deriving yojson]
 
 let delete_guest ~id pool =
   let query =
