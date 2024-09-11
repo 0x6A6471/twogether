@@ -1,7 +1,5 @@
 open Lwt.Syntax
 
-type t = Models.Guest.t
-
 let get_user_guests ~session_id pool =
   let query =
     [%rapper

@@ -2,18 +2,19 @@ type rsvpStatus = [#not_invited | #invited | #accepted | #declined]
 
 type t = {
   id: string,
-  user_id: string,
-  first_name: string,
-  last_name: string,
+  userId: string,
+  firstName: string,
+  lastName: string,
   email: string,
-  address_line_1: string,
-  address_line_2: option<string>,
+  addressLine1: string,
+  addressLine2: option<string>,
   city: string,
   state: string,
   zip: string,
   country: string,
-  rsvp_status: rsvpStatus,
-  created_at: string,
+  rsvpStatus: rsvpStatus,
+  createdAt: string,
+  updatedAt: string,
 }
 
 module Codecs: {

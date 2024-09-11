@@ -1,7 +1,5 @@
 open Lwt.Syntax
 
-type t = Models.Guest.t
-
 let add_guest
   ~user_id
   ~first_name
@@ -49,12 +47,13 @@ let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some user_id ->
+    Dream.log "User %s is adding a guest" user_id;
     let* body = Dream.body request in
-    let guest = Models.Guest.of_yojson (Yojson.Safe.from_string body) in
     begin
+      let guest = Models.Guest.of_yojson (Yojson.Safe.from_string body) in
       match guest with
       | Ok guest ->
-        let* _ =
+        let* result =
           add_guest
             ~user_id
             ~first_name:guest.first_name
@@ -69,7 +68,16 @@ let handler pool request =
             ~rsvp_status:guest.rsvp_status
             pool
         in
-        Dream.json {|{ "status": "ok" }|}
+        begin
+          match result with
+          | Ok _ -> Dream.json {|{ "status": "ok" }|}
+          | Error (`Database err) ->
+            let error_msg = Caqti_error.show err in
+            Dream.log "Database error in handler: %s" error_msg;
+            Dream.json
+              ~status:`Internal_Server_Error
+              (Printf.sprintf {|{ "error": "Database error: %s" }|} error_msg)
+        end
       | Error msg ->
         Dream.json
           ~status:`Bad_Request

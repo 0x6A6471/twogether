@@ -16,7 +16,7 @@ let make = (~guest: Models.Guest.t) => {
 
   <Dialog.Root>
     <Dialog.Trigger>
-      <Ui.ButtonTooltip label={`Edit ${guest.first_name} ${guest.last_name}`} icon="edit" />
+      <Ui.ButtonTooltip label={`Edit ${guest.firstName} ${guest.lastName}`} icon="edit" />
     </Dialog.Trigger>
     <Dialog.Portal>
       <Dialog.Overlay className="bg-gray-950/70 fixed inset-0" />
@@ -43,11 +43,11 @@ let make = (~guest: Models.Guest.t) => {
                   autoFocus=true
                   required=true
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
-                  defaultValue=guest.first_name
+                  defaultValue=guest.firstName
                   onChange={(ev: JsxEvent.Form.t) => {
                     let target = JsxEvent.Form.target(ev)
                     let firstName = target["value"]
-                    setFormData(_prev => {...formData, first_name: firstName})
+                    setFormData(_prev => {...formData, firstName})
                   }}
                 />
               </div>
@@ -64,11 +64,11 @@ let make = (~guest: Models.Guest.t) => {
                   name="last-name"
                   required=true
                   className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
-                  defaultValue=guest.last_name
+                  defaultValue=guest.lastName
                   onChange={(ev: JsxEvent.Form.t) => {
                     let target = JsxEvent.Form.target(ev)
                     let lastName = target["value"]
-                    setFormData(_prev => {...formData, last_name: lastName})
+                    setFormData(_prev => {...formData, lastName})
                   }}
                 />
               </div>
@@ -102,12 +102,12 @@ let make = (~guest: Models.Guest.t) => {
                 type_="text"
                 name="street-address"
                 required=true
-                defaultValue=guest.address_line_1
+                defaultValue=guest.addressLine1
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let addressLine1 = target["value"]
-                  setFormData(_prev => {...formData, address_line_1: addressLine1})
+                  setFormData(_prev => {...formData, addressLine1})
                 }}
               />
             </div>
@@ -122,14 +122,14 @@ let make = (~guest: Models.Guest.t) => {
                 type_="text"
                 name="street-address-2"
                 className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-gray-400 sm:text-sm sm:leading-6"
-                defaultValue={switch guest.address_line_2 {
+                defaultValue={switch guest.addressLine2 {
                 | Some(line2) => line2
                 | None => ""
                 }}
                 onChange={(ev: JsxEvent.Form.t) => {
                   let target = JsxEvent.Form.target(ev)
                   let addressLine2 = target["value"]
-                  setFormData(_prev => {...formData, address_line_2: addressLine2})
+                  setFormData(_prev => {...formData, addressLine2})
                 }}
               />
             </div>
