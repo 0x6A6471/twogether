@@ -1,5 +1,19 @@
 open Lwt.Syntax
 
+type t =
+  { first_name : string [@key "firstName"]
+  ; last_name : string [@key "lastName"]
+  ; email : string
+  ; address_line_1 : string [@key "addressLine1"]
+  ; address_line_2 : string option [@key "addressLine2"]
+  ; city : string
+  ; state : string
+  ; zip : string
+  ; country : string
+  ; rsvp_status : string [@key "rsvpStatus"]
+  }
+[@@deriving yojson]
+
 let add_guest
   ~user_id
   ~first_name
@@ -50,7 +64,7 @@ let handler pool request =
     Dream.log "User %s is adding a guest" user_id;
     let* body = Dream.body request in
     begin
-      let guest = Models.Guest.of_yojson (Yojson.Safe.from_string body) in
+      let guest = of_yojson (Yojson.Safe.from_string body) in
       match guest with
       | Ok guest ->
         let* result =
