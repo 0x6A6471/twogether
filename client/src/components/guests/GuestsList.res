@@ -11,18 +11,18 @@ let make = (~guests: array<Models.Guest.t>) => {
   | _ =>
     <ul role="list" className="divide-y divide-gray-100 border border-gray-100 rounded-2xl">
       {Array.map(guests, g => {
-        let address = switch g.address_line_2 {
-        | Some(line2) => g.address_line_1 ++ ", " ++ line2
-        | None => g.address_line_1
+        let address = switch g.addressLine2 {
+        | Some(line2) => g.addressLine1 ++ ", " ++ line2
+        | None => g.addressLine1
         }
 
-        let status = switch g.rsvp_status {
+        let status = switch g.rsvpStatus {
         | #not_invited => "Not Invited"
         | #invited => "Invited"
         | #accepted => "Accepted"
         | #declined => "Declined"
         }
-        let color = switch g.rsvp_status {
+        let color = switch g.rsvpStatus {
         | #not_invited => #gray
         | #invited => #yellow
         | #accepted => #green
@@ -33,7 +33,7 @@ let make = (~guests: array<Models.Guest.t>) => {
           <div className="min-w-0">
             <div className="flex items-start gap-x-3">
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {React.string(g.first_name ++ " " ++ g.last_name)}
+                {React.string(g.firstName ++ " " ++ g.lastName)}
               </p>
               <Ui.Badge label=status color />
             </div>
@@ -42,7 +42,7 @@ let make = (~guests: array<Models.Guest.t>) => {
               <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
                 <circle r="1" cx="1" cy="1" />
               </svg>
-              <p className="truncate"> {React.string(Utils.formatDateString(g.created_at))} </p>
+              <p className="truncate"> {React.string(Utils.formatDateString(g.createdAt))} </p>
             </div>
           </div>
           <div className="flex flex-none items-center gap-x-1">

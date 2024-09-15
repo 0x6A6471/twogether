@@ -1,36 +1,4 @@
 open Lwt.Syntax
-open Ppx_yojson_conv_lib.Yojson_conv.Primitives
-
-(*
-   i wonder if we can make a models/guest.ml with all these
-  properties and then maybe we can use that to generate the
-  json and the sql queries 
-
-  if we can't just use a single model i wonder if we could make something like this:
-  type t =
-    { id : t.id
-    ; user_id : t.user_id
-    ; first_name : t.first_name
-    // only defining the properties that you need
-    }
-*)
-
-type t =
-  { id : string
-  ; user_id : string (*[@key "userId"]*)
-  ; first_name : string (*[@key "firstName"]*)
-  ; last_name : string (*[@key "lastName"]*)
-  ; email : string
-  ; address_line_1 : string (*[@key "addressLine1"]*)
-  ; address_line_2 : string option (*[@key "addressLine2"]*)
-  ; city : string
-  ; state : string
-  ; zip : string
-  ; country : string
-  ; rsvp_status : string (*[@key "rsvpStatus"]*)
-  ; created_at : string option (*[@key "createdAt"]*)
-  }
-[@@deriving yojson]
 
 let edit_guest
   ~id
@@ -86,26 +54,33 @@ let handler pool request =
   match session with
   | Some user_id ->
     let* body = Dream.body request in
-    Dream.log "Received body: %s" body;
-    let guest = t_of_yojson (Yojson.Safe.from_string body) in
-    if user_id <> guest.user_id
-    then Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
-    else
-      let* _ =
-        edit_guest
-          ~id:guest.id
-          ~first_name:guest.first_name
-          ~last_name:guest.last_name
-          ~email:guest.email
-          ~address_line_1:guest.address_line_1
-          ~address_line_2:guest.address_line_2
-          ~city:guest.city
-          ~state:guest.state
-          ~zip:guest.zip
-          ~country:guest.country
-          ~rsvp_status:guest.rsvp_status
-          pool
-      in
-      Dream.json {|{ "status": "ok" }|}
+    let guest = Models.Guest.of_yojson (Yojson.Safe.from_string body) in
+    begin
+      match guest with
+      | Ok guest ->
+        if user_id <> guest.user_id
+        then Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
+        else
+          let* _ =
+            edit_guest
+              ~id:guest.id
+              ~first_name:guest.first_name
+              ~last_name:guest.last_name
+              ~email:guest.email
+              ~address_line_1:guest.address_line_1
+              ~address_line_2:guest.address_line_2
+              ~city:guest.city
+              ~state:guest.state
+              ~zip:guest.zip
+              ~country:guest.country
+              ~rsvp_status:guest.rsvp_status
+              pool
+          in
+          Dream.json {|{ "status": "ok" }|}
+      | Error msg ->
+        Dream.json
+          ~status:`Bad_Request
+          (Printf.sprintf {|{ "error": "Invalid JSON: %s" }|} msg)
+    end
   | None -> Dream.json ~status:`Unauthorized {|{ "error": "unauthenticated" }|}
 ;;

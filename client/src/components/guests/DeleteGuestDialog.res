@@ -30,7 +30,7 @@ let make = (~guest: Models.Guest.t) => {
             <Radix.Tooltip.Content
               className="select-none rounded bg-black text-white p-2 leading-none shadow text-xs"
               sideOffset={4}>
-              {React.string(`Delete ${guest.first_name} ${guest.last_name}`)}
+              {React.string(`Delete ${guest.firstName} ${guest.lastName}`)}
             </Radix.Tooltip.Content>
           </Radix.Tooltip.Portal>
         </Radix.Tooltip.Root>
@@ -41,7 +41,7 @@ let make = (~guest: Models.Guest.t) => {
       <Dialog.Content
         className="fixed top-1/2 left-1/2 w-5/6 sm:w-4/5 md:max-w-screen-sm -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white p-8 shadow-sm focus:outline-none overflow-y-scroll">
         <Dialog.Title className="text-2xl font-semibold text-center text-gray-950">
-          {React.string(`Delete ${guest.first_name} ${guest.last_name}`)}
+          {React.string(`Delete ${guest.firstName} ${guest.lastName}`)}
         </Dialog.Title>
         <Dialog.Description className="mt-4 mb-8 text-center">
           {React.string(
