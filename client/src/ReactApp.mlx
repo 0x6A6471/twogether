@@ -1,10 +1,21 @@
-module App = struct
+module Test = struct
   let[@react.component] make () =
     ["Hello, World! " ^ "!"; "This is React!!"]
-    |> List.map (fun greeting -> <h1 className="text-red-500" key=greeting> (React.string greeting) </h1>)
+    |> List.map (fun greeting ->       <h1 className="text-red-500" key=greeting> (React.string greeting) </h1>)
     |> Array.of_list
     |> React.array
 end
+
+module App = struct
+  let[@react.component] make () = 
+    let url =  ReasonReactRouter.useUrl() in
+
+match url.path with
+    | [] -> <Test />
+    | ["dashboard"] -> <Test />
+    | _ -> <h1> (React.string "404") </h1>
+end
+
 
 let () =
   match ReactDOM.querySelector "#root" with
