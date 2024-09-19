@@ -6,20 +6,22 @@ maintainer: ["Jake Quinter"]
 authors: ["Jake Quinter"]
 license: "LICENSE"
 tags: ["ocaml," "melange"]
-homepage: "https://github.com/username/reponame"
+homepage: "https://github.com/jakequinter/hitched"
 doc: "https://github.com/jakequinter/hitched/server"
-bug-reports: "https://github.com/username/reponame/issues"
+bug-reports: "https://github.com/jakequinter/hitched/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.16"}
-  "dream"
   "caqti"
-  "caqti-driver-postgresql"
   "caqti-lwt"
+  "caqti-driver-postgresql"
   "dotenv"
+  "dream"
+  "ppx_deriving_yojson"
   "ppx_rapper"
   "ppx_rapper_lwt"
   "ppx_yojson_conv"
+  "safepass"
   "odoc" {with-doc}
 ]
 build: [
@@ -36,4 +38,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/username/reponame.git"
+dev-repo: "git+https://github.com/jakequinter/hitched.git"

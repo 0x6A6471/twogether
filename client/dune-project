@@ -28,8 +28,8 @@
 (dialect
  (name mlx)
  (implementation
-  (merlin_reader mlx)
   (extension mlx)
+  (merlin_reader mlx)
   (preprocess
    (run mlx-pp %{input-file}))))
 

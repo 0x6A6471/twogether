@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github jakequinter/hitched))
 
 (authors "Jake Quinter")
 
@@ -22,14 +22,16 @@
  (depends 
    ocaml 
    dune 
-   dream
    caqti
-   caqti-driver-postgresql
    caqti-lwt
+   caqti-driver-postgresql
    dotenv
+   dream
+   ppx_deriving_yojson
    ppx_rapper
    ppx_rapper_lwt
-   ppx_yojson_conv)
+   ppx_yojson_conv
+   safepass)
  (tags
   (ocaml, melange)))
 
