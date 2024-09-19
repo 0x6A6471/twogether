@@ -1,20 +1,12 @@
-module Test = struct
-  let[@react.component] make () =
-    [ "Hello, World! " ^ "!"; "This is React!!" ]
-    |> List.map (fun greeting ->
-      <h1 className="text-red-500" key=greeting>(React.string greeting)</h1>)
-    |> Array.of_list
-    |> React.array
-  ;;
-end
+open React
 
 module App = struct
   let[@react.component] make () =
     let url = ReasonReactRouter.useUrl () in
     Js.log url.path;
     match url.path with
-    | [] -> <Test />
-    | [ "dashboard" ] -> <Test />
+    | [] -> <h1>(string "Home")</h1>
+    | [ "login" ] -> <Pages.Login />
     | _ -> <h1>(React.string "404")</h1>
   ;;
 end
