@@ -1,0 +1,10 @@
+.DS_Store
+.git/
+.sl/
+_build
+_opam
+dist/
+node_modules
+
+.env
+
