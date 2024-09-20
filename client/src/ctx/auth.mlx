@@ -1,3 +1,5 @@
+open React
+
 type user =
   { id : string
   ; email : string
@@ -27,17 +29,17 @@ type context_value =
   }
 
 let init = { user = None; login = (fun _ -> Js.Promise.resolve ()) }
-let auth_context = React.createContext init
+let auth_context = createContext init
 
 module Provider = struct
-  include React.Context
+  include Context
 
   let make = provider auth_context
 end
 
 module AuthProvider = struct
   let[@react.component] make ~children =
-    let user, setUser = React.useState (fun _ -> None) in
+    let user, setUser = useState (fun _ -> None) in
     Js.log user;
     let login form_data =
       let headers =
@@ -67,6 +69,9 @@ module AuthProvider = struct
         |> catch (fun err ->
           Js.log2 "Error in AuthContext login: " err |> resolve))
     in
+    useEffect0 (fun _ ->
+      Js.log "validate user here";
+      None);
     let value = { user; login } in
     Js.log value;
     <Provider value>children</Provider>
