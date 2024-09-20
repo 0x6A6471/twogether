@@ -1,0 +1,67 @@
+type user =
+  { id : string
+  ; email : string
+  ; name : string
+  }
+
+type login_data =
+  { email : string
+  ; password : string
+  }
+
+type context_value =
+  { user : user option
+  ; login : login_data -> unit Js.Promise.t
+  }
+
+let init = { user = None; login = (fun _ -> Js.Promise.resolve ()) }
+let auth_context = React.createContext init
+
+module Provider = struct
+  include React.Context
+
+  let make = provider auth_context
+end
+
+module AuthProvider = struct
+  let[@react.component] make ~children =
+    let user, _setUser = React.useState (fun _ -> None) in
+    Js.log user;
+    let login form_data =
+      let headers =
+        let dict = Js.Dict.empty () in
+        Js.Dict.set dict "Content-Type" "application/json";
+        Fetch.HeadersInit.makeWithDict dict
+      in
+      let payload = Js.Dict.empty () in
+      Js.Dict.set payload "email" (Js.Json.string form_data.email);
+      Js.Dict.set payload "password" (Js.Json.string form_data.password);
+      Js.Promise.(
+        Fetch.fetchWithInit
+          "http://localhost:8080/api/auth/login"
+          (Fetch.RequestInit.make
+             ~method_:Post
+             ()
+             ~credentials:Include
+             ~headers
+             ~body:
+               (Fetch.BodyInit.make
+                  (Js.Json.stringify (Js.Json.object_ payload))))
+        |> then_ Fetch.Response.json
+        |> then_ (fun data -> Js.log data |> resolve))
+    in
+    let value = { user; login } in
+    Js.log value;
+    <Provider value>children</Provider>
+  ;;
+end
+
+(*let login form_data =
+      setUser (fun _ ->
+        Some { id = "1"; email = form_data.email; name = form_data.password })
+    in*)
+
+(* Js.Promise.( *)
+(*   Fetch.fetch "http://jsonplaceholder.typicode.com/posts" *)
+(*   |> then_ Fetch.Response.json *)
+(*   |> then_ (fun data -> Js.log data |> resolve)) *)

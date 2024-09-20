@@ -1,14 +1,14 @@
 (library
  (name pages)
  (modes melange)
- (libraries reason-react melange.belt)
+ (libraries reason-react melange.belt ctx)
  (preprocess (pps melange.ppx reason-react-ppx))
  (modules login))
 
 (melange.emit
  (target output)
  (alias pages)
- (libraries reason-react melange.belt pages)
+ (libraries reason-react melange.belt)
  (preprocess
   (pps melange.ppx reason-react-ppx))
  (module_systems es6)

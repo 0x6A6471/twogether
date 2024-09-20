@@ -1,12 +1,12 @@
 module App = struct
   let[@react.component] make () =
     let url = ReasonReactRouter.useUrl () in
-    <Context.Auth.ThemeProvider>
+    <Ctx.Auth.AuthProvider>
       (match url.path with
        | [] -> <h1>(React.string "Home")</h1>
        | [ "login" ] -> <Pages.Login />
        | _ -> <h1>(React.string "404")</h1>)
-    </Context.Auth.ThemeProvider>
+    </Ctx.Auth.AuthProvider>
   ;;
 end
 

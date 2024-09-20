@@ -1,13 +1,9 @@
 open React
 
-type t =
-  { email : string
-  ; password : string
-  }
-
 let[@react.component] make () =
+  let auth = useContext Ctx.Auth.auth_context in
   let form_data, set_form_data =
-    useState (fun _ -> { email = ""; password = "" })
+    useState (fun _ -> { Ctx.Auth.email = ""; Ctx.Auth.password = "" })
   in
   let handle_input_change field_name event =
     let value = (React.Event.Form.target event)##value in
@@ -19,7 +15,7 @@ let[@react.component] make () =
   in
   let onSubmit e =
     React.Event.Form.preventDefault e;
-    Js.log2 "form data: " form_data
+    auth.login form_data |> ignore
   in
   <div className="pt-20">
     <form onSubmit
