@@ -1,0 +1,10 @@
+open Ctx.Auth
+
+let () =
+  match ReactDOM.querySelector "#root" with
+  | Some element ->
+    let root = ReactDOM.Client.createRoot element in
+    ReactDOM.Client.render root <AuthProvider><App /></AuthProvider>
+  | None ->
+    Js.Console.error "Failed to start React: couldn't find the #root element"
+;;

@@ -1,23 +1,26 @@
 open React
 
-module App = struct
-  let[@react.component] make () =
-    let url = ReasonReactRouter.useUrl () in
-    <Ctx.Auth.AuthProvider>
-      (match url.path with
-       | [] -> <h1>(string "Home")</h1>
-       | [ "login" ] -> <Pages.Login />
-       | [ "dashboard" ] -> string "Dashboard"
-       | _ -> <h1>(string "404")</h1>)
-    </Ctx.Auth.AuthProvider>
-  ;;
-end
+let authenticated get_page is_loading user =
+  match is_loading with
+  | true -> null
+  | false ->
+    (match user with
+     | Some p -> get_page p
+     | None ->
+       ReasonReactRouter.push "/login";
+       null)
+;;
 
-let () =
-  match ReactDOM.querySelector "#root" with
-  | Some element ->
-    let root = ReactDOM.Client.createRoot element in
-    ReactDOM.Client.render root <App />
-  | None ->
-    Js.Console.error "Failed to start React: couldn't find the #root element"
+let[@react.component] make () =
+  let url = ReasonReactRouter.useUrl () in
+  let auth = useContext Ctx.Auth.auth_context in
+  match url.path with
+  | [] -> <h1>(string "Home")</h1>
+  | [ "login" ] -> <Pages.Login />
+  | [ "dashboard" ] ->
+    authenticated
+      (fun _ -> string "authenticated dashboard")
+      auth.is_loading
+      auth.user
+  | _ -> <h1>(string "404")</h1>
 ;;

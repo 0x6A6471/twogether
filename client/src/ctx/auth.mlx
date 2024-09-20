@@ -28,9 +28,13 @@ end
 type context_value =
   { user : user option
   ; login : login_data -> unit Js.Promise.t
+  ; is_loading : bool
   }
 
-let init = { user = None; login = (fun _ -> Js.Promise.resolve ()) }
+let init =
+  { user = None; login = (fun _ -> Js.Promise.resolve ()); is_loading = true }
+;;
+
 let auth_context = createContext init
 
 module Provider = struct
@@ -41,9 +45,10 @@ end
 
 module AuthProvider = struct
   let[@react.component] make ~children =
-    let user, setUser = useState (fun _ -> None) in
-    Js.log user;
+    let user, set_user = useState (fun _ -> None) in
+    let is_loading, set_is_loading = useState (fun _ -> true) in
     let login form_data =
+      set_is_loading (fun _ -> true);
       let headers =
         let dict = Js.Dict.empty () in
         Js.Dict.set dict "Content-Type" "application/json";
@@ -66,16 +71,30 @@ module AuthProvider = struct
         |> then_ Fetch.Response.json
         |> then_ (fun json ->
           (let user = json |> Decode.user in
-           setUser (fun _ -> Some user));
+           set_user (fun _ -> Some user));
+          set_is_loading (fun _ -> false);
           ReasonReactRouter.push "/dashboard" |> resolve)
         |> catch (fun err ->
           Js.log2 "Error in AuthContext login: " err |> resolve))
     in
-    useEffect0 (fun _ ->
-      Js.log "validate user here";
+    let validate _ =
+      Js.Promise.(
+        Fetch.fetchWithInit
+          (api_url ^ "/api/auth/validate")
+          (Fetch.RequestInit.make () ~credentials:Include)
+        |> then_ Fetch.Response.json
+        |> then_ (fun json ->
+          (let user = json |> Decode.user in
+           set_user (fun _ -> Some user));
+          set_is_loading (fun _ -> false) |> resolve)
+        |> catch (fun err ->
+          Js.log2 "Error in AuthContext login: " err;
+          set_is_loading (fun _ -> false) |> resolve))
+    in
+    useEffect0 (fun () ->
+      validate () |> ignore;
       None);
-    let value = { user; login } in
-    Js.log value;
+    let value = { user; login; is_loading } in
     <Provider value>children</Provider>
   ;;
 end
