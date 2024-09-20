@@ -9,6 +9,18 @@ type login_data =
   ; password : string
   }
 
+module Decode = struct
+  let user json =
+    Json.Decode.(
+      json
+      |> fun json ->
+      let id = field "id" string json in
+      let email = field "email" string json in
+      let name = field "name" string json in
+      { id; email; name })
+  ;;
+end
+
 type context_value =
   { user : user option
   ; login : login_data -> unit Js.Promise.t
@@ -25,7 +37,7 @@ end
 
 module AuthProvider = struct
   let[@react.component] make ~children =
-    let user, _setUser = React.useState (fun _ -> None) in
+    let user, setUser = React.useState (fun _ -> None) in
     Js.log user;
     let login form_data =
       let headers =
@@ -48,20 +60,15 @@ module AuthProvider = struct
                (Fetch.BodyInit.make
                   (Js.Json.stringify (Js.Json.object_ payload))))
         |> then_ Fetch.Response.json
-        |> then_ (fun data -> Js.log data |> resolve))
+        |> then_ (fun json ->
+          (let user = json |> Decode.user in
+           setUser (fun _ -> Some user));
+          ReasonReactRouter.push "/dashboard" |> resolve)
+        |> catch (fun err ->
+          Js.log2 "Error in AuthContext login: " err |> resolve))
     in
     let value = { user; login } in
     Js.log value;
     <Provider value>children</Provider>
   ;;
 end
-
-(*let login form_data =
-      setUser (fun _ ->
-        Some { id = "1"; email = form_data.email; name = form_data.password })
-    in*)
-
-(* Js.Promise.( *)
-(*   Fetch.fetch "http://jsonplaceholder.typicode.com/posts" *)
-(*   |> then_ Fetch.Response.json *)
-(*   |> then_ (fun data -> Js.log data |> resolve)) *)
