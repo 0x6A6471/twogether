@@ -1,5 +1,7 @@
 open React
 
+external api_url : string = "import.meta.env.VITE_API_URL"
+
 type user =
   { id : string
   ; email : string
@@ -52,7 +54,7 @@ module AuthProvider = struct
       Js.Dict.set payload "password" (Js.Json.string form_data.password);
       Js.Promise.(
         Fetch.fetchWithInit
-          "http://localhost:8080/api/auth/login"
+          (api_url ^ "/api/auth/login")
           (Fetch.RequestInit.make
              ~method_:Post
              ()
