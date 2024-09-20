@@ -1,0 +1,15 @@
+(library
+ (name context)
+ (modes melange)
+ (libraries reason-react melange.belt)
+ (preprocess (pps melange.ppx reason-react-ppx))
+ (modules auth))
+
+(melange.emit
+ (target output)
+ (alias context)
+ (libraries reason-react melange.belt context)
+ (preprocess
+  (pps melange.ppx reason-react-ppx))
+ (module_systems es6)
+ (modules))
