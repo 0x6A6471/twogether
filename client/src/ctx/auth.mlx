@@ -1,0 +1,81 @@
+open React
+
+external api_url : string = "import.meta.env.VITE_API_URL"
+
+type user =
+  { id : string
+  ; email : string
+  ; name : string
+  }
+
+type login_data =
+  { email : string
+  ; password : string
+  }
+
+module Decode = struct
+  let user json =
+    Json.Decode.(
+      json
+      |> fun json ->
+      let id = field "id" string json in
+      let email = field "email" string json in
+      let name = field "name" string json in
+      { id; email; name })
+  ;;
+end
+
+type context_value =
+  { user : user option
+  ; login : login_data -> unit Js.Promise.t
+  }
+
+let init = { user = None; login = (fun _ -> Js.Promise.resolve ()) }
+let auth_context = createContext init
+
+module Provider = struct
+  include Context
+
+  let make = provider auth_context
+end
+
+module AuthProvider = struct
+  let[@react.component] make ~children =
+    let user, setUser = useState (fun _ -> None) in
+    Js.log user;
+    let login form_data =
+      let headers =
+        let dict = Js.Dict.empty () in
+        Js.Dict.set dict "Content-Type" "application/json";
+        Fetch.HeadersInit.makeWithDict dict
+      in
+      let payload = Js.Dict.empty () in
+      Js.Dict.set payload "email" (Js.Json.string form_data.email);
+      Js.Dict.set payload "password" (Js.Json.string form_data.password);
+      Js.Promise.(
+        Fetch.fetchWithInit
+          (api_url ^ "/api/auth/login")
+          (Fetch.RequestInit.make
+             ~method_:Post
+             ()
+             ~credentials:Include
+             ~headers
+             ~body:
+               (Fetch.BodyInit.make
+                  (Js.Json.stringify (Js.Json.object_ payload))))
+        |> then_ Fetch.Response.json
+        |> then_ (fun json ->
+          (let user = json |> Decode.user in
+           setUser (fun _ -> Some user));
+          ReasonReactRouter.push "/dashboard" |> resolve)
+        |> catch (fun err ->
+          Js.log2 "Error in AuthContext login: " err |> resolve))
+    in
+    useEffect0 (fun _ ->
+      Js.log "validate user here";
+      None);
+    let value = { user; login } in
+    Js.log value;
+    <Provider value>children</Provider>
+  ;;
+end
