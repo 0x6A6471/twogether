@@ -1,0 +1,26 @@
+open React
+
+let authenticated get_page is_loading user =
+  match is_loading with
+  | true -> null
+  | false ->
+    (match user with
+     | Some p -> get_page p
+     | None ->
+       ReasonReactRouter.push "/login";
+       null)
+;;
+
+let[@react.component] make () =
+  let url = ReasonReactRouter.useUrl () in
+  let auth = useContext Ctx.Auth.auth_context in
+  match url.path with
+  | [] -> <h1>(string "Home")</h1>
+  | [ "login" ] -> <Pages.Login />
+  | [ "dashboard" ] ->
+    authenticated
+      (fun _ -> string "authenticated dashboard")
+      auth.is_loading
+      auth.user
+  | _ -> <h1>(string "404")</h1>
+;;

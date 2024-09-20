@@ -58,7 +58,11 @@ let[@react.component] make () =
                  onChange=(handle_input_change "password") />
         </div>
       </div>
-      <button type_="submit">(string "Log in")</button>
+      <button type_="submit">
+        (match auth.is_loading with
+         | true -> string "Loading..."
+         | false -> string "Log in")
+      </button>
     </form>
   </div>
 ;;
