@@ -28,11 +28,16 @@ end
 type context_value =
   { user : user option
   ; login : login_data -> unit Js.Promise.t
+  ; logout : unit -> unit Js.Promise.t
   ; is_loading : bool
   }
 
 let init =
-  { user = None; login = (fun _ -> Js.Promise.resolve ()); is_loading = true }
+  { user = None
+  ; login = (fun _ -> Js.Promise.resolve ())
+  ; is_loading = true
+  ; logout = (fun _ -> Js.Promise.resolve ())
+  }
 ;;
 
 let auth_context = createContext init
@@ -77,6 +82,17 @@ module AuthProvider = struct
         |> catch (fun err ->
           Js.log2 "Error in AuthContext login: " err |> resolve))
     in
+    let logout _ =
+      set_is_loading (fun _ -> true);
+      Js.Promise.(
+        Fetch.fetchWithInit
+          (api_url ^ "/api/auth/logout")
+          (Fetch.RequestInit.make ~method_:Post () ~credentials:Include)
+        |> then_ (fun _ ->
+          set_user (fun _ -> None);
+          set_is_loading (fun _ -> false);
+          ReasonReactRouter.push "/" |> resolve))
+    in
     let validate _ =
       Js.Promise.(
         Fetch.fetchWithInit
@@ -91,10 +107,16 @@ module AuthProvider = struct
           Js.log2 "Error in AuthContext login: " err;
           set_is_loading (fun _ -> false) |> resolve))
     in
+    let url = ReasonReactRouter.useUrl () in
     useEffect0 (fun () ->
-      validate () |> ignore;
-      None);
-    let value = { user; login; is_loading } in
+      match url.path with
+      | [] | [ "login" ] ->
+        set_is_loading (fun _ -> false);
+        None
+      | _ ->
+        validate () |> ignore;
+        None);
+    let value = { user; login; is_loading; logout } in
     <Provider value>children</Provider>
   ;;
 end
