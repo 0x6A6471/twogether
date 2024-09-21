@@ -91,6 +91,10 @@ module AuthProvider = struct
         |> then_ (fun _ ->
           set_user (fun _ -> None);
           set_is_loading (fun _ -> false);
+          ReasonReactRouter.push "/" |> resolve)
+        |> catch (fun _ ->
+          set_user (fun _ -> None);
+          set_is_loading (fun _ -> false);
           ReasonReactRouter.push "/" |> resolve))
     in
     let validate _ =
