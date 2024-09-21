@@ -68,7 +68,7 @@ let[@react.component] make ~children =
                                          | false ->
                                            "hover:bg-gray-50 \
                                             hover:text-gray-900")
-                                        ^ "group flex gap-x-3 rounded-xl p-2 \
+                                        ^ " group flex gap-x-3 rounded-xl p-2 \
                                            text-sm font-medium leading-6 \
                                            items-center")>
                          <Ui.Icon name=item.icon
@@ -107,7 +107,7 @@ let[@react.component] make ~children =
                                      | true -> "bg-gray-50 text-gray-900"
                                      | false ->
                                        "hover:bg-gray-50 hover:text-gray-900")
-                                    ^ "group flex gap-x-3 rounded-xl p-2 \
+                                    ^ " group flex gap-x-3 rounded-xl p-2 \
                                        text-sm font-medium leading-6 \
                                        items-center")>
                      <Ui.Icon name=item.icon

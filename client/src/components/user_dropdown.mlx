@@ -21,8 +21,9 @@ let[@react.component] make () =
     | Some user -> user.name
     | None -> "Guest"
   in
+  let handle_logout _ = auth.logout () |> ignore in
   <Radix.DropdownMenu.Root open_=is_open onOpenChange=set_is_open>
-    <Radix.DropdownMenu.Trigger>
+    <Radix.DropdownMenu.Trigger asChild=true>
       <div className="-mx-2 -mb-2 mt-auto">
         <button className="p-2 rounded-xl w-full flex justify-between \
                            items-center shadow outline-none text-sm border \
@@ -36,7 +37,7 @@ let[@react.component] make () =
                    className=((match is_open with
                                | true -> "rotate-180"
                                | false -> "")
-                              ^ "transform transition duration-150") />
+                              ^ " transform transition duration-150") />
         </button>
       </div>
     </Radix.DropdownMenu.Trigger>
@@ -49,16 +50,12 @@ let[@react.component] make () =
                                              data-[side=bottom]:animate-slideUpAndFade \
                                              data-[side=left]:animate-slideRightAndFade"
                                   sideOffset=5>
-        <Radix.DropdownMenu.Item
-          (* onSelect={_ => handleLogout()} *) className="group text-sm \
-                                                          leading-none rounded \
-                                                          flex items-center \
-                                                          p-2 space-x-3 \
-                                                          select-none \
-                                                          outline-none \
-                                                          text-gray-600 \
-                                                          hover:text-gray-950 \
-                                                          hover:bg-gray-50">
+        <Radix.DropdownMenu.Item onSelect=handle_logout
+                                 className="group text-sm leading-none rounded \
+                                            flex items-center p-2 space-x-3 \
+                                            select-none outline-none \
+                                            text-gray-600 hover:text-gray-950 \
+                                            hover:bg-gray-50">
           <Ui.Icon name="log-out" /> <span>(string "Log out")</span>
         </Radix.DropdownMenu.Item>
         <Radix.DropdownMenu.Item className="group text-sm leading-none rounded \
