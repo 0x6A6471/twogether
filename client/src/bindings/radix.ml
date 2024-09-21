@@ -5,8 +5,6 @@ module Types = struct
   type keyboard_event = React.Event.Keyboard.t -> unit
   type pointer_event = React.Event.Pointer.t -> unit
   type synthetic_event = React.Event.Synthetic.t  -> unit
-
-  (* type select_event = 'a -> React.Event.synthetic -> unit *)
   type side = [`top | `right | `bottom | `left]
   type sticky = [`partial | `always]
   type on_interact_outside_event = [
@@ -30,7 +28,7 @@ module DropdownMenu = struct
     external make
       :  open_: (bool [@mel.as "open"])
       -> ?defaultOpen: bool
-      -> ?onOpenChange: (bool -> bool) -> unit
+      -> ?onOpenChange: ((bool -> bool) -> unit)
       -> ?dir: dir
       -> ?children:React.element
       -> ?className:string
@@ -41,7 +39,7 @@ module DropdownMenu = struct
 
   module Trigger = struct
     external make: 
-      asChild: bool
+      ?asChild: bool
       -> ?className: string
       -> children: React.element
       -> React.element = "Trigger"
@@ -52,7 +50,7 @@ module DropdownMenu = struct
     external make: 
       ?forceMount: bool
       -> ?container: Dom.htmlElement
-      -> hildren: React.element
+      -> children: React.element
      -> React.element = "Portal"
      [@@react.component] [@@mel.module "@radix-ui/react-dropdown-menu"]
   end

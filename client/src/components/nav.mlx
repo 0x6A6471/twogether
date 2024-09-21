@@ -81,8 +81,8 @@ let[@react.component] make ~children =
                    navigation
                  |> React.array)
               </ul>
-              (* <UserDropdown /> *)
             </nav>
+            <User_dropdown />
           </div>
         </Headless_ui.DialogPanel>
       </div>
@@ -121,6 +121,7 @@ let[@react.component] make ~children =
              |> React.array)
           </ul>
         </nav>
+        <User_dropdown />
       </div>
     </div>
     <div className="lg:pl-72 bg-gray-100">
