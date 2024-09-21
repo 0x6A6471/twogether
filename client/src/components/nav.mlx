@@ -42,15 +42,11 @@ let[@react.component] make ~children =
             <div className="absolute left-full top-0 flex w-16 justify-center \
                             pt-5 duration-300 ease-in-out \
                             data-[closed]:opacity-0">
-              <button
-                (* onClick={_ => setSidebarOpen(_ => false)} *) className="-m-2.5 \
-                                                                           p-1.5 \
-                                                                           bg-white \
-                                                                           hover:bg-gray-100 \
-                                                                           rounded-full \
-                                                                           text-black">
+              <button onClick=(fun _ -> set_sidebar_open (fun _ -> false))
+                      className="-m-2.5 p-1.5 bg-white hover:bg-gray-100 \
+                                 rounded-full text-black">
                 <span className="sr-only">(string "Close sidebar")</span>
-                (* <Ui.Icon name="x" size="24" /> *)
+                <Ui.Icon name="x" size="24" />
               </button>
             </div>
           </Headless_ui.TransitionChild>
@@ -75,6 +71,10 @@ let[@react.component] make ~children =
                                         ^ "group flex gap-x-3 rounded-xl p-2 \
                                            text-sm font-medium leading-6 \
                                            items-center")>
+                         <Ui.Icon name=item.icon
+                                  variant=(match path = item.href with
+                                           | true -> `filled
+                                           | false -> `line) />
                          (string item.name)
                        </Link>
                      </li>)
@@ -110,6 +110,10 @@ let[@react.component] make ~children =
                                     ^ "group flex gap-x-3 rounded-xl p-2 \
                                        text-sm font-medium leading-6 \
                                        items-center")>
+                     <Ui.Icon name=item.icon
+                              variant=(match path = item.href with
+                                       | true -> `filled
+                                       | false -> `line) />
                      (string item.name)
                    </Link>
                  </li>)
@@ -120,14 +124,11 @@ let[@react.component] make ~children =
       </div>
     </div>
     <div className="lg:pl-72 bg-gray-100">
-      <button
-        (* onClick={_ => setSidebarOpen(_ => true)} *) className="ml-3 mt-1 \
-                                                                  p-1 \
-                                                                  text-gray-500 \
-                                                                  lg:hidden \
-                                                                  hover:bg-gray-100 \
-                                                                  rounded">
+      <button onClick=(fun _ -> set_sidebar_open (fun _ -> true))
+              className="ml-3 mt-1 p-1 text-gray-500 lg:hidden \
+                         hover:bg-gray-100 rounded">
         <span className="sr-only">(string "Open sidebar")</span>
+        <Ui.Icon name="grid" />
       </button>
       <main className="lg:ml-2 p-2 min-h-screen">children</main>
     </div>
