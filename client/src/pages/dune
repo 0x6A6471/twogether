@@ -3,13 +3,5 @@
  (modes melange)
  (libraries reason-react melange.belt ctx)
  (preprocess (pps melange.ppx reason-react-ppx))
- (modules login))
+ (modules login dashboard))
 
-(melange.emit
- (target output)
- (alias pages)
- (libraries reason-react melange.belt)
- (preprocess
-  (pps melange.ppx reason-react-ppx))
- (module_systems es6)
- (modules))

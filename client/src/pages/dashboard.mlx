@@ -1,0 +1,3 @@
+open React
+
+let[@react.component] make () = <div><h1>(string "Dashboard")</h1></div>
