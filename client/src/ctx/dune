@@ -4,12 +4,3 @@
  (libraries reason-react melange.belt melange-fetch melange-json)
  (preprocess (pps melange.ppx reason-react-ppx))
  (modules auth))
-
-(melange.emit
- (target output)
- (alias context)
- (libraries reason-react melange.belt ctx)
- (preprocess
-  (pps melange.ppx reason-react-ppx))
- (module_systems es6)
- (modules))

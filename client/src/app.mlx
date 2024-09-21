@@ -5,7 +5,7 @@ let authenticated get_page is_loading user =
   | true -> null
   | false ->
     (match user with
-     | Some p -> get_page p
+     | Some p -> <Components.Nav>(get_page p)</Components.Nav>
      | None ->
        ReasonReactRouter.push "/login";
        null)
@@ -18,8 +18,10 @@ let[@react.component] make () =
   | [] -> <h1>(string "Home")</h1>
   | [ "login" ] -> <Pages.Login />
   | [ "dashboard" ] ->
+    authenticated (fun _ -> <Pages.Dashboard />) auth.is_loading auth.user
+  | [ "dashboard"; "guests" ] ->
     authenticated
-      (fun _ -> string "authenticated dashboard")
+      (fun _ -> <h1>(string "Guests page")</h1>)
       auth.is_loading
       auth.user
   | _ -> <h1>(string "404")</h1>
