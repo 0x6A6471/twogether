@@ -37,7 +37,7 @@ let[@react.component] make () =
                    className=((match is_open with
                                | true -> "rotate-180"
                                | false -> "")
-                              ^ "transform transition duration-150") />
+                              ^ " transform transition duration-150") />
         </button>
       </div>
     </Radix.DropdownMenu.Trigger>
