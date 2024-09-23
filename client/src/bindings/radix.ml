@@ -30,8 +30,8 @@ module DropdownMenu = struct
       -> ?defaultOpen: bool
       -> ?onOpenChange: ((bool -> bool) -> unit)
       -> ?dir: dir
-      -> ?children:React.element
       -> ?className:string
+      -> ?children:React.element
       -> React.element
       = "Root"
     [@@react.component] [@@mel.module "@radix-ui/react-dropdown-menu"]
@@ -211,5 +211,174 @@ module DropdownMenu = struct
       -> children: React.element
       -> React.element = "SubContent"
      [@@react.component] [@@mel.module "@radix-ui/react-dropdown-menu"]
+  end
+end
+
+module Dialog = struct
+  module Root = struct
+    external make:  
+      open_: (bool [@mel.as "open"])
+      -> ?defaultOpen: bool
+      -> ?onOpenChange: ((bool -> bool) -> unit)
+      -> ?modal: bool
+      -> ?className:string
+      -> ?children:React.element
+      -> React.element
+      = "Root"
+    [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Trigger = struct
+    external make: 
+      ?asChild: bool
+      -> ?className: string
+      -> children: React.element
+      -> React.element = "Trigger"
+    [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Portal = struct
+    external make: 
+      ?forceMount: bool
+      -> ?container: Dom.htmlElement
+      -> children: React.element
+      -> React.element = "Portal"
+     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Overlay = struct
+    external make: 
+      ?asChild: bool
+      -> ?forceMount: bool
+      -> ?container: Dom.htmlElement
+      -> ?className: string
+      -> children: React.element
+      -> React.element = "Overlay"
+     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Content = struct
+    external make: 
+      ?asChild: bool
+      -> ?forceMount: bool
+      -> ?loop: bool
+      -> ?onOpenAutoFocus: Types.focus_event
+      -> ?onCloseAutoFocus: Types.focus_event
+      -> ?onEscapeKeyDown: Types.keyboard_event
+      -> ?onPointerDownOutside: Types.pointer_event
+      -> ?onInteractOutside: Types.on_interact_outside_event
+      -> ?className: string
+      -> children: React.element
+      -> React.element = "Content"
+     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Close = struct
+    external make: 
+      ?asChild: bool
+      -> ?className: string
+      -> children: React.element
+      -> React.element = "Close"
+     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Title = struct
+    external make: 
+      ?asChild: bool
+      -> ?className: string
+      -> children: React.element
+      -> React.element = "Title"
+     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+
+  module Description = struct
+    external make: 
+      ?asChild: bool
+      -> ?className: string
+      -> children: React.element
+      -> React.element = "Description"
+     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
+  end
+end
+
+module Tooltip = struct
+  module Provider = struct
+    external make: 
+      ?delayDuraion: int
+      -> ?skipDelayDuraion: int
+      -> ?disableHoverableContent: bool
+      -> children: React.element
+      -> React.element = "Provider"
+     [@@react.component] [@@mel.module "@radix-ui/react-tooltip"]
+  end
+
+  module Root = struct
+    external make: 
+      ?open_: (bool [@mel.as "open"])
+      -> ?defaultOpen: bool
+      -> ?onOpenChange: ((bool -> bool) -> unit)
+      -> ?delayDuration: int
+      -> ?disableHoverableContent: bool
+      -> ?children:React.element
+      -> React.element = "Root"
+     [@@react.component] [@@mel.module "@radix-ui/react-tooltip"]
+  end
+
+  module Trigger = struct
+    type data_state = [
+      | `closed 
+      | `delayed_open [@mel.as "delayed-open"]
+      | `instant_open [@mel.as "instant-open"]
+    ]
+
+    external make: 
+      ?asChild: bool
+      -> ?className: string
+      -> children: React.element
+      -> ?dataState: (data_state [@mel.as "data-state"])
+      -> React.element = "Trigger"
+     [@@react.component] [@@mel.module "@radix-ui/react-tooltip"]
+  end
+
+  module Portal = struct
+    external make: 
+      ?forceMount: bool
+      -> ?container: Dom.htmlElement
+      -> children: React.element
+      -> React.element = "Portal"
+     [@@react.component] [@@mel.module "@radix-ui/react-tooltip"]
+  end
+
+  module Content = struct
+    external make: 
+      ?asChild: bool
+      -> ?ariaLabel: (string [@mel.as "aria-label"])
+      -> ?onEscapeKeyDown: Types.keyboard_event
+      -> ?onPointerDownOutside: Types.pointer_event
+      -> ?forceMount: bool
+      -> ?side: Types.side
+      -> ?sideOffset: int
+      -> ?align: Types.align
+      -> ?alignOffset: int
+      -> ?avoidCollisions: bool
+      -> ?collissionBoundary: Types.collision_boundary
+      -> ?collissionPadding: Types.collision_padding
+      -> ?arrowPadding: int
+      -> ?sticky: Types.sticky
+      -> ?hideWhenDetached: bool
+      -> ?className: string
+      -> children: React.element
+     -> React.element = "Content"
+     [@@react.component] [@@mel.module "@radix-ui/react-tooltip"]
+  end
+
+  module Arrow = struct
+    external make: 
+      ?asChild: bool
+      -> ?width: int
+      -> ?height: int
+      -> ?className: string
+      -> React.element = "Arrow"
+     [@@react.component] [@@mel.module "@radix-ui/react-tooltip"]
   end
 end
