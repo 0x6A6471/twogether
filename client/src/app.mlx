@@ -1,10 +1,11 @@
 open React
 
-let authenticated get_page is_loading user =
-  match is_loading with
+let authenticated get_page =
+  let auth = useContext Ctx.Auth.auth_context in
+  match auth.is_loading with
   | true -> null
   | false ->
-    (match user with
+    (match auth.user with
      | Some p -> <Components.Nav>(get_page p)</Components.Nav>
      | None ->
        ReasonReactRouter.push "/login";
@@ -13,16 +14,10 @@ let authenticated get_page is_loading user =
 
 let[@react.component] make () =
   let url = ReasonReactRouter.useUrl () in
-  let auth = useContext Ctx.Auth.auth_context in
   match url.path with
   | [] -> <h1>(string "Home")</h1>
   | [ "login" ] -> <Pages.Login />
-  | [ "dashboard" ] ->
-    authenticated (fun _ -> <Pages.Dashboard />) auth.is_loading auth.user
-  | [ "dashboard"; "guests" ] ->
-    authenticated
-      (fun _ -> <h1>(string "Guests page")</h1>)
-      auth.is_loading
-      auth.user
+  | [ "dashboard" ] -> authenticated (fun _ -> <Pages.Dashboard />)
+  | [ "dashboard"; "guests" ] -> authenticated (fun _ -> <Pages.Guests />)
   | _ -> <h1>(string "404")</h1>
 ;;

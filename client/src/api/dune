@@ -1,0 +1,7 @@
+(library
+ (name api)
+ (modes melange)
+ (libraries reason-react melange-fetch melange-json melange-react-query)
+ (preprocess (pps melange.ppx reason-react-ppx))
+ (modules guests))
+
