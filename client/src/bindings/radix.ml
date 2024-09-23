@@ -326,7 +326,7 @@ module Tooltip = struct
 
   module Trigger = struct
     type data_state = [
-      | `closed [@mel.as "closed"]
+      | `closed 
       | `delayed_open [@mel.as "delayed-open"]
       | `instant_open [@mel.as "instant-open"]
     ]
