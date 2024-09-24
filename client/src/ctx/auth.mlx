@@ -82,7 +82,7 @@ module AuthProvider = struct
         |> catch (fun err ->
           Js.log2 "Error in AuthContext login: " err |> resolve))
     in
-    let logout () =
+    let logout _ =
       set_is_loading (fun _ -> true);
       Js.Promise.(
         Fetch.fetchWithInit
@@ -97,7 +97,7 @@ module AuthProvider = struct
           set_is_loading (fun _ -> false);
           ReasonReactRouter.push "/" |> resolve))
     in
-    let validate () =
+    let validate _ =
       Js.Promise.(
         Fetch.fetchWithInit
           (api_url ^ "/api/auth/validate")
@@ -112,7 +112,7 @@ module AuthProvider = struct
           set_is_loading (fun _ -> false) |> resolve))
     in
     let url = ReasonReactRouter.useUrl () in
-    useEffect0 (fun _ ->
+    useEffect0 (fun () ->
       match url.path with
       | [] | [ "login" ] ->
         set_is_loading (fun _ -> false);

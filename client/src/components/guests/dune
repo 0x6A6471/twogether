@@ -3,5 +3,5 @@
  (modes melange)
  (libraries reason-react melange.belt api ui utils)
  (preprocess (pps melange.ppx reason-react-ppx))
- (modules empty_state guest_dialog guest_list))
+ (modules guest_list))
 
