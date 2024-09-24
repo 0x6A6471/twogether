@@ -1,7 +1,7 @@
 (library
  (name ui)
  (modes melange)
- (libraries reason-react melange.belt)
+ (libraries reason-react melange.belt bindings)
  (preprocess (pps melange.ppx reason-react-ppx))
- (modules icon))
+ (modules badge icon button_tooltip))
 

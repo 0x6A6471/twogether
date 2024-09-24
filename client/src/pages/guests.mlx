@@ -1,9 +1,24 @@
 open React
+open Components_guests
 
 let[@react.component] make () =
   let guests = Api.Guests.use_guests () in
-  match guests.status with
-  | `pending -> <h1>(string "Loading...")</h1>
-  | `error -> <h1>(string "Error")</h1>
-  | `success -> <h1>(string "Guests")</h1>
+  <div className="flex flex-col bg-white rounded-2xl h-dashboard">
+    <div className="flex justify-between items-center p-4 border-b \
+                    border-gray-100">
+      <h1 className="text-xl font-semibold text-gray-950">
+        (string "Guest List")
+      </h1>
+    </div>
+    <div className="flex-1 overflow-y-auto m-4">
+      (match guests.status with
+       | `pending ->
+         <div className="flex items-center justify-center h-full">
+           <Ui.Icon className="animate-spin text-black" name="loader" size="24" />
+         </div>
+       | `error -> <h1>(string "Error")</h1>
+       | `success -> <Guest_list guests=guests.data />)
+    </div>
+    <div className="p-4 border-t border-gray-100">(string "extras")</div>
+  </div>
 ;;
