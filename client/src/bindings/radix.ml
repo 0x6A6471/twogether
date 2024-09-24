@@ -59,7 +59,7 @@ module DropdownMenu = struct
 
   module Trigger = struct
     external make
-      :  ?asChild:bool
+      :  asChild:bool
       -> ?className:string
       -> children:React.element
       -> React.element
@@ -217,7 +217,7 @@ module DropdownMenu = struct
 
   module SubTrigger = struct
     external make
-      :  ?asChild:bool
+      :  asChild:bool
       -> ?disabled:bool
       -> ?textValue:string
       -> ?className:string
@@ -271,7 +271,7 @@ module Dialog = struct
 
   module Trigger = struct
     external make
-      :  ?asChild:bool
+      :  asChild:bool
       -> ?className:string
       -> children:React.element
       -> React.element
@@ -382,7 +382,7 @@ module Tooltip = struct
       ]
 
     external make
-      :  ?asChild:bool
+      :  asChild:bool
       -> ?className:string
       -> children:React.element
       -> ?dataState:(data_state[@mel.as "data-state"])

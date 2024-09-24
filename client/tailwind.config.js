@@ -21,6 +21,9 @@ module.exports = {
           900: "#262626",
         },
       },
+      height: {
+        dashboard: "calc(100vh - 1rem)",
+      },
       animation: {
         spin: "spin 1.5s linear infinite",
       },

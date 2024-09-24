@@ -1,16 +1,16 @@
 open Lwt.Syntax
 
 type t =
-  { first_name : string [@key "firstName"]
-  ; last_name : string [@key "lastName"]
+  { first_name : string
+  ; last_name : string
   ; email : string
-  ; address_line_1 : string [@key "addressLine1"]
-  ; address_line_2 : string option [@key "addressLine2"]
+  ; address_line_1 : string
+  ; address_line_2 : string option
   ; city : string
   ; state : string
   ; zip : string
   ; country : string
-  ; rsvp_status : string [@key "rsvpStatus"]
+  ; rsvp_status : string
   }
 [@@deriving yojson]
 
@@ -61,7 +61,6 @@ let handler pool request =
   let session = Dream.session "user_id" request in
   match session with
   | Some user_id ->
-    Dream.log "User %s is adding a guest" user_id;
     let* body = Dream.body request in
     begin
       let guest = of_yojson (Yojson.Safe.from_string body) in
