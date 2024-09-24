@@ -1,7 +1,5 @@
 open Utils
 
-external api_url : string = "import.meta.env.VITE_API_URL"
-
 type t =
   { id : string
   ; user_id : string [@key "userId"]
