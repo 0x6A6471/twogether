@@ -12,7 +12,10 @@ let[@react.component] make () =
     </div>
     <div className="flex-1 overflow-y-auto m-4">
       (match guests.status with
-       | `pending -> <h1>(string "Loading...")</h1>
+       | `pending ->
+         <div className="flex items-center justify-center h-full">
+           <Ui.Icon className="animate-spin text-black" name="loader" size="24" />
+         </div>
        | `error -> <h1>(string "Error")</h1>
        | `success -> <Guest_list guests=guests.data />)
     </div>
