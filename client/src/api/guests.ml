@@ -1,3 +1,5 @@
+open Utils
+
 external api_url : string = "import.meta.env.VITE_API_URL"
 
 type t =
@@ -56,20 +58,7 @@ module Decode = struct
   let guests json = Json.Decode.array guest json
 end
 
-let headers =
-  let dict = Js.Dict.empty () in
-  Js.Dict.set dict "Content-Type" "application/json";
-  Fetch.HeadersInit.makeWithDict dict
-;;
-
-let get_user_guests _ =
-  Js.Promise.(
-    Fetch.fetchWithInit
-      (api_url ^ "/api/guests")
-      (Fetch.RequestInit.make () ~credentials:Include ~headers)
-    |> then_ Fetch.Response.json
-    |> then_ (fun json -> Decode.guests json |> resolve))
-;;
+let get_user_guests _ = Fetcher.fetch "/api/guests" ~decoder:Decode.guests
 
 let use_guests _ =
   let open ReactQuery.Query in
