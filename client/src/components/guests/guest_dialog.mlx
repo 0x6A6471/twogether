@@ -1,0 +1,3 @@
+open React
+
+let[@react.component] make () = <p>(string "dialog")</p>

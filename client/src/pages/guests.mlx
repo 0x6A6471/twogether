@@ -9,6 +9,13 @@ let[@react.component] make () =
       <h1 className="text-xl font-semibold text-gray-950">
         (string "Guest List")
       </h1>
+      (match guests.data, guests.status with
+       | _, `pending -> React.null
+       | Some guests, _ ->
+         (match Array.length guests with
+          | 0 -> React.null
+          | _ -> <Guest_dialog />)
+       | _ -> React.null)
     </div>
     <div className="flex-1 overflow-y-auto m-4">
       (match guests.status with
