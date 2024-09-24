@@ -1,9 +1,11 @@
 open React
+open Components_guests
 
 let[@react.component] make () =
   let guests = Api.Guests.use_guests () in
+  Js.log guests;
   match guests.status with
   | `pending -> <h1>(string "Loading...")</h1>
   | `error -> <h1>(string "Error")</h1>
-  | `success -> <h1>(string "Guests")</h1>
+  | `success -> <Guest_list guests=guests.data />
 ;;

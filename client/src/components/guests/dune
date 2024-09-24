@@ -1,0 +1,7 @@
+(library
+ (name components_guests)
+ (modes melange)
+ (libraries reason-react melange.belt api)
+ (preprocess (pps melange.ppx reason-react-ppx))
+ (modules guest_list))
+
