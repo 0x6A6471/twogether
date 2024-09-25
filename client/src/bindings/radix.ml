@@ -258,7 +258,7 @@ end
 module Dialog = struct
   module Root = struct
     external make
-      :  open_:(bool[@mel.as "open"])
+      :  ?open_:(bool[@mel.as "open"])
       -> ?defaultOpen:bool
       -> ?onOpenChange:((bool -> bool) -> unit)
       -> ?modal:bool
@@ -295,7 +295,6 @@ module Dialog = struct
       -> ?forceMount:bool
       -> ?container:Dom.htmlElement
       -> ?className:string
-      -> children:React.element
       -> React.element
       = "Overlay"
     [@@react.component] [@@mel.module "@radix-ui/react-dialog"]
@@ -377,8 +376,8 @@ module Tooltip = struct
   module Trigger = struct
     type data_state =
       [ `closed
-      | `delayed_open [@mel.as "delayed-open"]
-      | `instant_open [@mel.as "instant-open"]
+      | `delayed_open
+      | `instant_open
       ]
 
     external make

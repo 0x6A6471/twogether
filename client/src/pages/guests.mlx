@@ -2,13 +2,20 @@ open React
 open Components_guests
 
 let[@react.component] make () =
-  let guests = Api.Guests.use_guests () in
+  let guests = Api.Guests.Get.use_guests () in
   <div className="flex flex-col bg-white rounded-2xl h-dashboard">
     <div className="flex justify-between items-center p-4 border-b \
                     border-gray-100">
       <h1 className="text-xl font-semibold text-gray-950">
         (string "Guest List")
       </h1>
+      (match guests.data, guests.status with
+       | _, `pending -> React.null
+       | Some guests, _ ->
+         (match Array.length guests with
+          | 0 -> React.null
+          | _ -> <Guest_dialog label="New" />)
+       | _ -> React.null)
     </div>
     <div className="flex-1 overflow-y-auto m-4">
       (match guests.status with

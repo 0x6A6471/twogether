@@ -6,11 +6,26 @@ let headers =
   Fetch.HeadersInit.makeWithDict dict
 ;;
 
-let fetch url_path ~decoder =
+let get url_path ~decoder =
   Js.Promise.(
     Fetch.fetchWithInit
       (api_url ^ url_path)
-      (Fetch.RequestInit.make () ~credentials:Include ~headers)
+      (Fetch.RequestInit.make () ~method_:Get ~credentials:Include ~headers)
     |> then_ Fetch.Response.json
     |> then_ (fun json -> decoder json |> resolve))
+;;
+
+let req_with_body url_path ~method_ ~payload =
+  Js.Promise.(
+    Fetch.fetchWithInit
+      (api_url ^ url_path)
+      (Fetch.RequestInit.make
+         ()
+         ~method_
+         ~credentials:Include
+         ~headers
+         ~body:
+           (Fetch.BodyInit.make (Js.Json.stringify (Js.Json.object_ payload))))
+    |> then_ Fetch.Response.json
+    |> then_ (fun json -> json |> resolve))
 ;;
