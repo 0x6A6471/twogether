@@ -1,5 +1,4 @@
 open Utils
-open ReactQuery.Mutation
 
 type rsvp_status =
   [ `not_invited
@@ -134,6 +133,7 @@ module Post = struct
   ;;
 
   let use_guest_mutation () =
+    let open ReactQuery.Mutation in
     useMutation
       (mutationOptions ~mutationKey:[| "guests" |] ~mutationFn:add_guest ())
   ;;
