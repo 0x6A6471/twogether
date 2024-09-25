@@ -17,7 +17,7 @@ let[@react.component] make ~guests =
     <ul role="list"
         className="divide-y divide-gray-100 border border-gray-100 rounded-2xl">
       (Array.map
-         (fun (guest : Api.Guests.t) ->
+         (fun (guest : Api.Guests.Get.t) ->
            let status =
              match guest.rsvp_status with
              | `not_invited -> "Not Invited"

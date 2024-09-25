@@ -1,32 +1,11 @@
 open React
 open Bindings
 open ReactQuery.Mutation
-open Utils
-
-type rsvp_status =
-  [ `not_invited
-  | `invited
-  | `accepted
-  | `declined
-  ]
-
-type t =
-  { first_name : string
-  ; last_name : string
-  ; email : string
-  ; address_line_1 : string
-  ; address_line_2 : string option
-  ; city : string
-  ; state : string
-  ; zip : string
-  ; country : string
-  ; rsvp_status : rsvp_status
-  }
 
 let[@react.component] make ~label ?className =
   let form_data, set_form_data =
     useState (fun _ ->
-      { first_name = ""
+      { Api.Guests.Post.first_name = ""
       ; last_name = ""
       ; email = ""
       ; address_line_1 = ""
@@ -38,47 +17,10 @@ let[@react.component] make ~label ?className =
       ; rsvp_status = `not_invited
       })
   in
-  let add_guest () =
-    Js.log2 "calling add guest" form_data;
-    let payload = Js.Dict.empty () in
-    Js.Dict.set payload "first_name" (Js.Json.string form_data.first_name);
-    Js.Dict.set payload "last_name" (Js.Json.string form_data.last_name);
-    Js.Dict.set payload "email" (Js.Json.string form_data.email);
-    Js.Dict.set
-      payload
-      "address_line_1"
-      (Js.Json.string form_data.address_line_1);
-    Js.Dict.set
-      payload
-      "address_line_2"
-      (Js.Json.string (Belt.Option.getWithDefault form_data.address_line_2 ""));
-    Js.Dict.set payload "city" (Js.Json.string form_data.city);
-    Js.Dict.set payload "state" (Js.Json.string form_data.state);
-    Js.Dict.set payload "zip" (Js.Json.string form_data.zip);
-    Js.Dict.set payload "country" (Js.Json.string form_data.country);
-    Js.Dict.set
-      payload
-      "rsvp_status"
-      (Js.Json.string
-         (match form_data.rsvp_status with
-          | `not_invited -> "not_invited"
-          | `invited -> "invited"
-          | `accepted -> "accepted"
-          | `declined -> "declined"));
-    Fetcher.req_with_body
-      "/api/guests"
-      ~method_:Post
-      ~payload
-      ~decoder:Api.Guests.Decode.guests
-  in
-  let result =
-    useMutation
-      (mutationOptions ~mutationKey:[| "guests" |] ~mutationFn:add_guest ())
-  in
+  let result = Api.Guests.Post.use_guest_mutation () in
   let handle_submit e =
     React.Event.Form.preventDefault e;
-    Js.log form_data;
-    result.mutate () None [@u]
+    result.mutate form_data None [@u]
   in
   <Radix.Dialog.Root>
     <Radix.Dialog.Trigger asChild=true>

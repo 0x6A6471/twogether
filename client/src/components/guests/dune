@@ -1,7 +1,7 @@
 (library
  (name components_guests)
  (modes melange)
- (libraries reason-react melange.belt api bindings ui utils)
+ (libraries reason-react melange.belt api bindings ui)
  (preprocess (pps melange.ppx reason-react-ppx))
  (modules empty_state guest_dialog guest_list))
 

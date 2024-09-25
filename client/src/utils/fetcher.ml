@@ -15,7 +15,7 @@ let get url_path ~decoder =
     |> then_ (fun json -> decoder json |> resolve))
 ;;
 
-let req_with_body url_path ~method_ ~payload ~decoder =
+let req_with_body url_path ~method_ ~payload =
   Js.Promise.(
     Fetch.fetchWithInit
       (api_url ^ url_path)
@@ -27,5 +27,5 @@ let req_with_body url_path ~method_ ~payload ~decoder =
          ~body:
            (Fetch.BodyInit.make (Js.Json.stringify (Js.Json.object_ payload))))
     |> then_ Fetch.Response.json
-    |> then_ (fun json -> decoder json |> resolve))
+    |> then_ (fun json -> json |> resolve))
 ;;

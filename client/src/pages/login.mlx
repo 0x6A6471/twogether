@@ -3,7 +3,7 @@ open React
 let[@react.component] make () =
   let auth = useContext Ctx.Auth.auth_context in
   let form_data, set_form_data =
-    useState (fun _ -> { Ctx.Auth.email = ""; Ctx.Auth.password = "" })
+    useState (fun _ -> { Ctx.Auth.email = ""; password = "" })
   in
   let handle_input_change field_name event =
     let value = (React.Event.Form.target event)##value in
