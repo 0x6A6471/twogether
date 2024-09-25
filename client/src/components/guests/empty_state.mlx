@@ -9,7 +9,7 @@ let[@react.component] make () =
         <p>(string "You do not have any guests yet.")</p>
         <p>(string "Click the button below to add a new guest.")</p>
       </div>
-      <Guest_dialog />
+      <Guest_dialog label="Add Guest" className="w-full justify-center" />
     </div>
   </div>
 ;;

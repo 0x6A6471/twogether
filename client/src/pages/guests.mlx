@@ -14,7 +14,7 @@ let[@react.component] make () =
        | Some guests, _ ->
          (match Array.length guests with
           | 0 -> React.null
-          | _ -> <Guest_dialog />)
+          | _ -> <Guest_dialog label="New" />)
        | _ -> React.null)
     </div>
     <div className="flex-1 overflow-y-auto m-4">
