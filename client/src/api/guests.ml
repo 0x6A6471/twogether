@@ -103,7 +103,6 @@ module Post = struct
     }
 
   let add_guest form_data =
-    Js.log2 "calling add guest" form_data;
     let payload = Js.Dict.empty () in
     Js.Dict.set payload "first_name" (Js.Json.string form_data.first_name);
     Js.Dict.set payload "last_name" (Js.Json.string form_data.last_name);
