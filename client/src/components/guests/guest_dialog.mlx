@@ -1,6 +1,5 @@
 open React
 open Bindings
-open ReactQuery.Mutation
 
 let[@react.component] make ~label ?className =
   let form_data, set_form_data =
@@ -17,10 +16,14 @@ let[@react.component] make ~label ?className =
       ; rsvp_status = `not_invited
       })
   in
-  let result = Api.Guests.Post.use_guest_mutation () in
+  (* let result = Api.Guests.Post.use_guest_mutation () in *)
+  (* let handle_submit e = *)
+  (*   React.Event.Form.preventDefault e; *)
+  (*   result.mutate form_data None [@u] *)
+  (* in *)
   let handle_submit e =
     React.Event.Form.preventDefault e;
-    result.mutate form_data None [@u]
+    Js.log form_data
   in
   <Radix.Dialog.Root>
     <Radix.Dialog.Trigger asChild=true>

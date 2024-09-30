@@ -1,4 +1,5 @@
 open Utils
+open ReactQuery
 
 type rsvp_status =
   [ `not_invited
@@ -79,12 +80,7 @@ module Get = struct
   let get_user_guests _ = Fetcher.get "/api/guests" ~decoder:Decode.guests
 
   let use_guests () =
-    let open ReactQuery.Query in
-    useQuery
-      (queryOptions
-         ~queryKey:(ReactQuery.Utils.queryKey1 "guests")
-         ~queryFn:get_user_guests
-         ())
+    useQuery (make_query ~queryKey:[| "guests" |] ~queryFn:get_user_guests ())
   ;;
 end
 
@@ -131,9 +127,9 @@ module Post = struct
     Fetcher.req_with_body "/api/guests" ~method_:Post ~payload
   ;;
 
-  let use_guest_mutation () =
-    let open ReactQuery.Mutation in
-    useMutation
-      (mutationOptions ~mutationKey:[| "guests" |] ~mutationFn:add_guest ())
-  ;;
+  (* let use_guest_mutation () = *)
+  (*   let open ReactQuery.Mutation in *)
+  (*   useMutation *)
+  (*     (mutationOptions ~mutationKey:[| "guests" |] ~mutationFn:add_guest ()) *)
+  (* ;; *)
 end
