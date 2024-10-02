@@ -3,7 +3,6 @@ open Components_guests
 
 let[@react.component] make () =
   let guests = Api.Guests.Get.use_guests () in
-  Js.log guests;
   <div className="flex flex-col bg-white rounded-2xl h-dashboard">
     <div className="flex justify-between items-center p-4 border-b \
                     border-gray-100">
