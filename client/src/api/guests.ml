@@ -127,9 +127,15 @@ module Post = struct
     Fetcher.req_with_body "/api/guests" ~method_:Post ~payload
   ;;
 
-  (* let use_guest_mutation () = *)
-  (*   let open ReactQuery.Mutation in *)
-  (*   useMutation *)
-  (*     (mutationOptions ~mutationKey:[| "guests" |] ~mutationFn:add_guest ()) *)
-  (* ;; *)
+  let use_guest_mutation () =
+    useMutation
+      { mutationFn = add_guest
+      ; retry = None
+      ; retryDelay = None
+      ; onMutate = None
+      ; onError = Some (fun _ _ _ -> Js.log "Error")
+      ; onSuccess = Some (fun _ _ _ -> Js.log "Success")
+      ; onSettled = Some (fun _ _ _ _ -> Js.log "Settle")
+      }
+  ;;
 end
