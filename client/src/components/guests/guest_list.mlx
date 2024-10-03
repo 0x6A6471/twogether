@@ -10,10 +10,10 @@ let copy_to_clipboard =
 ;;
 
 let[@react.component] make ~guests =
-  match guests with
-  (* TODO: add empty state here*)
-  | None -> React.null
-  | Some guests ->
+  let guests_list = Array.to_list guests in
+  match guests_list with
+  | [] -> <Empty_state />
+  | _ ->
     <ul role="list"
         className="divide-y divide-gray-100 border border-gray-100 rounded-2xl">
       (Array.map

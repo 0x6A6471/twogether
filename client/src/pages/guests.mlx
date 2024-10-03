@@ -22,8 +22,8 @@ let[@react.component] make () =
          <div className="flex items-center justify-center h-full">
            <Ui.Icon className="animate-spin text-black" name="loader" size="24" />
          </div>
-       | `error -> <h1>(string "Error")</h1>
-       | `success -> <Guest_list guests=(Some guests.data) />)
+       | `success -> <Guest_list guests=guests.data />
+       | `error -> <h1>(string "Error")</h1>)
     </div>
     <div className="p-4 border-t border-gray-100">(string "extras")</div>
   </div>
