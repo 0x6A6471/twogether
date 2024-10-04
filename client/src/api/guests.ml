@@ -8,24 +8,24 @@ type rsvp_status =
   | `declined
   ]
 
-module Get = struct
-  type t =
-    { id : string
-    ; user_id : string
-    ; first_name : string
-    ; last_name : string
-    ; email : string
-    ; address_line_1 : string
-    ; address_line_2 : string option
-    ; city : string
-    ; state : string
-    ; zip : string
-    ; country : string
-    ; rsvp_status : rsvp_status
-    ; created_at : string
-    ; updated_at : string
-    }
+type t =
+  { id : string
+  ; user_id : string
+  ; first_name : string
+  ; last_name : string
+  ; email : string
+  ; address_line_1 : string
+  ; address_line_2 : string option
+  ; city : string
+  ; state : string
+  ; zip : string
+  ; country : string
+  ; rsvp_status : rsvp_status
+  ; created_at : string
+  ; updated_at : string
+  }
 
+module Get = struct
   let rsvp_status json =
     Json.Decode.(
       json
@@ -44,7 +44,7 @@ module Get = struct
         json
         |> fun json ->
         let id = field "id" string json in
-        let user_id = field "email" string json in
+        let user_id = field "user_id" string json in
         let first_name = field "first_name" string json in
         let last_name = field "last_name" string json in
         let email = field "email" string json in
@@ -127,15 +127,45 @@ module Post = struct
     Fetcher.req_with_body "/api/guests" ~method_:Post ~payload
   ;;
 
-  let use_guest_mutation () =
+  let use_guest_mutation queryClient =
     useMutation
       { mutationFn = add_guest
       ; retry = None
       ; retryDelay = None
       ; onMutate = None
       ; onError = Some (fun _ _ _ -> Js.log "Error")
-      ; onSuccess = Some (fun _ _ _ -> Js.log "Success")
-      ; onSettled = Some (fun _ _ _ _ -> Js.log "Settle")
+      ; onSuccess =
+          Some
+            (fun _ _ _ ->
+              QueryClient.invalidateQueries
+                queryClient
+                { queryKey = [| "guests" |]; exact = Some true })
+      ; onSettled = None
+      }
+  ;;
+end
+
+module Delete = struct
+  let delete_guest guest =
+    let payload = Js.Dict.empty () in
+    Js.Dict.set payload "user_id" (Js.Json.string guest.user_id);
+    Fetcher.req_with_body ("/api/guests/" ^ guest.id) ~method_:Delete ~payload
+  ;;
+
+  let use_delete_mutation queryClient =
+    useMutation
+      { mutationFn = delete_guest
+      ; retry = None
+      ; retryDelay = None
+      ; onMutate = None
+      ; onError = Some (fun _ _ _ -> Js.log "Error")
+      ; onSuccess =
+          Some
+            (fun _ _ _ ->
+              QueryClient.invalidateQueries
+                queryClient
+                { queryKey = [| "guests" |]; exact = Some true })
+      ; onSettled = None
       }
   ;;
 end
