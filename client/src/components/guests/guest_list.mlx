@@ -17,7 +17,7 @@ let[@react.component] make ~guests =
     <ul role="list"
         className="divide-y divide-gray-100 border border-gray-100 rounded-2xl">
       (Array.map
-         (fun (guest : Api.Guests.Get.t) ->
+         (fun (guest : Api.Guests.t) ->
            let status =
              match guest.rsvp_status with
              | `not_invited -> "Not Invited"
@@ -61,7 +61,7 @@ let[@react.component] make ~guests =
                                   on_click=(fun _ ->
                                              copy_to_clipboard guest.email) />
                (*   <EditGuestDialog guest=g /> *)
-               (*   <DeleteGuestDialog guest=g /> *)
+               <Delete_guest_dialog guest />
              </div>
            </li>)
          guests
