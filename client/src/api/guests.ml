@@ -127,7 +127,7 @@ module Post = struct
     Fetcher.req_with_body "/api/guests" ~method_:Post ~payload
   ;;
 
-  let use_guest_mutation queryClient =
+  let use_guest_mutation query_client =
     useMutation
       { mutationFn = add_guest
       ; retry = None
@@ -138,7 +138,7 @@ module Post = struct
           Some
             (fun _ _ _ ->
               QueryClient.invalidateQueries
-                queryClient
+                query_client
                 { queryKey = [| "guests" |]; exact = Some true })
       ; onSettled = None
       }
@@ -152,7 +152,7 @@ module Delete = struct
     Fetcher.req_with_body ("/api/guests/" ^ guest.id) ~method_:Delete ~payload
   ;;
 
-  let use_delete_mutation queryClient =
+  let use_delete_mutation query_client =
     useMutation
       { mutationFn = delete_guest
       ; retry = None
@@ -163,7 +163,7 @@ module Delete = struct
           Some
             (fun _ _ _ ->
               QueryClient.invalidateQueries
-                queryClient
+                query_client
                 { queryKey = [| "guests" |]; exact = Some true })
       ; onSettled = None
       }
