@@ -1,7 +1,6 @@
 open React
 open Bindings
 open ReactQuery
-open Ui
 
 let[@react.component] make ~(guest : Api.Guests.t) =
   let query_client = ReactQuery.useQueryClient () in
@@ -12,24 +11,12 @@ let[@react.component] make ~(guest : Api.Guests.t) =
   in
   <Radix.Dialog.Root>
     <Radix.Dialog.Trigger asChild=false>
-      <Radix.Tooltip.Provider>
-        <Radix.Tooltip.Root delayDuration=200>
-          <Radix.Tooltip.Trigger asChild=true>
-            <span className="hidden rounded-md bg-white p-1.5 text-sm \
-                             hover:bg-rose-50 hover:text-rose-700 sm:block">
-              <Icon name="trash" />
-            </span>
-          </Radix.Tooltip.Trigger>
-          <Radix.Tooltip.Portal>
-            <Radix.Tooltip.Content className="select-none rounded bg-black \
-                                              text-white p-2 leading-none \
-                                              shadow text-xs"
-                                   sideOffset=4>
-              (string ("Delete " ^ guest.first_name ^ " " ^ guest.last_name))
-            </Radix.Tooltip.Content>
-          </Radix.Tooltip.Portal>
-        </Radix.Tooltip.Root>
-      </Radix.Tooltip.Provider>
+      <Ui.Button_tooltip label=("Delete "
+                                ^ guest.first_name
+                                ^ " "
+                                ^ guest.last_name)
+                         color=`red
+                         icon="trash" />
     </Radix.Dialog.Trigger>
     <Radix.Dialog.Portal>
       <Radix.Dialog.Overlay className="bg-gray-950/70 fixed inset-0" />

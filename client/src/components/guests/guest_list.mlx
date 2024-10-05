@@ -60,7 +60,7 @@ let[@react.component] make ~guests =
                                   icon="email"
                                   on_click=(fun _ ->
                                              copy_to_clipboard guest.email) />
-               (*   <EditGuestDialog guest=g /> *)
+               <Edit_guest_dialog guest />
                <Delete_guest_dialog guest />
              </div>
            </li>)
