@@ -8,3 +8,7 @@ body {
   color: #5e5d5c;
   font-family: "Space Grotesk";
 }
+
+button {
+  cursor: default;
+}

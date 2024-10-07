@@ -9,8 +9,8 @@ type t =
 let[@react.component] make ~label ~icon ?(color = `gray) ?on_click =
   let hover_styles =
     match color with
-    | `gray -> "bg-gray-50 text-gray-700 ring-gray-700/10"
-    | `red -> "bg-rose-50 text-rose-700 ring-rose-700/10"
+    | `gray -> "bg-gray-50 ring-gray-700/10 hover:bg-gray-50"
+    | `red -> "bg-rose-50 hover:text-rose-700 ring-rose-700/10 hover:bg-rose-50"
   in
   let handle_click _ =
     match on_click with
@@ -20,12 +20,12 @@ let[@react.component] make ~label ~icon ?(color = `gray) ?on_click =
   <Radix.Tooltip.Provider>
     <Radix.Tooltip.Root delayDuration=200>
       <Radix.Tooltip.Trigger asChild=true>
-        <button onClick=handle_click
-                className=(hover_styles
-                           ^ " hidden rounded-md bg-white p-1.5 text-sm \
-                              hover:bg-gray-50 hover:text-gray-700 sm:block")>
+        <span onClick=handle_click
+              className=(hover_styles
+                         ^ " hidden rounded-md bg-white p-1.5 text-sm sm:block"
+                        )>
           <Icon name=icon />
-        </button>
+        </span>
       </Radix.Tooltip.Trigger>
       <Radix.Tooltip.Portal>
         <Radix.Tooltip.Content className="select-none rounded bg-black \
