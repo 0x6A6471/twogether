@@ -1,11 +1,6 @@
 open React
 open Bindings
 
-type t =
-  [ `gray
-  | `red
-  ]
-
 let[@react.component] make ~label ~icon ?(color = `gray) ?on_click =
   let hover_styles =
     match color with

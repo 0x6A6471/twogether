@@ -2,7 +2,7 @@ open React
 open Bindings
 open ReactQuery
 
-let[@react.component] make ~(guest : Api.Guests.t) =
+let[@react.component] make ~guest =
   let query_client = ReactQuery.useQueryClient () in
   let mutation = Api.Guests.Delete.use_delete_mutation query_client in
   let handle_delete e =

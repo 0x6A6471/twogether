@@ -1,18 +1,6 @@
 open React
 open Bindings
 
-type t =
-  { name : string
-  ; href : string
-  ; icon : string
-  }
-
-let navigation =
-  [| { name = "Home"; href = "/dashboard"; icon = "home" }
-   ; { name = "Guests"; href = "/dashboard/guests"; icon = "users" }
-  |]
-;;
-
 let[@react.component] make () =
   let auth = useContext Ctx.Auth.auth_context in
   let is_open, set_is_open = useState (fun _ -> false) in

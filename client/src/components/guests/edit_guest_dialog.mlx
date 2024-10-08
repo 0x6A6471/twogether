@@ -1,7 +1,7 @@
 open React
 open Bindings
 
-let[@react.component] make ~(guest : Api.Guests.t) =
+let[@react.component] make ~guest =
   let query_client = ReactQuery.useQueryClient () in
   let is_open, set_is_open = useState (fun _ -> false) in
   let form_data, set_form_data = useState (fun _ -> guest) in
