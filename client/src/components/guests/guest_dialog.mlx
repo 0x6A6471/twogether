@@ -20,7 +20,7 @@ let[@react.component] make ~label ?className =
   in
   let mutation = Api.Guests.Post.use_add_mutation query_client in
   let handle_add e =
-    React.Event.Form.preventDefault e;
+    Event.Form.preventDefault e;
     mutation.mutate form_data [@u]
   in
   <Radix.Dialog.Root>
@@ -68,9 +68,7 @@ let[@react.component] make ~label ?className =
                                   placeholder:text-gray-400 focus:ring-inset \
                                   focus:ring-gray-400 sm:text-sm sm:leading-6"
                        onChange=(fun e ->
-                                  let value =
-                                    (React.Event.Form.target e)##value
-                                  in
+                                  let value = (Event.Form.target e)##value in
                                   set_form_data (fun prev_data ->
                                     { prev_data with first_name = value })) />
               </div>
@@ -91,9 +89,7 @@ let[@react.component] make ~label ?className =
                                   placeholder:text-gray-400 focus:ring-inset \
                                   focus:ring-gray-400 sm:text-sm sm:leading-6"
                        onChange=(fun e ->
-                                  let value =
-                                    (React.Event.Form.target e)##value
-                                  in
+                                  let value = (Event.Form.target e)##value in
                                   set_form_data (fun prev_data ->
                                     { prev_data with last_name = value })) />
               </div>
@@ -113,9 +109,7 @@ let[@react.component] make ~label ?className =
                                 placeholder:text-gray-400 focus:ring-inset \
                                 focus:ring-gray-400 sm:text-sm sm:leading-6"
                      onChange=(fun e ->
-                                let value =
-                                  (React.Event.Form.target e)##value
-                                in
+                                let value = (Event.Form.target e)##value in
                                 set_form_data (fun prev_data ->
                                   { prev_data with email = value })) />
             </div>
@@ -134,9 +128,7 @@ let[@react.component] make ~label ?className =
                                 placeholder:text-gray-400 focus:ring-inset \
                                 focus:ring-gray-400 sm:text-sm sm:leading-6"
                      onChange=(fun e ->
-                                let value =
-                                  (React.Event.Form.target e)##value
-                                in
+                                let value = (Event.Form.target e)##value in
                                 set_form_data (fun prev_data ->
                                   { prev_data with address_line_1 = value })) />
             </div>
@@ -154,9 +146,7 @@ let[@react.component] make ~label ?className =
                                 placeholder:text-gray-400 focus:ring-inset \
                                 focus:ring-gray-400 sm:text-sm sm:leading-6"
                      onChange=(fun e ->
-                                let value =
-                                  (React.Event.Form.target e)##value
-                                in
+                                let value = (Event.Form.target e)##value in
                                 set_form_data (fun prev_data ->
                                   { prev_data with address_line_2 = value })) />
             </div>
@@ -175,9 +165,7 @@ let[@react.component] make ~label ?className =
                                 placeholder:text-gray-400 focus:ring-inset \
                                 focus:ring-gray-400 sm:text-sm sm:leading-6"
                      onChange=(fun e ->
-                                let value =
-                                  (React.Event.Form.target e)##value
-                                in
+                                let value = (Event.Form.target e)##value in
                                 set_form_data (fun prev_data ->
                                   { prev_data with city = value })) />
             </div>
@@ -196,9 +184,7 @@ let[@react.component] make ~label ?className =
                                 placeholder:text-gray-400 focus:ring-inset \
                                 focus:ring-gray-400 sm:text-sm sm:leading-6"
                      onChange=(fun e ->
-                                let value =
-                                  (React.Event.Form.target e)##value
-                                in
+                                let value = (Event.Form.target e)##value in
                                 set_form_data (fun prev_data ->
                                   { prev_data with state = value })) />
             </div>
@@ -219,9 +205,7 @@ let[@react.component] make ~label ?className =
                      minLength=5
                      maxLength=5
                      onChange=(fun e ->
-                                let value =
-                                  (React.Event.Form.target e)##value
-                                in
+                                let value = (Event.Form.target e)##value in
                                 set_form_data (fun prev_data ->
                                   { prev_data with zip = value })) />
             </div>
@@ -240,9 +224,7 @@ let[@react.component] make ~label ?className =
                                  focus:ring-gray-400 sm:text-sm sm:leading-6"
                       value=form_data.country
                       onChange=(fun e ->
-                                 let value =
-                                   (React.Event.Form.target e)##value
-                                 in
+                                 let value = (Event.Form.target e)##value in
                                  set_form_data (fun prev_data ->
                                    { prev_data with country = value }))>
                 <option value="" disabled=true>(string "Select one")</option>

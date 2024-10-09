@@ -79,7 +79,7 @@ let[@react.component] make ~children =
                        </Link>
                      </li>)
                    navigation
-                 |> React.array)
+                 |> array)
               </ul>
             </nav>
             <User_dropdown />
@@ -118,7 +118,7 @@ let[@react.component] make ~children =
                    </Link>
                  </li>)
                navigation
-             |> React.array)
+             |> array)
           </ul>
         </nav>
         <User_dropdown />

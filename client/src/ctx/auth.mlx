@@ -8,6 +8,8 @@ type user =
   ; name : string
   }
 
+type error = string
+
 type login_data =
   { email : string
   ; password : string
@@ -18,10 +20,21 @@ module Decode = struct
     Json.Decode.(
       json
       |> fun json ->
-      let id = field "id" string json in
-      let email = field "email" string json in
-      let name = field "name" string json in
-      { id; email; name })
+      try
+        let id = field "id" string json in
+        let email = field "email" string json in
+        let name = field "name" string json in
+        Ok { id; email; name }
+      with
+      | _ -> Error "Failed to decode user")
+  ;;
+
+  let error json =
+    Json.Decode.(
+      json
+      |> fun json ->
+      let message = field "error" string json in
+      message)
   ;;
 end
 
@@ -30,6 +43,8 @@ type context_value =
   ; login : login_data -> unit Js.Promise.t
   ; logout : unit -> unit Js.Promise.t
   ; is_loading : bool
+  ; error : error option
+  ; set_error : (error option -> error option) -> unit
   }
 
 let init =
@@ -37,6 +52,8 @@ let init =
   ; login = (fun _ -> Js.Promise.resolve ())
   ; is_loading = true
   ; logout = (fun _ -> Js.Promise.resolve ())
+  ; error = None
+  ; set_error = (fun _ -> ())
   }
 ;;
 
@@ -51,6 +68,7 @@ end
 module AuthProvider = struct
   let[@react.component] make ~children =
     let user, set_user = useState (fun _ -> None) in
+    let error, set_error = useState (fun _ -> None) in
     let is_loading, set_is_loading = useState (fun _ -> true) in
     let login form_data =
       set_is_loading (fun _ -> true);
@@ -75,12 +93,18 @@ module AuthProvider = struct
                   (Js.Json.stringify (Js.Json.object_ payload))))
         |> then_ Fetch.Response.json
         |> then_ (fun json ->
-          (let user = json |> Decode.user in
-           set_user (fun _ -> Some user));
-          set_is_loading (fun _ -> false);
-          ReasonReactRouter.push "/dashboard" |> resolve)
+          match Decode.user json with
+          | Ok user ->
+            set_user (fun _ -> Some user);
+            set_is_loading (fun _ -> false);
+            ReasonReactRouter.push "/dashboard" |> resolve
+          | Error _ ->
+            let msg = Decode.error json in
+            set_error (fun _ -> Some msg);
+            set_is_loading (fun _ -> false) |> resolve)
         |> catch (fun err ->
-          Js.log2 "Error in AuthContext login: " err |> resolve))
+          Js.log2 "Error in AuthContext login: " err;
+          set_error (fun _ -> Some "invalid credentials") |> resolve))
     in
     let logout _ =
       set_is_loading (fun _ -> true);
@@ -104,11 +128,14 @@ module AuthProvider = struct
           (Fetch.RequestInit.make () ~credentials:Include)
         |> then_ Fetch.Response.json
         |> then_ (fun json ->
-          (let user = json |> Decode.user in
-           set_user (fun _ -> Some user));
-          set_is_loading (fun _ -> false) |> resolve)
+          match Decode.user json with
+          | Ok user ->
+            set_user (fun _ -> Some user);
+            set_is_loading (fun _ -> false);
+            ReasonReactRouter.push "/dashboard" |> resolve
+          | Error _ -> set_is_loading (fun _ -> false) |> resolve)
         |> catch (fun err ->
-          Js.log2 "Error in AuthContext login: " err;
+          Js.log2 "Error in AuthContext validate: " err;
           set_is_loading (fun _ -> false) |> resolve))
     in
     let url = ReasonReactRouter.useUrl () in
@@ -120,7 +147,7 @@ module AuthProvider = struct
       | _ ->
         validate () |> ignore;
         None);
-    let value = { user; login; is_loading; logout } in
+    let value = { user; login; is_loading; logout; error; set_error } in
     <Provider value>children</Provider>
   ;;
 end
