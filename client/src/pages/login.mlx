@@ -6,7 +6,7 @@ let[@react.component] make () =
     useState (fun _ -> { Ctx.Auth.email = ""; password = "" })
   in
   let handle_input_change field_name event =
-    let value = (React.Event.Form.target event)##value in
+    let value = (Event.Form.target event)##value in
     set_form_data (fun prev_data ->
       match field_name with
       | "email" -> { prev_data with email = value }
@@ -14,9 +14,14 @@ let[@react.component] make () =
       | _ -> prev_data)
   in
   let on_submit e =
-    React.Event.Form.preventDefault e;
+    Event.Form.preventDefault e;
     auth.login form_data |> ignore
   in
+  useEffect1
+    (fun _ ->
+      auth.set_error (fun _ -> None);
+      None)
+    [| form_data |];
   <div className="pt-20">
     <form onSubmit=on_submit
           className="max-w-sm mx-auto space-y-4 bg-white p-4 rounded-lg \
@@ -57,6 +62,9 @@ let[@react.component] make () =
                             focus:ring-indigo-600 sm:text-sm sm:leading-6"
                  onChange=(handle_input_change "password") />
         </div>
+        (match auth.error with
+         | Some error -> <p className="text-red-600 text-sm">(string error)</p>
+         | None -> null)
       </div>
       <button type_="submit">
         (match auth.is_loading with

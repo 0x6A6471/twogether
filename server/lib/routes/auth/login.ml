@@ -51,8 +51,8 @@ let handler pool request =
        let user_json = Response.yojson_of_t user in
        Dream.json (Yojson.Safe.to_string user_json)
      | false ->
-       Dream.json ~status:`Unauthorized {|{ "error": "invalid credentials" }|})
+       Dream.json ~status:`Unauthorized {|{ "error": "Invalid Credentials" }|})
   | Error err ->
     Dream.log "%s" err;
-    Dream.json ~status:`Unauthorized {|{ "error": "invalid credentials" }|}
+    Dream.json ~status:`Unauthorized {|{ "error": "Invalid Credentials" }|}
 ;;

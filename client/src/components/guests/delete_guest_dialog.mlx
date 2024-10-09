@@ -6,7 +6,7 @@ let[@react.component] make ~guest =
   let query_client = ReactQuery.useQueryClient () in
   let mutation = Api.Guests.Delete.use_delete_mutation query_client in
   let handle_delete e =
-    React.Event.Mouse.preventDefault e;
+    Event.Mouse.preventDefault e;
     mutation.mutate guest [@u]
   in
   <Radix.Dialog.Root>

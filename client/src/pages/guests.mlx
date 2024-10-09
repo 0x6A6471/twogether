@@ -10,10 +10,10 @@ let[@react.component] make () =
         (string "Guest List")
       </h1>
       (match guests.data, guests.status with
-       | _, `pending -> React.null
+       | _, `pending -> null
        | guests, _ ->
          (match Array.length guests with
-          | 0 -> React.null
+          | 0 -> null
           | _ -> <Guest_dialog label="New" />))
     </div>
     <div className="flex-1 overflow-y-auto m-4">
