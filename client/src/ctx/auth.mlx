@@ -131,8 +131,7 @@ module AuthProvider = struct
           match Decode.user json with
           | Ok user ->
             set_user (fun _ -> Some user);
-            set_is_loading (fun _ -> false);
-            ReasonReactRouter.push "/dashboard" |> resolve
+            set_is_loading (fun _ -> false) |> resolve
           | Error _ -> set_is_loading (fun _ -> false) |> resolve)
         |> catch (fun err ->
           Js.log2 "Error in AuthContext validate: " err;
