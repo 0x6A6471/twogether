@@ -11,6 +11,11 @@ bug-reports: "https://github.com/jakequinter/hitched/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.16"}
+  "melange"
+  "reason-react-ppx"
+  "mlx"
+  "melange-json"
+  "melange-fetch"
   "odoc" {with-doc}
 ]
 build: [
