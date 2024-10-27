@@ -21,7 +21,13 @@
  (name client)
  (synopsis "Client-side code for Hitched, a wedding planning app.")
  (allow_empty)
- (depends ocaml dune)
+ (depends ocaml 
+          dune
+          melange
+          reason-react-ppx
+          mlx
+          melange-json
+          melange-fetch)
  (tags
   (topics "to describe" your project)))
 
