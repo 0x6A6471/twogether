@@ -3,7 +3,7 @@ open Components_guests
 
 let[@react.component] make () =
   let guests = Api.Guests.Get.use_guests () in
-  <div className="flex flex-col bg-white rounded-2xl h-dashboard">
+    <div className="flex flex-col bg-white rounded-2xl h-dashboard">
     <div className="flex justify-between items-center p-4 border-b \
                     border-gray-100">
       <h1 className="text-xl font-semibold text-gray-950">

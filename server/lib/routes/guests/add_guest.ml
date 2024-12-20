@@ -15,18 +15,18 @@ type t =
 [@@deriving yojson]
 
 let add_guest
-  ~user_id
-  ~first_name
-  ~last_name
-  ~email
-  ~address_line_1
-  ~address_line_2
-  ~city
-  ~state
-  ~zip
-  ~country
-  ~rsvp_status
-  pool
+      ~user_id
+      ~first_name
+      ~last_name
+      ~email
+      ~address_line_1
+      ~address_line_2
+      ~city
+      ~state
+      ~zip
+      ~country
+      ~rsvp_status
+      pool
   =
   let query =
     [%rapper
@@ -37,19 +37,19 @@ let add_guest
   let* result =
     Caqti_lwt.Pool.use
       (fun db ->
-        query
-          db
-          ~user_id
-          ~first_name
-          ~last_name
-          ~email
-          ~address_line_1
-          ~address_line_2
-          ~city
-          ~state
-          ~zip
-          ~country
-          ~rsvp_status)
+         query
+           db
+           ~user_id
+           ~first_name
+           ~last_name
+           ~email
+           ~address_line_1
+           ~address_line_2
+           ~city
+           ~state
+           ~zip
+           ~country
+           ~rsvp_status)
       pool
   in
   match result with

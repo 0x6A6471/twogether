@@ -7,7 +7,7 @@
 (generate_opam_files true)
 
 (source
- (github jakequinter/hitched))
+ (github jakequinter/twogether))
 
 (authors "Jake Quinter")
 
@@ -19,7 +19,7 @@
 
 (package
  (name client)
- (synopsis "Client-side code for Hitched, a wedding planning app.")
+ (synopsis "Client-side code for twogether, a wedding planning app.")
  (allow_empty)
  (depends ocaml 
           dune
@@ -39,4 +39,3 @@
   (preprocess
    (run mlx-pp %{input-file}))))
 
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
