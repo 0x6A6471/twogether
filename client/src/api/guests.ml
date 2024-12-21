@@ -13,7 +13,6 @@ type t =
   ; user_id : string
   ; first_name : string
   ; last_name : string
-  ; email : string
   ; address_line_1 : string
   ; address_line_2 : string option
   ; city : string
@@ -47,7 +46,6 @@ module Get = struct
         let user_id = field "user_id" string json in
         let first_name = field "first_name" string json in
         let last_name = field "last_name" string json in
-        let email = field "email" string json in
         let address_line_1 = field "address_line_1" string json in
         let address_line_2 = optional (field "address_line_2" string) json in
         let city = field "city" string json in
@@ -61,7 +59,6 @@ module Get = struct
         ; user_id
         ; first_name
         ; last_name
-        ; email
         ; address_line_1
         ; address_line_2
         ; city
@@ -88,7 +85,6 @@ module Post = struct
   type t =
     { first_name : string
     ; last_name : string
-    ; email : string
     ; address_line_1 : string
     ; address_line_2 : string option
     ; city : string
@@ -102,7 +98,6 @@ module Post = struct
     let payload = Js.Dict.empty () in
     Js.Dict.set payload "first_name" (Js.Json.string form_data.first_name);
     Js.Dict.set payload "last_name" (Js.Json.string form_data.last_name);
-    Js.Dict.set payload "email" (Js.Json.string form_data.email);
     Js.Dict.set
       payload
       "address_line_1"
@@ -152,7 +147,6 @@ module Put = struct
     Js.Dict.set payload "user_id" (Js.Json.string guest.user_id);
     Js.Dict.set payload "first_name" (Js.Json.string guest.first_name);
     Js.Dict.set payload "last_name" (Js.Json.string guest.last_name);
-    Js.Dict.set payload "email" (Js.Json.string guest.email);
     Js.Dict.set payload "address_line_1" (Js.Json.string guest.address_line_1);
     Js.Dict.set
       payload

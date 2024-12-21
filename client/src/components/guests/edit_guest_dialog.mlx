@@ -81,26 +81,6 @@ let[@react.component] make ~guest =
               </div>
             </div>
             <div className="sm:col-span-4">
-              <label htmlFor="email"
-                     className="block text-sm font-medium leading-6 \
-                                text-gray-950">
-                (string "Email address")
-              </label>
-              <input id="email"
-                     type_="email"
-                     name="email"
-                     required=true
-                     className="block w-full rounded-md border-0 py-1.5 \
-                                shadow-sm ring-1 ring-inset ring-gray-300 \
-                                placeholder:text-gray-400 focus:ring-inset \
-                                focus:ring-gray-400 sm:text-sm sm:leading-6"
-                     defaultValue=guest.email
-                     onChange=(fun e ->
-                                let value = (Event.Form.target e)##value in
-                                set_form_data (fun prev_data ->
-                                  { prev_data with email = value })) />
-            </div>
-            <div className="sm:col-span-4">
               <label htmlFor="street-address"
                      className="block text-sm font-medium leading-6 \
                                 text-gray-950">

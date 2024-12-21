@@ -10,7 +10,6 @@ type t =
   ; user_id : string
   ; first_name : string
   ; last_name : string
-  ; email : string
   ; address_line_1 : string
   ; address_line_2 : string option
   ; city : string
@@ -30,7 +29,6 @@ module Post : sig
   type t =
     { first_name : string
     ; last_name : string
-    ; email : string
     ; address_line_1 : string
     ; address_line_2 : string option
     ; city : string

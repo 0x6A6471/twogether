@@ -3,7 +3,6 @@ open Lwt.Syntax
 type t =
   { first_name : string
   ; last_name : string
-  ; email : string
   ; address_line_1 : string
   ; address_line_2 : string option
   ; city : string
@@ -18,7 +17,6 @@ let add_guest
       ~user_id
       ~first_name
       ~last_name
-      ~email
       ~address_line_1
       ~address_line_2
       ~city
@@ -31,8 +29,8 @@ let add_guest
   let query =
     [%rapper
       execute
-        {sql|INSERT INTO guests (user_id, first_name, last_name, email, address_line_1, address_line_2, city, state, zip, country, rsvp_status)
-      VALUES (%string{user_id}, %string{first_name}, %string{last_name}, %string{email}, %string{address_line_1}, %string?{address_line_2}, %string{city}, %string{state}, %string{zip}, %string{country}, %string{rsvp_status})|sql}]
+        {sql|INSERT INTO guests (user_id, first_name, last_name, address_line_1, address_line_2, city, state, zip, country, rsvp_status)
+      VALUES (%string{user_id}, %string{first_name}, %string{last_name}, %string{address_line_1}, %string?{address_line_2}, %string{city}, %string{state}, %string{zip}, %string{country}, %string{rsvp_status})|sql}]
   in
   let* result =
     Caqti_lwt.Pool.use
@@ -42,7 +40,6 @@ let add_guest
            ~user_id
            ~first_name
            ~last_name
-           ~email
            ~address_line_1
            ~address_line_2
            ~city
@@ -71,7 +68,6 @@ let handler pool request =
             ~user_id
             ~first_name:guest.first_name
             ~last_name:guest.last_name
-            ~email:guest.email
             ~address_line_1:guest.address_line_1
             ~address_line_2:guest.address_line_2
             ~city:guest.city
