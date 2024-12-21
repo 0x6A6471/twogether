@@ -1,14 +1,5 @@
 open React
 
-let copy_to_clipboard =
-  [%mel.raw
-    {|
-  function(text) {
-    return navigator.clipboard.writeText(text);
-  }
-|}]
-;;
-
 let[@react.component] make ~guests =
   let guests_list = Array.to_list guests in
   match guests_list with
@@ -55,12 +46,7 @@ let[@react.component] make ~guests =
                </div>
              </div>
              <div className="flex flex-none items-center gap-x-1">
-               <Ui.Button_tooltip label="Copy Email"
-                                  icon="email"
-                                  on_click=(fun _ ->
-                                             copy_to_clipboard guest.email) />
-               <Edit_guest_dialog guest />
-               <Delete_guest_dialog guest />
+               <Edit_guest_dialog guest /> <Delete_guest_dialog guest />
              </div>
            </li>)
          guests

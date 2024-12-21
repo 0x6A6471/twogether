@@ -5,7 +5,7 @@ let get_guest ~id pool =
     [%rapper
       get_opt
         {sql|
-          SELECT @string{id}, @string{user_id}, @string{first_name}, @string{last_name}, @string{email},
+          SELECT @string{id}, @string{user_id}, @string{first_name}, @string{last_name},
           @string{address_line_1}, @string?{address_line_2}, @string{city}, @string{state},
           @string{zip}, @string{country}, @string{rsvp_status}, @string{created_at}, @string{updated_at} 
           FROM guests WHERE id = %string{id}
