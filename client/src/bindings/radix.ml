@@ -348,6 +348,107 @@ module Dialog = struct
   end
 end
 
+module Toast = struct
+  module Provider = struct
+    type swipeDirection =
+      [ `right
+      | `left
+      | `up
+      | `down
+      ]
+
+    external make
+      :  ?duration:int
+      -> ?label:int
+      -> ?swipeDirection:bool
+      -> ?swipeThreshold:swipeDirection
+      -> children:React.element
+      -> React.element
+      = "Provider"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+
+  module Viewport = struct
+    external make
+      :  ?asChild:bool
+      -> ?hotkey:string array
+      -> ?label:string
+      -> ?children:React.element
+      -> React.element
+      = "Viewport"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+
+  module Root = struct
+    type type_ =
+      [ `foreground
+      | `backgro8und
+      ]
+
+    type data_state =
+      [ `open_ [@mel.as "open"]
+      | `closed
+      ]
+
+    type data_swipe =
+      [ `start
+      | `move
+      | `cancel
+      | `end_ [@mel.as "end"]
+      ]
+
+    type data_swipe_direction =
+      [ `up
+      | `down
+      | `left
+      | `right
+      ]
+
+    external make
+      :  ?asChild:bool
+      -> ?type_:type_
+      -> ?duration:int
+      -> ?defaultOpen:bool
+      -> ?open_:(bool[@mel.as "open"])
+      -> ?onOpenChange:((bool -> bool) -> unit)
+      -> ?onEscapeKeyDown:Types.keyboard_event
+      -> ?onPause:(unit -> unit)
+      -> ?onResume:(unit -> unit)
+      -> ?onSwipeStart:(React.Event.Synthetic.t -> unit)
+      -> ?onSwipeMove:(React.Event.Synthetic.t -> unit)
+      -> ?onSwipeEnd:(React.Event.Synthetic.t -> unit)
+      -> ?onSwipeCancel:(React.Event.Synthetic.t -> unit)
+      -> ?forceMount:bool
+      -> ?children:React.element
+      -> ?dataState:(data_state[@mel.as "data-state"])
+      -> ?dataSwipe:(data_swipe[@mel.as "data-swipe"])
+      -> ?dataSwipeDirection:(data_swipe[@mel.as "data-swipe-direction"])
+      -> React.element
+      = "Root"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+
+  module Title = struct
+    external make : ?asChild:bool -> React.element = "Title"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+
+  module Description = struct
+    external make : ?asChild:bool -> React.element = "Description"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+
+  module Action = struct
+    external make : ?asChild:bool -> ?altText:string -> React.element = "Action"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+
+  module Close = struct
+    external make : ?asChild:bool -> React.element = "Close"
+    [@@react.component] [@@mel.module "@radix-ui/react-toast"]
+  end
+end
+
 module Tooltip = struct
   module Provider = struct
     external make
