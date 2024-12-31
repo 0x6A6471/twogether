@@ -28,7 +28,7 @@ end
 
 module ToastProvider = struct
   let[@react.component] make ~children =
-    let error, set_error = useState (fun _ -> true) in
+    let error, set_error = useState (fun _ -> false) in
     let message, set_message = useState (fun _ -> None) in
     let value = { error; set_error; message; set_message } in
     let handle_change is_open =
