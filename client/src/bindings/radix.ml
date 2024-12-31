@@ -373,7 +373,7 @@ module Toast = struct
       :  ?asChild:bool
       -> ?hotkey:string array
       -> ?label:string
-      -> ?children:React.element
+      -> ?className:string
       -> React.element
       = "Viewport"
     [@@react.component] [@@mel.module "@radix-ui/react-toast"]
@@ -419,6 +419,7 @@ module Toast = struct
       -> ?onSwipeEnd:(React.Event.Synthetic.t -> unit)
       -> ?onSwipeCancel:(React.Event.Synthetic.t -> unit)
       -> ?forceMount:bool
+      -> ?className:string
       -> ?children:React.element
       -> ?dataState:(data_state[@mel.as "data-state"])
       -> ?dataSwipe:(data_swipe[@mel.as "data-swipe"])
@@ -429,12 +430,21 @@ module Toast = struct
   end
 
   module Title = struct
-    external make : ?asChild:bool -> React.element = "Title"
+    external make
+      :  ?asChild:bool
+      -> ?className:string
+      -> ?children:React.element
+      -> React.element
+      = "Title"
     [@@react.component] [@@mel.module "@radix-ui/react-toast"]
   end
 
   module Description = struct
-    external make : ?asChild:bool -> React.element = "Description"
+    external make
+      :  ?asChild:bool
+      -> ?className:string
+      -> React.element
+      = "Description"
     [@@react.component] [@@mel.module "@radix-ui/react-toast"]
   end
 
@@ -444,7 +454,11 @@ module Toast = struct
   end
 
   module Close = struct
-    external make : ?asChild:bool -> React.element = "Close"
+    external make
+      :  ?asChild:bool
+      -> ?className:string
+      -> React.element
+      = "Close"
     [@@react.component] [@@mel.module "@radix-ui/react-toast"]
   end
 end

@@ -1,7 +1,7 @@
 (library
  (name ctx)
  (modes melange)
- (libraries reason-react melange.belt melange-fetch melange-json)
+ (libraries reason-react melange.belt melange-fetch melange-json bindings)
  (preprocess (pps melange.ppx reason-react-ppx))
- (modules auth))
+ (modules auth toast))
 
