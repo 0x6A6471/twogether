@@ -4,7 +4,21 @@ open ReactQuery
 
 let[@react.component] make ~guest =
   let query_client = ReactQuery.useQueryClient () in
+  let toast = useContext Ctx.Toast.toast_context in
   let mutation = Api.Guests.Delete.use_delete_mutation query_client in
+  useEffect1
+    (fun () ->
+      match mutation.status with
+      | `success ->
+        toast.set_error (fun _ ->
+          Some { message = "Guest deleted"; severity = `success });
+        None
+      | `error ->
+        toast.set_error (fun _ ->
+          Some { message = "Unable to delete guest"; severity = `error });
+        None
+      | _ -> None)
+    [| mutation.status |];
   let handle_delete e =
     Event.Mouse.preventDefault e;
     mutation.mutate guest [@u]
@@ -42,9 +56,9 @@ let[@react.component] make ~guest =
               <span>(string "Cancel")</span>
             </button>
           </Radix.Dialog.Close>
-          <button className="w-full rounded-xl bg-rose-600 text-rose-50 px-3 \
+          <button className="w-full rounded-xl bg-red-500 text-red-50 px-3 \
                              py-2 text-sm font-medium shadow-sm \
-                             hover:bg-rose-700"
+                             hover:bg-red-600"
                   onClick=handle_delete>
             <span>(string "Delete")</span>
           </button>

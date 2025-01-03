@@ -3,9 +3,23 @@ open Bindings
 
 let[@react.component] make ~guest =
   let query_client = ReactQuery.useQueryClient () in
+  let toast = useContext Ctx.Toast.toast_context in
   let is_open, set_is_open = useState (fun _ -> false) in
   let form_data, set_form_data = useState (fun _ -> guest) in
   let mutation = Api.Guests.Put.use_edit_mutation query_client in
+  useEffect1
+    (fun () ->
+      match mutation.status with
+      | `success ->
+        toast.set_error (fun _ ->
+          Some { message = "Guest updated"; severity = `success });
+        None
+      | `error ->
+        toast.set_error (fun _ ->
+          Some { message = "Unable to update guest"; severity = `error });
+        None
+      | _ -> None)
+    [| mutation.status |];
   let handle_edit e =
     Event.Form.preventDefault e;
     mutation.mutate form_data [@u];
