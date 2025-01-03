@@ -1,9 +1,14 @@
 open React
 open Bindings
 
+type severity =
+  [ `error
+  | `success
+  ]
+
 type t =
-  { error : bool
-  ; set_error : (bool -> bool) -> unit
+  { severity : severity option
+  ; set_severity : (severity option -> severity option) -> unit
   ; message : string option
   ; set_message : (string option -> string option) -> unit
   }
@@ -11,8 +16,8 @@ type t =
 type context_value = t
 
 let init =
-  { error = false
-  ; set_error = (fun _ -> ())
+  { severity = None
+  ; set_severity = (fun _ -> ())
   ; message = None
   ; set_message = (fun _ -> ())
   }
@@ -28,63 +33,37 @@ end
 
 module ToastProvider = struct
   let[@react.component] make ~children =
-    let error, set_error = useState (fun _ -> false) in
     let message, set_message = useState (fun _ -> None) in
-    let value = { error; set_error; message; set_message } in
-    let handle_change is_open =
-      match is_open with
-      | true -> set_error (fun _ -> false)
-      | false -> ()
+    let severity, set_severity = useState (fun _ -> None) in
+    let value = { message; set_message; severity; set_severity } in
+    let handle_change () =
+      match severity with
+      | None -> ()
+      | _ ->
+        set_message (fun _ -> None);
+        set_severity (fun _ -> None)
     in
     <Provider value>
       children
-      (match error with
-       | true ->
+      (match message, severity with
+       | Some m, Some s ->
+         let color =
+           match s with
+           | `error -> "bg-red-500 text-red-50 "
+           | `success -> "bg-green-500 text-green-50"
+         in
          <Radix.Toast.Provider>
-           <button className="inline-flex h-[35px] items-center justify-center \
-                              rounded bg-white px-[15px] text-[15px] \
-                              font-medium leading-[35px] text-violet11 \
-                              shadow-[0_2px_10px] shadow-blackA4 outline-none \
-                              hover:bg-mauve3 focus:shadow-[0_0_0_2px] \
-                              focus:shadow-black">
-             (string "click me")
-           </button>
-           <Radix.Toast.Root open_=error
-                             onOpenChange=(fun _ -> handle_change error)
-                             className="grid grid-cols-[auto_max-content] \
-                                        items-center gap-x-[15px] rounded-md \
-                                        bg-white p-[15px] \
-                                        shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] \
-                                        [grid-template-areas:_'title_action'_'description_action'] \
-                                        data-[swipe=cancel]:translate-x-0 \
-                                        data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] \
-                                        data-[state=closed]:animate-hide \
-                                        data-[state=open]:animate-slideIn \
-                                        data-[swipe=end]:animate-swipeOut \
-                                        data-[swipe=cancel]:transition-[transform_200ms_ease-out]">
-             <Radix.Toast.Title className="grid grid-cols-[auto_max-content] \
-                                           items-center gap-x-[15px] \
-                                           rounded-md bg-white p-[15px] \
-                                           shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] \
-                                           [grid-template-areas:_'title_action'_'description_action'] \
-                                           data-[swipe=cancel]:translate-x-0 \
-                                           data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] \
-                                           data-[state=closed]:animate-hide \
-                                           data-[state=open]:animate-slideIn \
-                                           data-[swipe=end]:animate-swipeOut \
-                                           data-[swipe=cancel]:transition-[transform_200ms_ease-out]">
-               (string "Scheduled: Catch up")
-             </Radix.Toast.Title>
+           <Radix.Toast.Root onOpenChange=(fun _ -> handle_change ())
+                             className=(color
+                                        ^ " p-4 items-center rounded-xl \
+                                           shadow-lg")>
+             <Radix.Toast.Title className="">(string m)</Radix.Toast.Title>
            </Radix.Toast.Root>
-           <Radix.Toast.Viewport className="fixed bottom-0 right-0 \
-                                            z-[2147483647] m-0 flex w-[390px] \
-                                            max-w-[100vw] list-none flex-col \
-                                            gap-2.5 \
-                                            p-[var(--viewport-padding)] \
-                                            outline-none \
-                                            [--viewport-padding:_25px]" />
+           <Radix.Toast.Viewport className="fixed bottom-4 right-4 z-50 m-0 \
+                                            flex min-w-80 max-w-[100vw] \
+                                            flex-col" />
          </Radix.Toast.Provider>
-       | false -> React.null)
+       | _ -> React.null)
     </Provider>
   ;;
 end
