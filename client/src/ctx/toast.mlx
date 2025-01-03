@@ -1,28 +1,19 @@
 open React
 open Bindings
 
-type severity =
-  [ `error
-  | `success
-  ]
+type error =
+  { severity : [ `error | `success ]
+  ; message : string
+  }
 
 type t =
-  { severity : severity option
-  ; set_severity : (severity option -> severity option) -> unit
-  ; message : string option
-  ; set_message : (string option -> string option) -> unit
+  { error : error option
+  ; set_error : (error option -> error option) -> unit
   }
 
 type context_value = t
 
-let init =
-  { severity = None
-  ; set_severity = (fun _ -> ())
-  ; message = None
-  ; set_message = (fun _ -> ())
-  }
-;;
-
+let init = { error = None; set_error = (fun _ -> ()) }
 let toast_context = createContext init
 
 module Provider = struct
@@ -33,31 +24,39 @@ end
 
 module ToastProvider = struct
   let[@react.component] make ~children =
-    let message, set_message = useState (fun _ -> None) in
-    let severity, set_severity = useState (fun _ -> None) in
-    let value = { message; set_message; severity; set_severity } in
+    let error, set_error = useState (fun _ -> None) in
+    let value = { error; set_error } in
     let handle_change () =
-      match severity with
+      match error with
       | None -> ()
-      | _ ->
-        set_message (fun _ -> None);
-        set_severity (fun _ -> None)
+      | _ -> set_error (fun _ -> None)
     in
     <Provider value>
       children
-      (match message, severity with
-       | Some m, Some s ->
+      (match error with
+       | Some e ->
          let color =
-           match s with
-           | `error -> "bg-red-500 text-red-50 "
+           match e.severity with
+           | `error -> "bg-red-500 text-red-100 "
            | `success -> "bg-green-500 text-green-50"
+         in
+         let icon =
+           match e.severity with
+           | `error -> "alert-circle-filled"
+           | `success -> "check-circle-2-filled"
          in
          <Radix.Toast.Provider>
            <Radix.Toast.Root onOpenChange=(fun _ -> handle_change ())
                              className=(color
                                         ^ " p-4 items-center rounded-xl \
                                            shadow-lg")>
-             <Radix.Toast.Title className="">(string m)</Radix.Toast.Title>
+             <Radix.Toast.Title className="flex gap-x-2 items-center \
+                                           font-medium">
+               <svg className=color height="16" width="16">
+                 <use href=("/sprite.svg#" ^ icon) height="16" width="16" />
+               </svg>
+               (string e.message)
+             </Radix.Toast.Title>
            </Radix.Toast.Root>
            <Radix.Toast.Viewport className="fixed bottom-4 right-4 z-50 m-0 \
                                             flex min-w-80 max-w-[100vw] \
