@@ -37,7 +37,7 @@ module ToastProvider = struct
        | Some e ->
          let color =
            match e.severity with
-           | `error -> "bg-red-500 text-red-100 "
+           | `error -> "bg-red-500 text-red-50 "
            | `success -> "bg-green-500 text-green-50"
          in
          let icon =

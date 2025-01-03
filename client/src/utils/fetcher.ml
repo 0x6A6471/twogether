@@ -26,9 +26,14 @@ let req_with_body url_path ~method_ ~payload =
          ~headers
          ~body:
            (Fetch.BodyInit.make (Js.Json.stringify (Js.Json.object_ payload))))
-    |> then_ (fun response -> Fetch.Response.json response)
+    |> then_ (fun response ->
+      match Fetch.Response.ok response with
+      | true -> Fetch.Response.json response
+      | false ->
+        Fetch.Response.text response
+        |> then_ (fun errorText -> reject (Failure errorText)))
     |> then_ (fun json -> json |> resolve)
     |> catch (fun error ->
       Js.Console.error2 "Fetch error:" error;
-      Js.Json.string (Js.String.make error) |> resolve))
+      reject (Failure (Js.String.make error))))
 ;;
