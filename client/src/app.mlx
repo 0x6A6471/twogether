@@ -1,4 +1,5 @@
 open React
+open Ctx.Toast
 
 let[@react.component] make () =
   let url = ReasonReactRouter.useUrl () in
@@ -8,7 +9,10 @@ let[@react.component] make () =
     | true -> null
     | false ->
       (match auth.user with
-       | Some p -> <Components.Nav>(get_page p)</Components.Nav>
+       | Some p ->
+         <ToastProvider>
+           <Components.Nav>(get_page p)</Components.Nav>
+         </ToastProvider>
        | None ->
          ReasonReactRouter.push "/login";
          null)
